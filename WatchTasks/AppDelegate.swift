@@ -13,9 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // other setup tasks here....
+        let types = UIUserNotificationType.Badge |
+            UIUserNotificationType.Sound | UIUserNotificationType.Alert;
+        
+        let mySettings = UIUserNotificationSettings(forTypes: types, categories: nil);
+        
+        UIApplication.sharedApplication().registerUserNotificationSettings(mySettings);
+        
+        // application.registerForRemoteNotifications();
+        
         return true
     }
 
@@ -39,6 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(application: UIApplication!, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]!, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        UIApplication.sharedApplication().openURL(NSURL(string:"http://localhost:8080/cms/dashboard/default/en/users/root.projects.html")!)
     }
 
 
