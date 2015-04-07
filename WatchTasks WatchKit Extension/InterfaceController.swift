@@ -1,6 +1,6 @@
 //
 //  InterfaceController.swift
-//  WatchTasks WatchKit Extension
+//  Jahia Watcher WatchKit Extension
 //
 //  Created by Serge Huber on 09.03.15.
 //  Copyright (c) 2015 Jahia Solutions. All rights reserved.
@@ -14,6 +14,12 @@ class InterfaceController: WKInterfaceController {
     let jahiaUserName = "root"
     let jahiaPassword = "root1234"
     let jahiaUserPath = "/users/root"
+    let jahiaServerHost = "localhost";
+    let jahiaServerPort = 8080;
+    let jahiaServerProtocol = "http";
+    let jahiaServerContextPath = "";
+    let jahiaServerLoginServletPath = "/cms/login";
+    let jahiaServerJcrApiServletPath = "/modules/api/jcr/v1";
 
     @IBOutlet weak var tasksLabel: WKInterfaceLabel!
     
@@ -30,7 +36,7 @@ class InterfaceController: WKInterfaceController {
     }
     
     func login() {
-        let jahiaLoginURL : NSURL = NSURL(string: "http://localhost:8080/cms/login")!
+        let jahiaLoginURL : NSURL = NSURL(string: "\(jahiaServerProtocol)://\(jahiaServerHost):\(jahiaServerPort)\(jahiaServerContextPath)\(jahiaServerLoginServletPath)")!
         let request = NSMutableURLRequest(URL: jahiaLoginURL)
         let requestString : String = "doLogin=true&restMode=true&username=\(jahiaUserName)&password=\(jahiaPassword)&redirectActive=false";
         let postData = NSMutableData()
@@ -54,7 +60,7 @@ class InterfaceController: WKInterfaceController {
     
     func getWorkflowTasks() {
         
-        let jahiaWorkflowTasksURL : NSURL = NSURL(string: "http://localhost:8080/modules/api/jcr/v1/default/en/paths\(jahiaUserPath)/workflowTasks?noLinks&includeFullChildren")!
+        let jahiaWorkflowTasksURL : NSURL = NSURL(string: "\(jahiaServerProtocol)://\(jahiaServerHost):\(jahiaServerPort)\(jahiaServerContextPath)\(jahiaServerJcrApiServletPath)/default/en/paths\(jahiaUserPath)/workflowTasks?noLinks&includeFullChildren")!
         
         let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
         

@@ -1,6 +1,6 @@
 //
 //  NotificationController.swift
-//  WatchTasks WatchKit Extension
+//  Jahia Watcher WatchKit Extension
 //
 //  Created by Serge Huber on 09.03.15.
 //  Copyright (c) 2015 Jahia Solutions. All rights reserved.
