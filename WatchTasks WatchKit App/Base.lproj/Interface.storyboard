@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14C109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="B1M-Mb-Zx2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Main Interface Controller-->
+        <scene sceneID="DWY-g0-zWY">
+            <objects>
+                <controller id="B1M-Mb-Zx2" customClass="MainInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
+                    <items>
+                        <imageView alignment="center" image="logo-jahia-small.png" id="18c-b0-cMv"/>
+                        <button width="1" alignment="left" title="Posts" id="SKf-yP-amW">
+                            <connections>
+                                <segue destination="lKu-hv-TAf" kind="push" id="H24-LL-v7b"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Tasks" id="9a4-nW-oGW">
+                            <connections>
+                                <segue destination="AgC-eL-Hgc" kind="push" id="tBb-SI-c8P"/>
+                            </connections>
+                        </button>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-21" y="347"/>
+        </scene>
+        <!--Tasks Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="WatchTasks_WatchKit_App" customModuleProvider="target">
+                <controller id="AgC-eL-Hgc" customClass="TasksInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" id="nqY-im-3dz">
                             <items>
@@ -18,6 +39,20 @@
                         </group>
                         <separator alignment="left" id="GMX-hD-HcP"/>
                         <label width="1" alignment="left" text="No tasks found" textAlignment="center" numberOfLines="2" id="dpq-An-stF"/>
+                        <table alignment="left" id="GXe-Cs-4W0">
+                            <items>
+                                <tableRow identifier="taskRow" id="Bsu-a9-ZnF" customClass="TasksRowController" customModule="Jahia_Watcher_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="W0J-Hf-ztR">
+                                        <items>
+                                            <label alignment="left" text="Label" id="Z5L-G8-fJR"/>
+                                        </items>
+                                        <connections>
+                                            <segue destination="6tc-QF-REN" kind="push" id="DyE-kZ-lD9"/>
+                                        </connections>
+                                    </group>
+                                </tableRow>
+                            </items>
+                        </table>
                         <button width="1" alignment="left" hidden="YES" title="View tasks" id="VpO-2A-URB">
                             <connections>
                                 <action selector="viewTasks" destination="AgC-eL-Hgc" id="t7m-WP-eOD"/>
@@ -35,20 +70,55 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="235" y="347"/>
+            <point key="canvasLocation" x="248" y="665"/>
+        </scene>
+        <!--Task Detail Interface Controller-->
+        <scene sceneID="Ocf-3T-YEt">
+            <objects>
+                <controller id="6tc-QF-REN" customClass="TaskDetailInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
+                    <items>
+                        <label width="1" alignment="left" text="Title" id="jve-I5-MOG">
+                            <fontDescription key="font" type="boldSystem" pointSize="16"/>
+                        </label>
+                        <separator alignment="left" id="2Wc-30-Ji9"/>
+                        <label width="1" height="0.80000000000000004" alignment="left" text="Body" id="Ahg-aq-cOG"/>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="485" y="664"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
             <objects>
-                <glanceController spacing="0.0" id="0uZ-2p-rRc" customClass="GlanceController" customModule="WatchTasks_WatchKit_App" customModuleProvider="target">
+                <glanceController spacing="0.0" id="0uZ-2p-rRc" customClass="GlanceController" customModule="Jahia_Watcher_WatchKit_Extension">
                     <items>
-                        <group alignment="left" id="t8f-Gd-c4y"/>
-                        <group alignment="left" id="uCw-4Q-Ouw"/>
+                        <group alignment="left" id="t8f-Gd-c4y">
+                            <items>
+                                <imageView alignment="center" image="logo-jahia-small.png" id="F8S-4a-qhl"/>
+                            </items>
+                        </group>
+                        <group alignment="left" layout="vertical" id="uCw-4Q-Ouw">
+                            <items>
+                                <label width="1" alignment="left" text="Last post date" textAlignment="center" id="otf-RM-ifK"/>
+                                <separator alignment="left" id="MET-7x-imB"/>
+                                <dateLabel width="1" alignment="left" textAlignment="center" id="upb-fp-RZG">
+                                    <dateFormatterStyle key="dateStyle" none="YES" short="YES"/>
+                                    <dateFormatterStyle key="timeStyle" none="YES" short="YES"/>
+                                </dateLabel>
+                                <label width="1" alignment="left" text="Open tasks" textAlignment="center" id="8j0-wW-o67"/>
+                                <separator alignment="left" id="zZL-Da-wVx"/>
+                                <label width="1" alignment="left" text="none" textAlignment="center" id="ITo-cS-zJR"/>
+                            </items>
+                        </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                    <connections>
+                        <outlet property="lastPostDate" destination="upb-fp-RZG" id="7ne-sG-oap"/>
+                        <outlet property="numberOfTasksLabel" destination="ITo-cS-zJR" id="eJB-h0-qRG"/>
+                    </connections>
                 </glanceController>
             </objects>
-            <point key="canvasLocation" x="235" y="672"/>
+            <point key="canvasLocation" x="-6" y="837"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -64,14 +134,81 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="235" y="1001"/>
+            <point key="canvasLocation" x="-6" y="1081"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="KIl-fV-djm">
             <objects>
-                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="WatchTasks_WatchKit_App" customModuleProvider="target"/>
+                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Jahia_Watcher_WatchKit_App" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="553" y="1001"/>
+            <point key="canvasLocation" x="312" y="1081"/>
+        </scene>
+        <!--Posts Interface Controller-->
+        <scene sceneID="bqM-Qz-uti">
+            <objects>
+                <controller id="lKu-hv-TAf" customClass="PostsInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
+                    <items>
+                        <group width="1" alignment="left" id="wky-0r-w2G">
+                            <items>
+                                <imageView width="0.50000000000000011" alignment="left" image="logo-jahia-small.png" contentMode="scaleAspectFit" id="dVT-pO-6II"/>
+                                <label width="0.50000000000000011" alignment="center" verticalAlignment="center" text="Posts" textAlignment="center" id="DEm-Ho-PAZ"/>
+                            </items>
+                        </group>
+                        <separator alignment="left" id="aUw-Jp-XQO"/>
+                        <label width="1" alignment="left" text="No posts found" textAlignment="center" numberOfLines="2" id="pqa-CR-TYV"/>
+                        <table alignment="left" id="Q0k-c5-8n8">
+                            <items>
+                                <tableRow identifier="postRow" id="ojF-TC-FAz" customClass="PostsRowController" customModule="Jahia_Watcher_WatchKit_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="DIf-ee-pNc">
+                                        <items>
+                                            <label alignment="left" text="Label" id="hOl-NS-2YI"/>
+                                        </items>
+                                        <connections>
+                                            <segue destination="qeO-gg-xdz" kind="push" id="GU9-Ph-cs7"/>
+                                        </connections>
+                                    </group>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <button width="1" alignment="left" hidden="YES" title="View tasks" id="QHb-fV-2bU">
+                            <connections>
+                                <action selector="viewTasks" destination="lKu-hv-TAf" id="Y4B-R6-j5h"/>
+                            </connections>
+                        </button>
+                        <group width="1" alignment="left" verticalAlignment="bottom" layout="vertical" id="yOh-QS-VsF">
+                            <items>
+                                <separator alignment="left" id="eg3-3I-zeH"/>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="postsTable" destination="Q0k-c5-8n8" id="iYr-zN-8bV"/>
+                        <outlet property="tasksLabel" destination="pqa-CR-TYV" id="zIr-7Q-A2h"/>
+                        <outlet property="viewTasksButton" destination="QHb-fV-2bU" id="14M-YW-7sZ"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="241" y="347"/>
+        </scene>
+        <!--Post Detail Interface Controller-->
+        <scene sceneID="Zu5-gp-LKA">
+            <objects>
+                <controller id="qeO-gg-xdz" customClass="PostDetailInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
+                    <items>
+                        <label width="1" alignment="left" text="Title" id="ZPy-8o-fig">
+                            <fontDescription key="font" type="boldSystem" pointSize="16"/>
+                        </label>
+                        <separator alignment="left" id="Npb-TU-utg"/>
+                        <label width="1" height="0.80000000000000004" alignment="left" text="Body" id="era-wc-tHr"/>
+                    </items>
+                    <menu key="menu" id="3MZ-y7-cMz">
+                        <items>
+                            <menuItem title="Menu Item" id="QFk-Tv-NyC"/>
+                        </items>
+                    </menu>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="483" y="346"/>
         </scene>
     </scenes>
 </document>

@@ -1,8 +1,8 @@
 //
-//  GlanceController.swift
-//  Jahia Watcher WatchKit Extension
+//  TaskDetailInterfaceController.swift
+//  Jahia Watcher
 //
-//  Created by Serge Huber on 09.03.15.
+//  Created by Serge Huber on 08.04.15.
 //  Copyright (c) 2015 Jahia Solutions. All rights reserved.
 //
 
@@ -10,11 +10,8 @@ import WatchKit
 import Foundation
 
 
-class GlanceController: WKInterfaceController {
+class TaskDetailInterfaceController: WKInterfaceController {
 
-    @IBOutlet weak var lastPostDate: WKInterfaceDate!
-    @IBOutlet weak var numberOfTasksLabel: WKInterfaceLabel!
-    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         

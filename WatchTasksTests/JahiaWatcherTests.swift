@@ -9,7 +9,7 @@
 import UIKit
 import XCTest
 
-class WatchTasksTests: XCTestCase {
+class JahiaWatcherTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
