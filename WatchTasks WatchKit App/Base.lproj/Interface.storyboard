@@ -70,7 +70,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="248" y="665"/>
+            <point key="canvasLocation" x="246" y="702"/>
         </scene>
         <!--Task Detail Interface Controller-->
         <scene sceneID="Ocf-3T-YEt">
@@ -85,7 +85,7 @@
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="485" y="664"/>
+            <point key="canvasLocation" x="483" y="701"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
@@ -118,7 +118,7 @@
                     </connections>
                 </glanceController>
             </objects>
-            <point key="canvasLocation" x="-6" y="837"/>
+            <point key="canvasLocation" x="-21" y="977"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -134,14 +134,14 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="-6" y="1081"/>
+            <point key="canvasLocation" x="-21" y="1221"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="KIl-fV-djm">
             <objects>
-                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Jahia_Watcher_WatchKit_App" customModuleProvider="target"/>
+                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Jahia_Watcher_WatchKit_Extension"/>
             </objects>
-            <point key="canvasLocation" x="312" y="1081"/>
+            <point key="canvasLocation" x="297" y="1221"/>
         </scene>
         <!--Posts Interface Controller-->
         <scene sceneID="bqM-Qz-uti">

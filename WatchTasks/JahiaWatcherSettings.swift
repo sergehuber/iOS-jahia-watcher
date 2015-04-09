@@ -26,6 +26,9 @@ class JahiaWatcherSettings {
     var jahiaServerContextPath : String = ""
     var jahiaServerLoginServletPath : String = "/cms/login"
     var jahiaServerJcrApiServletPath : String = "/modules/api/jcr/v1"
+    var jahiaServerUserPathServletPath : String = "/cms/render/live/en/sites.userPath.do"
+    var jahiaServerRegisterDeviceTokenServletPath : String = "/cms/render/live/en/sites.registerToken.do"
+    var jahiaServerBlockUserServletPath : String = "/cms/render/live/en/sites.blockUser.do"
     
     init() {
         load()
@@ -55,12 +58,6 @@ class JahiaWatcherSettings {
         if (mySharedDefaults.stringForKey("jahiaServerContextPath") != nil) {
             jahiaServerContextPath = mySharedDefaults.stringForKey("jahiaServerContextPath")!
         }
-        if (mySharedDefaults.stringForKey("jahiaServerLoginServletPath") != nil) {
-            jahiaServerLoginServletPath = mySharedDefaults.stringForKey("jahiaServerLoginServletPath")!
-        }
-        if (mySharedDefaults.stringForKey("jahiaServerJcrApiServletPath") != nil) {
-            jahiaServerJcrApiServletPath = mySharedDefaults.stringForKey("jahiaServerJcrApiServletPath")!
-        }
         
         mySharedDefaults.synchronize()
         
@@ -76,11 +73,20 @@ class JahiaWatcherSettings {
         mySharedDefaults.setInteger(jahiaServerPort, forKey: "jahiaServerPort")
         mySharedDefaults.setObject(jahiaServerProtocol, forKey: "jahiaServerProtocol")
         mySharedDefaults.setObject(jahiaServerContextPath, forKey: "jahiaServerContextPath")
-        mySharedDefaults.setObject(jahiaServerLoginServletPath, forKey: "jahiaServerLoginServletPath")
-        mySharedDefaults.setObject(jahiaServerJcrApiServletPath, forKey: "jahiaServerJcrApiServletPath")
       
         mySharedDefaults.synchronize()
         
+    }
+    
+    func resetDefaults() {
+        let mySharedDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.jahia.mobile.apps.Jahia-Watcher")!
+        mySharedDefaults.removeObjectForKey("jahiaUserName")
+        mySharedDefaults.removeObjectForKey("jahiaPassword")
+        mySharedDefaults.removeObjectForKey("jahiaUserPath")
+        mySharedDefaults.removeObjectForKey("jahiaServerHost")
+        mySharedDefaults.removeObjectForKey("jahiaServerPort")
+        mySharedDefaults.removeObjectForKey("jahiaServerProtocol")
+        mySharedDefaults.removeObjectForKey("jahiaServerContextPath")
     }
     
     func contextUrl() -> String {
@@ -93,6 +99,18 @@ class JahiaWatcherSettings {
     
     func jcrApiUrl() -> String {
         return contextUrl() + jahiaServerJcrApiServletPath;
+    }
+    
+    func userPathUrl() -> String {
+        return contextUrl() + jahiaServerUserPathServletPath;
+    }
+    
+    func registerDeviceTokenUrl() -> String {
+        return contextUrl() + jahiaServerRegisterDeviceTokenServletPath;
+    }
+    
+    func blockUserUrl() -> String {
+        return contextUrl() + jahiaServerBlockUserServletPath;
     }
     
 }

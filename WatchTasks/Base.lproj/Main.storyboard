@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <scenes>
-        <!--Posts-->
+        <!--Posts Table View Controller-->
         <scene sceneID="nUR-dv-vyy">
             <objects>
                 <tableViewController id="XaD-V5-z03" customClass="PostsTableViewController" customModule="Jahia_Watcher" customModuleProvider="target" sceneMemberID="viewController">
@@ -39,7 +39,7 @@
                             <outlet property="delegate" destination="XaD-V5-z03" id="Q1r-hs-UP9"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Posts" id="7af-r6-oQ6"/>
+                    <tabBarItem key="tabBarItem" selectedImage="first" systemItem="recents" id="7af-r6-oQ6"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x2B-w8-kGr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -79,7 +79,7 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Tasks" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="second" selectedImage="first" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -226,6 +226,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
     </resources>
 </document>

@@ -21,7 +21,10 @@ class PostsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        latestPosts = jahiaServerServices.getLatestPosts();
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        latestPosts = jahiaServerServices.getLatestPosts();        
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,11 +55,13 @@ class PostsTableViewController: UITableViewController {
         let postProperties : NSDictionary = post["properties"] as NSDictionary
         let titleProperty : NSDictionary = postProperties["jcr__title"] as NSDictionary;
         let postTitle : NSString = titleProperty["value"] as NSString;
-        let contentProperty : NSDictionary = postProperties["content"] as NSDictionary;
-        let postContent : NSString = contentProperty["value"] as NSString
+        let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary;
+        if (contentProperty != nil) {
+            let postContent : NSString = contentProperty!["value"] as NSString
+            cell.detailTextLabel!.text = postContent
+        }
         
         cell.textLabel!.text = postTitle;
-        cell.detailTextLabel!.text = postContent
         
         return cell
     }

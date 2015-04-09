@@ -38,11 +38,68 @@ class JahiaServerServices {
         
         var response: NSURLResponse?
         var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+        } else {
+            println("Login failed")
+        }
+    }
+    
+    func registerDeviceToken(deviceToken : String) {
+        println("Registering device token...")
+        let escapedDeviceToken : String = deviceToken.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        
+        let jahiaRegisterDeviceTokenURL : NSURL = NSURL(string: jahiaWatcherSettings.registerDeviceTokenUrl() + "?deviceToken=\(escapedDeviceToken)")!
+        
+        let request = NSMutableURLRequest(URL: jahiaRegisterDeviceTokenURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+            if (httpResponse.statusCode != 200) {
+                println("Error registering device token for current user ?")
+            } else {
+            }
+        } else {
+            println("Device registration failed")
+        }
+    }
+    
+    func getUserPath() -> String {
+        println("Retrieving current user path...")
+        let jahiaUserPathURL : NSURL = NSURL(string: jahiaWatcherSettings.userPathUrl())!
+        
+        let request = NSMutableURLRequest(URL: jahiaUserPathURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
         var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             println(httpResponse.statusCode)
+            if (httpResponse.statusCode != 200) {
+                println("Error retrieving workflow tasks, probably none were ever created ?")
+            } else {
+                var datastring = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
+                return datastring!;
+            }
+        } else {
+            println("Coudln't retrieve current user path")
         }
+        return "";
     }
     
     func getWorkflowTasks() -> NSDictionary {
@@ -59,19 +116,21 @@ class JahiaServerServices {
         var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
-        var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             println(httpResponse.statusCode)
             if (httpResponse.statusCode != 200) {
                 println("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
-                var datastring = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
                 
                 return jsonResult
                 
             }
+        } else {
+            println("Couldn't retrieve workflow tasks")
         }
         return NSDictionary()
     }
@@ -98,19 +157,21 @@ class JahiaServerServices {
         var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
-        var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             println(httpResponse.statusCode)
             if (httpResponse.statusCode != 200) {
                 println("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
-                var datastring = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSArray
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSArray
                 
                 return jsonResult
                 
             }
+        } else {
+            println("Couldn't retrieve latest posts")
         }
         return NSArray()
         
