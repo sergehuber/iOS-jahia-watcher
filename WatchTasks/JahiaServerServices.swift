@@ -11,6 +11,7 @@ import Foundation
 class JahiaServerServices {
 
     let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    var servicesAvailable : Bool = false
     
     class var sharedInstance: JahiaServerServices {
         struct Static {
@@ -30,7 +31,7 @@ class JahiaServerServices {
         postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         
         request.HTTPMethod = "POST"
-        request.setValue(NSString(format: "%lu", postData.length), forHTTPHeaderField: "Content-Length")
+        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postData
@@ -42,12 +43,24 @@ class JahiaServerServices {
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             println(httpResponse.statusCode)
+            servicesAvailable = true
         } else {
             println("Login failed")
         }
     }
     
+    func areServicesAvailable() -> Bool {
+        if (!servicesAvailable) {
+            println("Services not available")
+            return false
+        }
+        return true;
+    }
+    
     func registerDeviceToken(deviceToken : String) {
+        if (!areServicesAvailable()) {
+            return
+        }
         println("Registering device token...")
         let escapedDeviceToken : String = deviceToken.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         
@@ -75,6 +88,9 @@ class JahiaServerServices {
     }
     
     func getUserPath() -> String {
+        if (!areServicesAvailable()) {
+            return ""
+        }
         println("Retrieving current user path...")
         let jahiaUserPathURL : NSURL = NSURL(string: jahiaWatcherSettings.userPathUrl())!
         
@@ -94,7 +110,7 @@ class JahiaServerServices {
                 println("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
                 var datastring = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
-                return datastring!;
+                return datastring! as String;
             }
         } else {
             println("Coudln't retrieve current user path")
@@ -103,6 +119,9 @@ class JahiaServerServices {
     }
     
     func getWorkflowTasks() -> NSDictionary {
+        if (!areServicesAvailable()) {
+            return NSDictionary()
+        }
         
         println("Retrieving workflow tasks...")
         
@@ -124,7 +143,7 @@ class JahiaServerServices {
                 println("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
                 
                 return jsonResult
                 
@@ -136,6 +155,9 @@ class JahiaServerServices {
     }
     
     func getLatestPosts() -> NSArray {
+        if (!areServicesAvailable()) {
+            return NSArray()
+        }
         println("Retrieving latest posts...")
         
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/live/en/query")!
@@ -146,7 +168,7 @@ class JahiaServerServices {
         postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         
         request.HTTPMethod = "POST"
-        request.setValue(NSString(format: "%lu", postData.length), forHTTPHeaderField: "Content-Length")
+        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postData
         request.timeoutInterval = 10
@@ -165,7 +187,7 @@ class JahiaServerServices {
                 println("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSArray
+                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSArray
                 
                 return jsonResult
                 

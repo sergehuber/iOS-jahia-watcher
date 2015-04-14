@@ -47,21 +47,21 @@ class PostsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("postExtractCell", forIndexPath: indexPath) as UITableViewCell
+        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("postExtractCell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
         let currentIndex : Int = indexPath.row
-        let post : NSDictionary = latestPosts[currentIndex] as NSDictionary
-        let postProperties : NSDictionary = post["properties"] as NSDictionary
-        let titleProperty : NSDictionary = postProperties["jcr__title"] as NSDictionary;
-        let postTitle : NSString = titleProperty["value"] as NSString;
-        let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary;
+        let post : NSDictionary = latestPosts[currentIndex] as! NSDictionary
+        let postProperties : NSDictionary = post["properties"] as! NSDictionary
+        let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
+        let postTitle : NSString = titleProperty["value"] as! NSString
+        let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
         if (contentProperty != nil) {
-            let postContent : NSString = contentProperty!["value"] as NSString
-            cell.detailTextLabel!.text = postContent
+            let postContent : NSString = contentProperty!["value"]as! NSString
+            cell.detailTextLabel!.text = postContent as String
         }
         
-        cell.textLabel!.text = postTitle;
+        cell.textLabel!.text = postTitle as String;
         
         return cell
     }
