@@ -86,6 +86,65 @@ class JahiaServerServices {
             println("Device registration failed")
         }
     }
+
+    func blockUser(userName : String) {
+        if (!areServicesAvailable()) {
+            return
+        }
+        println("Blocking user...")
+        
+        let jahiaBlockUserURL : NSURL = NSURL(string: jahiaWatcherSettings.blockUserUrl() + "?userName=\(userName)")!
+        
+        let request = NSMutableURLRequest(URL: jahiaBlockUserURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+            if (httpResponse.statusCode != 200) {
+                println("Error registering device token for current user ?")
+            } else {
+            }
+        } else {
+            println("Device registration failed")
+        }
+    }
+
+    func markAsSpam(nodeIdentifier : String) {
+        if (!areServicesAvailable()) {
+            return
+        }
+        println("Marking post as spam")
+        
+        let jahiaMarkAsSpamURL : NSURL = NSURL(string: jahiaWatcherSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
+        
+        let request = NSMutableURLRequest(URL: jahiaMarkAsSpamURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+            if (httpResponse.statusCode != 200) {
+                println("Error registering device token for current user ?")
+            } else {
+            }
+        } else {
+            println("Device registration failed")
+        }
+    }
+
     
     func getUserPath() -> String {
         if (!areServicesAvailable()) {
@@ -163,7 +222,7 @@ class JahiaServerServices {
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/live/en/query")!
         
         let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
-        let requestString : String = "{\"query\" : \"select * from [jnt:post] as p order by p.[jcr:created] desc\", \"limit\": 10, \"offset\":0 }";
+        let requestString : String = "{\"query\" : \"select * from [jnt:post] as p order by p.[jcr:created] desc\", \"limit\": 20, \"offset\":0 }";
         let postData = NSMutableData()
         postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         

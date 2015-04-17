@@ -20,6 +20,7 @@
 		F4428C561AD55B100034A722 /* TasksRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C551AD55B100034A722 /* TasksRowController.swift */; };
 		F4428C581AD5638D0034A722 /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C571AD5638D0034A722 /* PostsTableViewController.swift */; };
 		F4428C5A1AD56AC10034A722 /* PostExtractTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C591AD56AC10034A722 /* PostExtractTableViewCell.swift */; };
+		F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */; };
 		F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */; };
 		F4EB43C21AAD7E910049F30F /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43C11AAD7E910049F30F /* FirstViewController.swift */; };
 		F4EB43C41AAD7E910049F30F /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43C31AAD7E910049F30F /* SecondViewController.swift */; };
@@ -28,7 +29,7 @@
 		F4EB43CC1AAD7E910049F30F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43CA1AAD7E910049F30F /* LaunchScreen.xib */; };
 		F4EB43D81AAD7E910049F30F /* JahiaWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43D71AAD7E910049F30F /* JahiaWatcherTests.swift */; };
 		F4EB43EB1AAD7F010049F30F /* TasksInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EA1AAD7F010049F30F /* TasksInterfaceController.swift */; };
-		F4EB43ED1AAD7F010049F30F /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EC1AAD7F010049F30F /* NotificationController.swift */; };
+		F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */; };
 		F4EB43EF1AAD7F010049F30F /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EE1AAD7F010049F30F /* GlanceController.swift */; };
 		F4EB43F11AAD7F010049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43F01AAD7F010049F30F /* Images.xcassets */; };
 		F4EB43F51AAD7F010049F30F /* Jahia Watcher WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43F41AAD7F010049F30F /* Jahia Watcher WatchKit App.app */; };
@@ -91,6 +92,8 @@
 		F4428C551AD55B100034A722 /* TasksRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksRowController.swift; sourceTree = "<group>"; };
 		F4428C571AD5638D0034A722 /* PostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
 		F4428C591AD56AC10034A722 /* PostExtractTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostExtractTableViewCell.swift; sourceTree = "<group>"; };
+		F4A3FB0A1AE07130007CB24F /* NewTaskNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = NewTaskNotificationPayload.apns; sourceTree = "<group>"; };
+		F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTaskNotificationController.swift; sourceTree = "<group>"; };
 		F4EB43BA1AAD7E910049F30F /* Jahia Watcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jahia Watcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EB43BE1AAD7E910049F30F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,9 +107,9 @@
 		F4EB43D71AAD7E910049F30F /* JahiaWatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JahiaWatcherTests.swift; sourceTree = "<group>"; };
 		F4EB43E51AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Jahia Watcher WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EB43E81AAD7F010049F30F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4EB43E91AAD7F010049F30F /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		F4EB43E91AAD7F010049F30F /* NewPostNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = NewPostNotificationPayload.apns; sourceTree = "<group>"; };
 		F4EB43EA1AAD7F010049F30F /* TasksInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksInterfaceController.swift; sourceTree = "<group>"; };
-		F4EB43EC1AAD7F010049F30F /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostNotificationController.swift; sourceTree = "<group>"; };
 		F4EB43EE1AAD7F010049F30F /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
 		F4EB43F01AAD7F010049F30F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F4EB43F41AAD7F010049F30F /* Jahia Watcher WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jahia Watcher WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,7 +228,7 @@
 			children = (
 				F4428C411AD4125E0034A722 /* Jahia Watcher WatchKit Extension.entitlements */,
 				F4EB43EA1AAD7F010049F30F /* TasksInterfaceController.swift */,
-				F4EB43EC1AAD7F010049F30F /* NotificationController.swift */,
+				F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */,
 				F4EB43EE1AAD7F010049F30F /* GlanceController.swift */,
 				F4EB43F01AAD7F010049F30F /* Images.xcassets */,
 				F4EB43E71AAD7F010049F30F /* Supporting Files */,
@@ -235,6 +238,7 @@
 				F4428C511AD556DF0034A722 /* TaskDetailInterfaceController.swift */,
 				F4428C531AD55B020034A722 /* PostsRowController.swift */,
 				F4428C551AD55B100034A722 /* TasksRowController.swift */,
+				F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */,
 			);
 			name = "Jahia Watcher WatchKit Extension";
 			path = "WatchTasks WatchKit Extension";
@@ -244,7 +248,8 @@
 			isa = PBXGroup;
 			children = (
 				F4EB43E81AAD7F010049F30F /* Info.plist */,
-				F4EB43E91AAD7F010049F30F /* PushNotificationPayload.apns */,
+				F4EB43E91AAD7F010049F30F /* NewPostNotificationPayload.apns */,
+				F4A3FB0A1AE07130007CB24F /* NewTaskNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -472,7 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4428C541AD55B020034A722 /* PostsRowController.swift in Sources */,
-				F4EB43ED1AAD7F010049F30F /* NotificationController.swift in Sources */,
+				F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */,
 				F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
 				F4428C441AD422740034A722 /* JahiaWatcherSettings.swift in Sources */,
 				F4428C4C1AD554580034A722 /* PostsInterfaceController.swift in Sources */,
@@ -481,6 +486,7 @@
 				F4428C561AD55B100034A722 /* TasksRowController.swift in Sources */,
 				F4428C4E1AD554680034A722 /* MainInterfaceController.swift in Sources */,
 				F4428C521AD556DF0034A722 /* TaskDetailInterfaceController.swift in Sources */,
+				F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */,
 				F4EB43EF1AAD7F010049F30F /* GlanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

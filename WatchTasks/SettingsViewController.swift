@@ -50,5 +50,13 @@ class SettingsViewController: UIViewController {
         userNameTextField.text = jahiaWatcherSettings.jahiaUserName
         passwordTextField.text = jahiaWatcherSettings.jahiaPassword
     }
+    
+    @IBAction func endEditingProtocol(sender: AnyObject) {
+        protocolTextField.resignFirstResponder()
+    }
+    
+    @IBAction func endEditingHostName(sender: AnyObject) {
+        hostnameTextField.resignFirstResponder()
+    }
 
 }

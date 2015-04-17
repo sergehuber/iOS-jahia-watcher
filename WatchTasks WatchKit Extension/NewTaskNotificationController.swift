@@ -1,8 +1,8 @@
 //
-//  NotificationController.swift
-//  Jahia Watcher WatchKit Extension
+//  NewTaskNotificationController.swift
+//  Jahia Watcher
 //
-//  Created by Serge Huber on 09.03.15.
+//  Created by Serge Huber on 16.04.15.
 //  Copyright (c) 2015 Jahia Solutions. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import WatchKit
 import Foundation
 
 
-class NotificationController: WKUserNotificationInterfaceController {
+class NewTaskNotificationController: WKUserNotificationInterfaceController {
 
     override init() {
         // Initialize variables here.

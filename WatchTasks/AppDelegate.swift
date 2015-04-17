@@ -19,18 +19,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // other setup tasks here....
-        let types = UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound | UIUserNotificationType.Alert;
-        
-        let mySettings = UIUserNotificationSettings(forTypes: types, categories: nil);
-        
-        UIApplication.sharedApplication().registerUserNotificationSettings(mySettings);
+        registerSettingsAndCategories()
         
         application.registerForRemoteNotifications();
         
         jahiaServerServices.login()
         
         return true
+    }
+    
+    func registerSettingsAndCategories() {
+        var categories = NSMutableSet()
+        
+        var viewPostAction = UIMutableUserNotificationAction()
+        viewPostAction.title = NSLocalizedString("View", comment: "View post")
+        viewPostAction.identifier = "viewPostAction"
+        viewPostAction.activationMode = UIUserNotificationActivationMode.Background
+        viewPostAction.authenticationRequired = false
+        
+        var markPostAsSpamAction = UIMutableUserNotificationAction()
+        markPostAsSpamAction.title = NSLocalizedString("Mark as spam", comment: "Mark the current post as spam")
+        markPostAsSpamAction.identifier = "markPostAsSpamAction"
+        markPostAsSpamAction.activationMode = UIUserNotificationActivationMode.Background
+        markPostAsSpamAction.authenticationRequired = true
+
+        var deletePostAction = UIMutableUserNotificationAction()
+        deletePostAction.title = NSLocalizedString("Delete", comment: "Delete the current post")
+        deletePostAction.identifier = "deletePostAction"
+        deletePostAction.activationMode = UIUserNotificationActivationMode.Background
+        deletePostAction.authenticationRequired = true
+
+        var blockUserAction = UIMutableUserNotificationAction()
+        blockUserAction.title = NSLocalizedString("Block user", comment: "Block the post user")
+        blockUserAction.identifier = "blockUserAction"
+        blockUserAction.activationMode = UIUserNotificationActivationMode.Background
+        blockUserAction.authenticationRequired = true
+        
+        var newPostCategory = UIMutableUserNotificationCategory()
+        newPostCategory.setActions([viewPostAction, markPostAsSpamAction, deletePostAction, blockUserAction],
+        forContext: UIUserNotificationActionContext.Default)
+        newPostCategory.identifier = "newPost"
+        categories.addObject(newPostCategory)
+        
+        // Configure other actions and categories and add them to the set...
+
+        var viewTaskAction = UIMutableUserNotificationAction()
+        viewTaskAction.title = NSLocalizedString("View", comment: "View post")
+        viewTaskAction.identifier = "viewTaskAction"
+        viewTaskAction.activationMode = UIUserNotificationActivationMode.Background
+        viewTaskAction.authenticationRequired = false
+        
+        var viewTaskOnPhoneAction = UIMutableUserNotificationAction()
+        viewTaskOnPhoneAction.title = NSLocalizedString("View on Phone", comment: "View the post on the phone")
+        viewTaskOnPhoneAction.identifier = "viewTaskOnPhoneAction"
+        viewTaskOnPhoneAction.activationMode = UIUserNotificationActivationMode.Background
+        viewTaskOnPhoneAction.authenticationRequired = false
+
+        var newTaskCategory = UIMutableUserNotificationCategory()
+        newTaskCategory.setActions([viewTaskAction, viewTaskOnPhoneAction],
+            forContext: UIUserNotificationActionContext.Default)
+        newTaskCategory.identifier = "newTask"
+        categories.addObject(newTaskCategory)
+        
+        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound),
+            categories: categories as Set<NSObject>)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -85,41 +138,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler handler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification")
-        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-            switch action.style{
+        displayNotificationAlert(userInfo)
+        handler(UIBackgroundFetchResult.NewData)
+    }
+    
+    func displayNotificationAlert(userInfo: [NSObject : AnyObject]) {
+        let nodeIdentifier = userInfo["nodeIdentifier"] as! String
+        let apsInfo = userInfo["aps"] as! [String:AnyObject]
+        let alertTitle = apsInfo["alert"] as! String
+        let category = apsInfo["category"] as! String
+        var categoryTitle = "A new post was created"
+        if (category == "newTask") {
+            categoryTitle = "A new task was created"
+        }
+        var alert = UIAlertController(title: categoryTitle, message: alertTitle, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "View", style: UIAlertActionStyle.Default, handler: {
+            action in switch action.style{
             case .Default:
-                println("default")
+                println("View default")
                 
             case .Cancel:
-                println("cancel")
+                println("View cancel")
                 
             case .Destructive:
-                println("destructive")
+                println("View destructive")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: {
+            action in switch action.style{
+            case .Default:
+                println("Dismiss default")
+                
+            case .Cancel:
+                println("Dimiss cancel")
+                
+            case .Destructive:
+                println("Dismiss destructive")
             }
         }))
         window!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-        handler(UIBackgroundFetchResult.NewData)
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         println("handleActionWithIdentifier for remote notification")
-        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-            switch action.style{
-            case .Default:
-                println("default")
-                
-            case .Cancel:
-                println("cancel")
-                
-            case .Destructive:
-                println("destructive")
-            }
-        }))
-        window!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+        displayNotificationAlert(userInfo)
         completionHandler()
     }
     
@@ -133,21 +195,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
         println("handleActionWithIdentifier for local notification")
-        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-            switch action.style{
-            case .Default:
-                println("default")
-                
-            case .Cancel:
-                println("cancel")
-                
-            case .Destructive:
-                println("destructive")
-            }
-        }))
-        window!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
         completionHandler()
     }
 }
