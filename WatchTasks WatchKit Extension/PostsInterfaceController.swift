@@ -41,7 +41,8 @@ class PostsInterfaceController: WKInterfaceController {
             let createdProperty  : NSDictionary? = postProperties["jcr__created"] as? NSDictionary
             let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
             if (contentProperty != nil) {
-                let postContent : NSString = contentProperty!["value"] as! NSString
+                var postContent : String = contentProperty!["value"] as! String
+                postContent = jahiaServerServices.stripHTML(postContent)
                 postsRowController.postExtract.setText(postContent as String)
             }
             if (createdProperty != nil) {

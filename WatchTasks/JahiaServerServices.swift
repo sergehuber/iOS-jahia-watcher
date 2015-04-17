@@ -258,4 +258,12 @@ class JahiaServerServices {
         
     }
     
+    func stripHTML(input : String) -> String {
+        var output = input.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
+        output = output.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")
+        output = output.stringByReplacingOccurrencesOfString("&quote;", withString: "'")
+        output = output.stringByReplacingOccurrencesOfString("&rsquo;", withString: "'")
+        return output
+    }
+    
 }

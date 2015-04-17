@@ -57,8 +57,8 @@ class PostsTableViewController: UITableViewController {
         let postTitle : NSString = titleProperty["value"] as! NSString
         let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
         if (contentProperty != nil) {
-            let postContent : NSString = contentProperty!["value"]as! NSString
-            cell.detailTextLabel!.text = postContent as String
+            let postContent : String = contentProperty!["value"] as! String
+            cell.detailTextLabel!.text = jahiaServerServices.stripHTML(postContent)
         }
         
         cell.textLabel!.text = postTitle as String;

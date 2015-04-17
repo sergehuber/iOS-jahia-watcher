@@ -22,6 +22,7 @@ class GlanceController: WKInterfaceController {
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
+        println("Preparing glance data...")
         
         // Configure interface objects here.
         jahiaServerServices.login()
@@ -73,6 +74,7 @@ class GlanceController: WKInterfaceController {
         }
         
         numberOfTasksLabel.setText("\(openTaskCount)")
+        println("Glance data completed.")
     }
 
     override func willActivate() {

@@ -45,7 +45,7 @@
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-21" y="347"/>
+            <point key="canvasLocation" x="18" y="347"/>
         </scene>
         <!--WatchBackgroundImage-->
         <scene sceneID="aou-V4-d1y">
@@ -80,11 +80,6 @@
                                 <action selector="viewTasks" destination="AgC-eL-Hgc" id="t7m-WP-eOD"/>
                             </connections>
                         </button>
-                        <group width="1" alignment="left" verticalAlignment="bottom" layout="vertical" id="L31-J3-CWB">
-                            <items>
-                                <separator alignment="left" id="sgr-sX-7Gh"/>
-                            </items>
-                        </group>
                     </items>
                     <connections>
                         <outlet property="tasksLabel" destination="dpq-An-stF" id="28X-ln-BHi"/>
@@ -110,8 +105,7 @@
                         <label width="1" alignment="left" text="Title" id="jve-I5-MOG">
                             <fontDescription key="font" type="boldSystem" pointSize="16"/>
                         </label>
-                        <separator alignment="left" id="2Wc-30-Ji9"/>
-                        <label width="1" height="0.80000000000000004" alignment="left" text="Body" id="Ahg-aq-cOG"/>
+                        <label width="1" alignment="left" text="Body" numberOfLines="0" id="Ahg-aq-cOG"/>
                     </items>
                 </controller>
             </objects>
@@ -122,17 +116,16 @@
             <objects>
                 <glanceController spacing="0.0" id="0uZ-2p-rRc" customClass="GlanceController" customModule="Jahia_Watcher_WatchKit_Extension">
                     <items>
-                        <group alignment="left" contentMode="scaleAspectFit" spacing="5" id="t8f-Gd-c4y">
+                        <group alignment="left" contentMode="scaleAspectFill" spacing="5" id="t8f-Gd-c4y">
                             <items>
                                 <imageView width="40" height="40" alignment="left" verticalAlignment="center" image="JahiaWatcherWatchLogoSmall" contentMode="scaleAspectFit" id="ksY-VL-ESB"/>
-                                <label alignment="left" verticalAlignment="center" text="JAHIA WATCHER" textAlignment="left" numberOfLines="2" id="Cgq-rY-fGL">
+                                <label alignment="left" verticalAlignment="center" text="Jahia Watcher" textAlignment="left" numberOfLines="2" id="Cgq-rY-fGL">
                                     <color key="textColor" red="0.1647058824" green="0.50980392159999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="font" type="system" pointSize="15"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                 </label>
                             </items>
-                            <color key="backgroundColor" red="0.054901960780000002" green="0.1333333333" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                         </group>
-                        <group alignment="left" backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFit" layout="vertical" id="uCw-4Q-Ouw">
+                        <group alignment="left" contentMode="scaleAspectFill" layout="vertical" id="uCw-4Q-Ouw">
                             <items>
                                 <group width="1" alignment="left" layout="vertical" id="FPF-uH-WeE">
                                     <items>
@@ -263,7 +256,7 @@
                                             </label>
                                         </items>
                                         <connections>
-                                            <segue destination="qeO-gg-xdz" kind="push" id="GU9-Ph-cs7"/>
+                                            <segue destination="qeO-gg-xdz" kind="push" identifier="postDetailSegue" id="GU9-Ph-cs7"/>
                                         </connections>
                                     </group>
                                     <connections>
@@ -284,10 +277,10 @@
             </objects>
             <point key="canvasLocation" x="241" y="347"/>
         </scene>
-        <!--WatchBackgroundImage-->
+        <!--postDetailController-->
         <scene sceneID="Zu5-gp-LKA">
             <objects>
-                <controller backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFill" id="qeO-gg-xdz" customClass="PostDetailInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
+                <controller identifier="postDetailController" backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFill" id="qeO-gg-xdz" customClass="PostDetailInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" id="zfg-pO-FFE">
                             <items>
@@ -311,7 +304,7 @@
                             <color key="textColor" red="0.22352941179999999" green="0.58823529409999997" blue="0.21176470589999999" alpha="0.98999999999999999" colorSpace="calibratedRGB"/>
                             <fontDescription key="font" type="system" pointSize="12"/>
                         </label>
-                        <label width="1" height="0.80000000000000004" alignment="left" text="Body" numberOfLines="20" id="era-wc-tHr"/>
+                        <label width="1" alignment="left" text="Body" numberOfLines="0" id="era-wc-tHr"/>
                     </items>
                     <menu key="menu" id="3MZ-y7-cMz">
                         <items>

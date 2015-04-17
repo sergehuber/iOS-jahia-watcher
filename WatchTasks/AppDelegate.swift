@@ -34,25 +34,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var viewPostAction = UIMutableUserNotificationAction()
         viewPostAction.title = NSLocalizedString("View", comment: "View post")
         viewPostAction.identifier = "viewPostAction"
-        viewPostAction.activationMode = UIUserNotificationActivationMode.Background
+        viewPostAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewPostAction.authenticationRequired = false
         
         var markPostAsSpamAction = UIMutableUserNotificationAction()
         markPostAsSpamAction.title = NSLocalizedString("Mark as spam", comment: "Mark the current post as spam")
         markPostAsSpamAction.identifier = "markPostAsSpamAction"
-        markPostAsSpamAction.activationMode = UIUserNotificationActivationMode.Background
+        markPostAsSpamAction.activationMode = UIUserNotificationActivationMode.Foreground
         markPostAsSpamAction.authenticationRequired = true
 
         var deletePostAction = UIMutableUserNotificationAction()
         deletePostAction.title = NSLocalizedString("Delete", comment: "Delete the current post")
         deletePostAction.identifier = "deletePostAction"
-        deletePostAction.activationMode = UIUserNotificationActivationMode.Background
+        deletePostAction.activationMode = UIUserNotificationActivationMode.Foreground
         deletePostAction.authenticationRequired = true
 
         var blockUserAction = UIMutableUserNotificationAction()
         blockUserAction.title = NSLocalizedString("Block user", comment: "Block the post user")
         blockUserAction.identifier = "blockUserAction"
-        blockUserAction.activationMode = UIUserNotificationActivationMode.Background
+        blockUserAction.activationMode = UIUserNotificationActivationMode.Foreground
         blockUserAction.authenticationRequired = true
         
         var newPostCategory = UIMutableUserNotificationCategory()
@@ -64,15 +64,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Configure other actions and categories and add them to the set...
 
         var viewTaskAction = UIMutableUserNotificationAction()
-        viewTaskAction.title = NSLocalizedString("View", comment: "View post")
+        viewTaskAction.title = NSLocalizedString("View", comment: "View task")
         viewTaskAction.identifier = "viewTaskAction"
-        viewTaskAction.activationMode = UIUserNotificationActivationMode.Background
+        viewTaskAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewTaskAction.authenticationRequired = false
         
         var viewTaskOnPhoneAction = UIMutableUserNotificationAction()
-        viewTaskOnPhoneAction.title = NSLocalizedString("View on Phone", comment: "View the post on the phone")
+        viewTaskOnPhoneAction.title = NSLocalizedString("View on Phone", comment: "View the task on the phone")
         viewTaskOnPhoneAction.identifier = "viewTaskOnPhoneAction"
-        viewTaskOnPhoneAction.activationMode = UIUserNotificationActivationMode.Background
+        viewTaskOnPhoneAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewTaskOnPhoneAction.authenticationRequired = false
 
         var newTaskCategory = UIMutableUserNotificationCategory()
@@ -180,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("handleActionWithIdentifier for remote notification")
+        println("handleActionWithIdentifier identifier=\(identifier) for remote notification")
         displayNotificationAlert(userInfo)
         completionHandler()
     }
