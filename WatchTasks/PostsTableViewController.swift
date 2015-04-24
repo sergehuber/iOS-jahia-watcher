@@ -101,14 +101,18 @@ class PostsTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        let postDetailViewController = segue.destinationViewController as! PostDetailViewController
+        let selectedIndexPath = self.tableView.indexPathForSelectedRow()
+        if let indexPath = selectedIndexPath {
+            let post : NSDictionary = latestPosts[indexPath.row] as! NSDictionary
+            postDetailViewController.post = post
+        }
     }
-    */
 
 }
