@@ -18,21 +18,24 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var postAuthorLabel: UILabel!
     @IBOutlet weak var markedAsSpamLabel: UILabel!
     
-    var post : NSDictionary?
+    var post : Post?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         if let realPost = post {
-            let postProperties : NSDictionary = realPost["properties"] as! NSDictionary
-            let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
-            let postTitle = titleProperty["value"] as! String
-            postTitleLabel.text = postTitle
-            let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
-            if (contentProperty != nil) {
-                let postContent : String = contentProperty!["value"] as! String
-                postContentLabel.text = jahiaServerServices.stripHTML(postContent)
+            if let title = realPost.title {
+                postTitleLabel.text = title
+            }
+            if let content = realPost.content {
+                postContentLabel.text = content
+            }
+            if let author = realPost.author {
+                postAuthorLabel.text = author
+            }
+            if let date = realPost.date {
+                postDateLabel.text = "\(date)"
             }
         }
     }

@@ -47,21 +47,27 @@ class PostsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("postExtractCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("postExtractCell", forIndexPath: indexPath) as! PostExtractTableViewCell
 
         // Configure the cell...
         let currentIndex : Int = indexPath.row
-        let post : NSDictionary = latestPosts[currentIndex] as! NSDictionary
-        let postProperties : NSDictionary = post["properties"] as! NSDictionary
-        let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
-        let postTitle : NSString = titleProperty["value"] as! NSString
-        let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
-        if (contentProperty != nil) {
-            let postContent : String = contentProperty!["value"] as! String
-            cell.detailTextLabel!.text = jahiaServerServices.stripHTML(postContent)
+        let post : Post = Post(fromNSDictionary: latestPosts[currentIndex] as! NSDictionary)
+        
+        if let postTitle = post.title {
+            cell.postTitleLabel.text = postTitle
+        }
+
+        if let postContent = post.content {
+            cell.postExtractLabel.text = postContent
         }
         
-        cell.textLabel!.text = postTitle as String;
+        if let postDate = post.date {
+            cell.postDateLabel.text = "\(postDate)"
+        }
+        
+        if let postAuthor = post.author {
+            cell.postAuthorLabel.text = postAuthor
+        }
         
         return cell
     }
@@ -110,7 +116,7 @@ class PostsTableViewController: UITableViewController {
         let postDetailViewController = segue.destinationViewController as! PostDetailViewController
         let selectedIndexPath = self.tableView.indexPathForSelectedRow()
         if let indexPath = selectedIndexPath {
-            let post : NSDictionary = latestPosts[indexPath.row] as! NSDictionary
+            let post = Post(fromNSDictionary: latestPosts[indexPath.row] as! NSDictionary)
             postDetailViewController.post = post
         }
     }

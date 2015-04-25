@@ -38,6 +38,8 @@
 		F4EB43FF1AAD7F010049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43FE1AAD7F010049F30F /* Images.xcassets */; };
 		F4EB44021AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F4EB43E51AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F23BB31AD99E6E003751C6 /* MainTabBarController.swift */; };
+		F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
+		F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4FFCA7F1AADE39600B2F040 /* logo-jahia-small.png in Resources */ = {isa = PBXBuildFile; fileRef = F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */; };
 /* End PBXBuildFile section */
 
@@ -119,6 +121,7 @@
 		F4EB43FC1AAD7F010049F30F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		F4EB43FE1AAD7F010049F30F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F4F23BB31AD99E6E003751C6 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		F4F7AD131AEA865000AFBBB8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WatchTasks/Post.swift; sourceTree = "<group>"; };
 		F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-jahia-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +155,7 @@
 			children = (
 				F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */,
 				F4428C471AD54ED50034A722 /* JahiaServerServices.swift */,
+				F4F7AD131AEA865000AFBBB8 /* Post.swift */,
 			);
 			name = "Shared Code";
 			sourceTree = "<group>";
@@ -456,6 +460,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4EB43C41AAD7E910049F30F /* SecondViewController.swift in Sources */,
+				F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4428C431AD41AEE0034A722 /* JahiaWatcherSettings.swift in Sources */,
 				F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */,
 				F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */,
@@ -484,6 +489,7 @@
 				F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */,
 				F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
 				F4428C441AD422740034A722 /* JahiaWatcherSettings.swift in Sources */,
+				F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4428C4C1AD554580034A722 /* PostsInterfaceController.swift in Sources */,
 				F4428C501AD556B40034A722 /* PostDetailInterfaceController.swift in Sources */,
 				F4EB43EB1AAD7F010049F30F /* TasksInterfaceController.swift in Sources */,

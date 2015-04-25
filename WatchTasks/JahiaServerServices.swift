@@ -263,6 +263,8 @@ class JahiaServerServices {
         output = output.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")
         output = output.stringByReplacingOccurrencesOfString("&quote;", withString: "'")
         output = output.stringByReplacingOccurrencesOfString("&rsquo;", withString: "'")
+        output = output.stringByReplacingOccurrencesOfString("&#39;", withString: "'")
+        output = output.stringByReplacingOccurrencesOfString("&amp;", withString: "&")
         return output
     }
     
