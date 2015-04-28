@@ -15,10 +15,22 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         if (!jahiaServerServices.areServicesAvailable()) {
             println("No existing settings found, presenting settings tab first")
-            for viewController in viewControllers as! [UIViewController] {
-                if viewController is SettingsViewController {
-                    selectedViewController = viewController
-                }
+            displaySettings()
+        }
+    }
+    
+    func displaySettings() {
+        for viewController in viewControllers as! [UIViewController] {
+            if viewController is SettingsViewController {
+                selectedViewController = viewController
+            }
+        }
+    }
+    
+    func displayPosts() {
+        for viewController in viewControllers as! [UIViewController] {
+            if viewController.restorationIdentifier == "PostsNavigationController" {
+                selectedViewController = viewController
             }
         }
     }

@@ -39,6 +39,10 @@ class SettingsViewController: UIViewController {
         jahiaWatcherSettings.jahiaPassword = passwordTextField.text
         jahiaWatcherSettings.save()
         jahiaServerServices.login()
+        if self.parentViewController is MainTabBarController {
+            let mainTabBarController = self.parentViewController as! MainTabBarController
+            mainTabBarController.displayPosts()
+        }
     }
 
     @IBAction func reloadSettings(sender: AnyObject) {
