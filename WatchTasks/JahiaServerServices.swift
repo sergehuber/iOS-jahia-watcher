@@ -258,7 +258,7 @@ class JahiaServerServices {
         
     }
     
-    func stripHTML(input : String) -> String {
+    class func stripHTML(input : String) -> String {
         var output = input.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
         output = output.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")
         output = output.stringByReplacingOccurrencesOfString("&quote;", withString: "'")
@@ -266,6 +266,46 @@ class JahiaServerServices {
         output = output.stringByReplacingOccurrencesOfString("&#39;", withString: "'")
         output = output.stringByReplacingOccurrencesOfString("&amp;", withString: "&")
         return output
+    }
+    
+    class func getShortDate(date : NSDate) -> String {
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        formatter.timeStyle = .ShortStyle
+        
+        let dateString = formatter.stringFromDate(date)
+        return dateString
+    }
+    
+    class func getRelativeTime(date : NSDate) -> String {
+        return date.relativeTime;
+    }
+    
+    class func getStringPropertyValue(properties : NSDictionary, propertyName : String) -> String? {
+        let property = properties[propertyName] as? NSDictionary
+        if let realProperty = property {
+            return realProperty["value"] as? String
+        } else {
+            return nil;
+        }
+    }
+
+    class func getDatePropertyValue(properties : NSDictionary, propertyName : String) -> NSDate? {
+        let property = properties[propertyName] as? NSDictionary
+        if let realProperty = property {
+            return realProperty["value"] as? NSDate
+        } else {
+            return nil;
+        }
+    }
+
+    class func getStringArrayPropertyValues(properties : NSDictionary, propertyName : String) -> [String]? {
+        let property = properties[propertyName] as? NSDictionary
+        if let realProperty = property {
+            return realProperty["value"] as? [String]
+        } else {
+            return nil;
+        }
     }
     
 }

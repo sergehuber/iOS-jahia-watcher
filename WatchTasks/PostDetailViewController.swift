@@ -10,8 +10,6 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
 
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var postContentLabel: UILabel!
     @IBOutlet weak var postDateLabel: UILabel!
@@ -35,7 +33,7 @@ class PostDetailViewController: UIViewController {
                 postAuthorLabel.text = author
             }
             if let date = realPost.date {
-                postDateLabel.text = "\(date)"
+                postDateLabel.text = JahiaServerServices.getShortDate(date)
             }
         }
     }

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -15,49 +16,85 @@
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="JahiaWatcherStartupBackground" translatesAutoresizingMaskIntoConstraints="NO" id="TjG-2b-IRJ">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="JahiaWatcherWatchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="c8o-1R-8rn">
-                    <rect key="frame" x="40" y="40" width="400" height="400"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="400" id="ouk-kc-9sf"/>
-                        <constraint firstAttribute="height" constant="400" id="xwK-dh-soF"/>
-                    </constraints>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 Jahia Solutions. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
-                    <rect key="frame" x="20" y="439" width="441" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 Jahia Solutions. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
+                    <rect key="frame" x="28" y="439" width="424" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Jahia Watcher" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <rect key="frame" x="8" y="218" width="441" height="43"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jahia Watcher" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
+                    <rect key="frame" x="122" y="390" width="236" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="uTS-RR-yon"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
                     <color key="textColor" red="0.1647058824" green="0.50980392159999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" placeholderIntrinsicWidth="400" placeholderIntrinsicHeight="400" image="JahiaWatcherWatchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="c8o-1R-8rn">
+                    <rect key="frame" x="40" y="90" width="400" height="300"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="400" id="1hR-Lo-TAp"/>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="300" id="2rC-sG-c93"/>
+                        <constraint firstAttribute="height" constant="400" id="vhp-pz-Df5"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="1hR-Lo-TAp"/>
+                            <exclude reference="vhp-pz-Df5"/>
+                        </mask>
+                    </variation>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="218" id="13n-Y3-L5E"/>
-                <constraint firstAttribute="centerY" secondItem="c8o-1R-8rn" secondAttribute="centerY" id="1AD-Wm-8TW"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="c8o-1R-8rn" secondAttribute="bottom" id="3Te-PL-kHg"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" constant="1" id="5cJ-9S-tgC"/>
-                <constraint firstAttribute="centerX" secondItem="c8o-1R-8rn" secondAttribute="centerX" id="6MS-GK-2Rt"/>
-                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
+                <constraint firstItem="c8o-1R-8rn" firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="6Iw-jv-7uo"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="DEh-pj-fhi"/>
+                <constraint firstAttribute="centerY" secondItem="c8o-1R-8rn" secondAttribute="centerY" id="E6x-v7-CNj"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="c8o-1R-8rn" secondAttribute="top" id="FrB-Gx-UFu"/>
+                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="HHY-Qr-b3p"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
                 <constraint firstItem="TjG-2b-IRJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="OoO-5m-z4q"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" constant="20" id="VOi-QB-u09"/>
+                <constraint firstAttribute="trailing" secondItem="c8o-1R-8rn" secondAttribute="trailing" constant="40" id="XXl-sq-kHd"/>
                 <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
                 <constraint firstAttribute="centerY" secondItem="kId-c2-rCX" secondAttribute="centerY" constant="-250" id="aNG-8J-sXD"/>
+                <constraint firstAttribute="trailing" secondItem="8ie-xW-0ye" secondAttribute="trailing" constant="28" id="aW3-dz-NFX"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="8ie-xW-0ye" secondAttribute="top" id="fWb-W3-PKX"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="c8o-1R-8rn" secondAttribute="bottom" id="hN5-lQ-vg2"/>
+                <constraint firstItem="c8o-1R-8rn" firstAttribute="centerY" secondItem="TjG-2b-IRJ" secondAttribute="centerY" id="ie5-ta-EZE"/>
+                <constraint firstItem="c8o-1R-8rn" firstAttribute="centerY" secondItem="TjG-2b-IRJ" secondAttribute="centerY" id="qPa-pV-gsi"/>
                 <constraint firstAttribute="trailing" secondItem="TjG-2b-IRJ" secondAttribute="trailing" id="qkl-JB-nlF"/>
+                <constraint firstItem="c8o-1R-8rn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="sLc-HD-3dr"/>
                 <constraint firstAttribute="bottom" secondItem="TjG-2b-IRJ" secondAttribute="bottom" id="sTs-Am-tzG"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="centerX" secondItem="TjG-2b-IRJ" secondAttribute="centerX" id="seG-sB-Lbp"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="c8o-1R-8rn" secondAttribute="top" id="ueQ-ji-YdM"/>
+                <constraint firstAttribute="centerX" secondItem="c8o-1R-8rn" secondAttribute="centerX" id="wvf-Wt-f8i"/>
                 <constraint firstItem="TjG-2b-IRJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yIB-zo-ESv"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="6Iw-jv-7uo"/>
+                    <exclude reference="ie5-ta-EZE"/>
+                    <exclude reference="qPa-pV-gsi"/>
+                    <exclude reference="MfP-vx-nX0"/>
                     <exclude reference="13n-Y3-L5E"/>
+                    <exclude reference="3Te-PL-kHg"/>
                     <exclude reference="5cJ-9S-tgC"/>
+                    <exclude reference="DEh-pj-fhi"/>
+                    <exclude reference="FrB-Gx-UFu"/>
+                    <exclude reference="aNG-8J-sXD"/>
+                    <exclude reference="fWb-W3-PKX"/>
+                    <exclude reference="fvb-Df-36g"/>
+                    <exclude reference="seG-sB-Lbp"/>
+                    <exclude reference="ueQ-ji-YdM"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="548" y="455"/>

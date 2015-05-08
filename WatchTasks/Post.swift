@@ -9,9 +9,7 @@
 import Foundation
 
 class Post {
-    
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    
+        
     var identifier : String?
     var title : String?
     var author : String?
@@ -29,7 +27,7 @@ class Post {
         let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
         if (contentProperty != nil) {
             var postContent : String = contentProperty!["value"] as! String
-            content = jahiaServerServices.stripHTML(postContent)
+            content = JahiaServerServices.stripHTML(postContent)
         }
         if (createdProperty != nil) {
             let createdValue : NSNumber = createdProperty!["value"] as! NSNumber

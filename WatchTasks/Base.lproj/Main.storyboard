@@ -170,8 +170,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnK-8p-M43">
-                                <rect key="frame" x="37" y="30" width="52" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnK-8p-M43">
+                                <rect key="frame" x="37" y="30" width="52" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="52" id="cbB-zq-4jG"/>
                                 </constraints>
@@ -179,8 +179,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHg-hB-ze1">
-                                <rect key="frame" x="37" y="59" width="571" height="384"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHg-hB-ze1">
+                                <rect key="frame" x="37" y="55" width="571" height="388"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKd-4T-T4H">
                                         <rect key="frame" x="0.0" y="0.0" width="480" height="21"/>
@@ -247,8 +247,8 @@
                                     </mask>
                                 </variation>
                             </toolbar>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Marked as spam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VKO-eT-28t">
-                                <rect key="frame" x="128" y="30" width="128" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marked as spam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VKO-eT-28t">
+                                <rect key="frame" x="128" y="30" width="128" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="128" id="ceu-3a-rtw"/>
                                 </constraints>
@@ -256,8 +256,8 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kWo-IV-dRM">
-                                <rect key="frame" x="548" y="30" width="36" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kWo-IV-dRM">
+                                <rect key="frame" x="553" y="30" width="31" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -566,17 +566,71 @@
         <!--Tasks-->
         <scene sceneID="5kM-2Q-nhf">
             <objects>
-                <tableViewController id="7Z9-cw-NSG" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kES-u5-d5w">
+                <tableViewController id="7Z9-cw-NSG" customClass="TasksTableViewController" customModule="Jahia_Watcher" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="kES-u5-d5w">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="f8w-0w-Qrq">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="taskExtractCell" rowHeight="80" id="f8w-0w-Qrq" customClass="TaskExtractTableViewCell" customModule="Jahia_Watcher" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f8w-0w-Qrq" id="7Zl-2s-SCb">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyt-0H-tW5">
+                                            <rect key="frame" x="20" y="5" width="478" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvQ-Zq-Rjg">
+                                            <rect key="frame" x="20" y="29" width="87" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="87" id="QjB-Oj-v59"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task extract" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iax-Pm-D17">
+                                            <rect key="frame" x="20" y="44" width="579" height="27"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mb5-7j-hJe">
+                                            <rect key="frame" x="506" y="8" width="93" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="93" id="2bO-AM-rGA"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Iax-Pm-D17" firstAttribute="bottom" secondItem="7Zl-2s-SCb" secondAttribute="bottomMargin" id="23b-n9-wKi"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Mb5-7j-hJe" secondAttribute="bottom" constant="42" id="EJG-j3-lMt"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Mb5-7j-hJe" secondAttribute="trailing" constant="-7" id="JeF-0i-b1e"/>
+                                        <constraint firstItem="fvQ-Zq-Rjg" firstAttribute="centerY" secondItem="7Zl-2s-SCb" secondAttribute="centerY" id="O7n-5u-bdN"/>
+                                        <constraint firstItem="fvQ-Zq-Rjg" firstAttribute="leading" secondItem="Iax-Pm-D17" secondAttribute="leading" id="Wab-Fz-txt"/>
+                                        <constraint firstItem="pyt-0H-tW5" firstAttribute="baseline" secondItem="Mb5-7j-hJe" secondAttribute="firstBaseline" id="YJP-wD-94K"/>
+                                        <constraint firstItem="pyt-0H-tW5" firstAttribute="leading" secondItem="7Zl-2s-SCb" secondAttribute="leadingMargin" constant="12" id="Yyd-OM-sF9"/>
+                                        <constraint firstItem="pyt-0H-tW5" firstAttribute="top" secondItem="7Zl-2s-SCb" secondAttribute="topMargin" constant="-3" id="Yyx-SD-PV7"/>
+                                        <constraint firstItem="Iax-Pm-D17" firstAttribute="top" secondItem="Mb5-7j-hJe" secondAttribute="bottom" constant="15" id="bPx-S2-fbe"/>
+                                        <constraint firstItem="Mb5-7j-hJe" firstAttribute="leading" secondItem="pyt-0H-tW5" secondAttribute="trailing" constant="8" symbolic="YES" id="bpI-mw-9PD"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Iax-Pm-D17" secondAttribute="trailing" constant="-7" id="fDK-9z-vgj"/>
+                                        <constraint firstItem="fvQ-Zq-Rjg" firstAttribute="top" secondItem="pyt-0H-tW5" secondAttribute="bottom" constant="3" id="gva-Xy-hPw"/>
+                                        <constraint firstItem="pyt-0H-tW5" firstAttribute="leading" secondItem="fvQ-Zq-Rjg" secondAttribute="leading" id="u3R-ys-qbQ"/>
+                                        <constraint firstItem="Mb5-7j-hJe" firstAttribute="top" secondItem="7Zl-2s-SCb" secondAttribute="topMargin" id="zB3-ia-VQo"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dueDateLabel" destination="Mb5-7j-hJe" id="BEa-3e-LsT"/>
+                                    <outlet property="extractLabel" destination="Iax-Pm-D17" id="F1z-L9-kKN"/>
+                                    <outlet property="stateLabel" destination="fvQ-Zq-Rjg" id="yc9-IQ-cQT"/>
+                                    <outlet property="titleLabel" destination="pyt-0H-tW5" id="eUW-xV-D2c"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

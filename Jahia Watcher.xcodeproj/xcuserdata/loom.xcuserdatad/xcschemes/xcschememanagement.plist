@@ -7,7 +7,7 @@
 		<key>Glance - Jahia Watcher WatchKit App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Jahia Watcher WatchKit App.xcscheme</key>
 		<dict>
@@ -16,13 +16,20 @@
 		</dict>
 		<key>Jahia Watcher.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>Notification - Jahia Watcher WatchKit App.xcscheme</key>
+		<key>New Post Notification - Jahia Watcher WatchKit App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
+		</dict>
+		<key>New Task Notification - Jahia Watcher WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

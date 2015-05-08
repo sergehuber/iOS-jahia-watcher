@@ -39,7 +39,7 @@ class PostDetailInterfaceController: WKInterfaceController {
         let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
         if (contentProperty != nil) {
             var postContent : String = contentProperty!["value"] as! String
-            postContent = jahiaServerServices.stripHTML(postContent)
+            postContent = JahiaServerServices.stripHTML(postContent)
             postBodyLabel.setText(postContent)
         }
         if (createdProperty != nil) {
