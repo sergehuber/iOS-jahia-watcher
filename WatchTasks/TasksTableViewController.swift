@@ -28,6 +28,9 @@ class TasksTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         workflowTasks = jahiaServerServices.getWorkflowTasks()
+        if (workflowTasks.count == 0) {
+            return
+        }
         workflowTasksChildren = workflowTasks["children"] as! NSDictionary
         
         let workflowTaskChildrenDict = workflowTasksChildren as Dictionary

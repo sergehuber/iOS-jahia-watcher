@@ -46,6 +46,7 @@
 		F4EB43FF1AAD7F010049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43FE1AAD7F010049F30F /* Images.xcassets */; };
 		F4EB44021AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F4EB43E51AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F23BB31AD99E6E003751C6 /* MainTabBarController.swift */; };
+		F4F412CD1B00D91300DB21BD /* TaskContentPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */; };
 		F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4FFCA7F1AADE39600B2F040 /* logo-jahia-small.png in Resources */ = {isa = PBXBuildFile; fileRef = F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */; };
@@ -134,6 +135,7 @@
 		F4EB43FC1AAD7F010049F30F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		F4EB43FE1AAD7F010049F30F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F4F23BB31AD99E6E003751C6 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskContentPreviewViewController.swift; sourceTree = "<group>"; };
 		F4F7AD131AEA865000AFBBB8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WatchTasks/Post.swift; sourceTree = "<group>"; };
 		F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-jahia-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -217,6 +219,7 @@
 				F4478D9E1AFCA13100763D5C /* TasksTableViewController.swift */,
 				F4478DA01AFCA24F00763D5C /* TaskDetailViewController.swift */,
 				F4478DA21AFCA27000763D5C /* TaskExtractTableViewCell.swift */,
+				F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */,
 			);
 			name = "Jahia Watcher";
 			path = WatchTasks;
@@ -488,6 +491,7 @@
 				F4478D991AFC9F0D00763D5C /* Task.swift in Sources */,
 				F4478DA11AFCA24F00763D5C /* TaskDetailViewController.swift in Sources */,
 				F4478DA31AFCA27000763D5C /* TaskExtractTableViewCell.swift in Sources */,
+				F4F412CD1B00D91300DB21BD /* TaskContentPreviewViewController.swift in Sources */,
 				F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */,
 				F4478D951AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
 				F4EB43C21AAD7E910049F30F /* FirstViewController.swift in Sources */,

@@ -35,7 +35,7 @@ class JahiaServerServices {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = postData
-        request.timeoutInterval = 10
+        request.timeoutInterval = 4
         
         var response: NSURLResponse?
         var error: NSError?
@@ -44,6 +44,10 @@ class JahiaServerServices {
         if let httpResponse = response as? NSHTTPURLResponse {
             println(httpResponse.statusCode)
             servicesAvailable = true
+            let userPath = getUserPath()
+            if let realUserPath = userPath {
+                jahiaWatcherSettings.jahiaUserPath = realUserPath
+            }
         } else {
             println("Login failed")
         }
@@ -69,7 +73,7 @@ class JahiaServerServices {
         let request = NSMutableURLRequest(URL: jahiaRegisterDeviceTokenURL)
         
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
+        request.timeoutInterval = 4
         
         var openTaskCount = 0;
         var response: NSURLResponse?
@@ -98,7 +102,7 @@ class JahiaServerServices {
         let request = NSMutableURLRequest(URL: jahiaBlockUserURL)
         
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
+        request.timeoutInterval = 4
         
         var openTaskCount = 0;
         var response: NSURLResponse?
@@ -127,7 +131,7 @@ class JahiaServerServices {
         let request = NSMutableURLRequest(URL: jahiaMarkAsSpamURL)
         
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
+        request.timeoutInterval = 4
         
         var openTaskCount = 0;
         var response: NSURLResponse?
@@ -146,7 +150,7 @@ class JahiaServerServices {
     }
 
     
-    func getUserPath() -> String {
+    func getUserPath() -> String? {
         if (!areServicesAvailable()) {
             return ""
         }
@@ -154,6 +158,7 @@ class JahiaServerServices {
         let jahiaUserPathURL : NSURL = NSURL(string: jahiaWatcherSettings.userPathUrl())!
         
         let request = NSMutableURLRequest(URL: jahiaUserPathURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
         
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 10
@@ -161,20 +166,20 @@ class JahiaServerServices {
         var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
-        var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             println(httpResponse.statusCode)
             if (httpResponse.statusCode != 200) {
                 println("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
-                var datastring = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
-                return datastring! as String;
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                return JahiaServerServices.condenseWhitespace(datastring! as String)
             }
         } else {
             println("Coudln't retrieve current user path")
         }
-        return "";
+        return nil;
     }
     
     func getWorkflowTasks() -> NSDictionary {
@@ -184,9 +189,10 @@ class JahiaServerServices {
         
         println("Retrieving workflow tasks...")
         
-        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/default/en/paths\(jahiaWatcherSettings.jahiaUserPath)/workflowTasks?noLinks&includeFullChildren")!
+        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/default/en/paths\(jahiaWatcherSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
         
         let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
         
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 10
@@ -306,6 +312,39 @@ class JahiaServerServices {
         } else {
             return nil;
         }
+    }
+    
+    class func matchesForRegexInText(regex: String!, text: String!) -> [String] {
+        
+        let re = NSRegularExpression(pattern: regex, options: nil, error: nil)!
+        let matches = re.matchesInString(text, options: nil, range: NSMakeRange(0, count(text)))
+        
+        println("number of matches: \(matches.count)")
+        
+        var result = [String]()
+        
+        for match in matches as! [NSTextCheckingResult] {
+            // range at index 0: full match
+            // range at index 1: first capture group
+            for groupNumber : Int in 0...match.numberOfRanges-1 {
+                let substring = (text as NSString).substringWithRange(match.rangeAtIndex(groupNumber))
+                result.append(substring)
+            }
+        }
+        return result
+    }
+    
+    class func capitalizeFirstLetter(input : String?) -> String? {
+        var result = input
+        if let realInput = input {
+            result!.replaceRange(result!.startIndex...result!.startIndex, with: String(result![result!.startIndex]).capitalizedString)
+        }
+        return result
+    }
+    
+    class func condenseWhitespace(string: String) -> String {
+        let components = string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).filter({!isEmpty($0)})
+        return join(" ", components)
     }
     
 }
