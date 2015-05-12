@@ -30,7 +30,7 @@ class JahiaWatcherSettings {
     var jahiaServerRegisterDeviceTokenServletPath : String = "/cms/render/live/en/sites.registerToken.do"
     var jahiaServerBlockUserServletPath : String = "/cms/render/live/en/sites.blockUser.do"
     var jahiaServerMarkAsSpamServletPath : String = "/cms/render/live/en/sites.markAsSpam.do"
-    var jahiaServerContentRenderPartialPath : String = "/cms/render/live/en/"
+    var jahiaServerTaskActionsPartialPath : String = "/cms/render/default/en";
     
     init() {
         load()
@@ -120,7 +120,11 @@ class JahiaWatcherSettings {
     }
     
     func contentRenderUrl(contentPath : String) -> String {
-        return contextUrl() + jahiaServerContentRenderPartialPath + contentPath + ".html"
+        return contextUrl() + contentPath
+    }
+
+    func taskActionsUrl(taskPath : String) -> String {
+        return contextUrl() + jahiaServerTaskActionsPartialPath + taskPath + ".taskActions.do"
     }
     
 }

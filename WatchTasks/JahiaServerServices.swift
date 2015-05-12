@@ -219,6 +219,54 @@ class JahiaServerServices {
         return NSDictionary()
     }
     
+    func getTaskActions(task : Task) -> Task {
+        if (!areServicesAvailable()) {
+            return task
+        }
+        println("Retrieving task actions...")
+
+        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.taskActionsUrl(task.path!))!
+        
+        let request = NSMutableURLRequest(URL: jahiaTaskActionsURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+            if (httpResponse.statusCode != 200) {
+                println("Error retrieving task actions!")
+            } else {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+                
+                if let previewUrl = jsonResult["preview-url"] as? String {
+                    task.previewUrl = previewUrl
+                }
+                if let possibleActions = jsonResult["possibleActions"] as? [NSDictionary] {
+                    var nextActions = [TaskAction]()
+                    for possibleAction in possibleActions {
+                        let taskAction = TaskAction()
+                        taskAction.name = possibleAction["name"] as? String
+                        taskAction.finalOutcome = possibleAction["finalOutcome"] as? String
+                        nextActions.append(taskAction)
+                    }
+                    task.nextActions = nextActions
+                }
+            }
+        } else {
+            println("Couldn't retrieve task actions")
+        }
+        
+        return task
+    }
+    
     func getLatestPosts() -> NSArray {
         if (!areServicesAvailable()) {
             return NSArray()

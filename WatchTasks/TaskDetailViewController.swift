@@ -12,12 +12,14 @@ import UIKit
 class TaskDetailViewController: UIViewController {
 
     let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dueDateLabel: UILabel!
     @IBOutlet weak var outcomeToolbar: UIToolbar!
+    @IBOutlet weak var previewButton: UIButton!
     var task : Task?
     
     override func viewDidLoad() {
@@ -25,6 +27,7 @@ class TaskDetailViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         if let realTask = task {
+            task = jahiaServerServices.getTaskActions(realTask)
             if let title = realTask.title {
                 titleLabel.text = title
             }
@@ -37,15 +40,24 @@ class TaskDetailViewController: UIViewController {
             if let dueDate = realTask.dueDate {
                 dueDateLabel.text = JahiaServerServices.getShortDate(dueDate)
             }
-            if let outcomes = realTask.possibleOutcomes {
+            if let nextActions = realTask.nextActions {
                 var insertedItems = 0;
-                for outcome in outcomes {
-                    outcomeToolbar.items!.append(UIBarButtonItem(title: JahiaServerServices.capitalizeFirstLetter(outcome), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(outcome)))
+                for nextAction in nextActions {
+                    if let outcome = nextAction.finalOutcome {
+                        outcomeToolbar.items!.append(UIBarButtonItem(title: JahiaServerServices.capitalizeFirstLetter(outcome), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(outcome)))
+                    } else {
+                        outcomeToolbar.items!.append(UIBarButtonItem(title: JahiaServerServices.capitalizeFirstLetter(nextAction.name), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(nextAction.name!)))
+                    }
                     insertedItems++;
-                    if (insertedItems < outcomes.count) {
+                    if (insertedItems < nextActions.count) {
                         outcomeToolbar.items!.append(UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil))
                     }
                 }
+            }
+            if (realTask.previewUrl != nil) {
+                previewButton.hidden = false
+            } else {
+                previewButton.hidden = true
             }
         }
     }
@@ -71,7 +83,7 @@ class TaskDetailViewController: UIViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let taskContentPreviewController = segue.destinationViewController as! TaskContentPreviewViewController
-        taskContentPreviewController.contentUrl = jahiaWatcherSettings.contentRenderUrl(task!.targetNodePath!)
+        taskContentPreviewController.contentUrl = jahiaWatcherSettings.contentRenderUrl(task!.previewUrl!)
     }
     
 }

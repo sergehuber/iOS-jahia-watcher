@@ -11,6 +11,7 @@ import Foundation
 class Task {
     
     var name : String?
+    var path : String?
     var title : String?
     var assigneeUserKey : String?
     var description : String?
@@ -22,11 +23,15 @@ class Task {
     var targetNodeName : String?
     var targetNodePath : String?
     var targetNodeIdentifier : String?
+    var previewUrl : String?
+    var nextActions : [TaskAction]?
 
     init(taskName : String, fromNSDictionary : NSDictionary) {
         self.name = taskName
         let task = fromNSDictionary
         let properties = task["properties"] as! NSDictionary
+        
+        path = task["path"] as? String
         
         let complexTitle = JahiaServerServices.getStringPropertyValue(properties, propertyName: "jcr__title")
         

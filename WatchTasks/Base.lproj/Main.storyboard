@@ -743,6 +743,7 @@
                         <outlet property="descriptionLabel" destination="Wue-EW-Jrm" id="3vX-Jb-jJ9"/>
                         <outlet property="dueDateLabel" destination="RXd-sj-rKd" id="3eE-aN-laP"/>
                         <outlet property="outcomeToolbar" destination="DgS-Rb-VAs" id="ylb-ST-b1g"/>
+                        <outlet property="previewButton" destination="wuP-ZT-64m" id="ulJ-KZ-NBt"/>
                         <outlet property="statusLabel" destination="b3i-AG-2aj" id="508-MO-HSp"/>
                         <outlet property="titleLabel" destination="QTc-CL-K8v" id="dE8-u7-Sne"/>
                     </connections>
