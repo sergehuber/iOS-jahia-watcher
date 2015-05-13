@@ -15,6 +15,7 @@ class TaskDetailViewController: UIViewController {
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var assigneeLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dueDateLabel: UILabel!
@@ -24,12 +25,20 @@ class TaskDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        displayTask()
+    }
+    
+    func displayTask() {
         // Do any additional setup after loading the view.
         if let realTask = task {
             task = jahiaServerServices.getTaskActions(realTask)
             if let title = realTask.title {
                 titleLabel.text = title
+            }
+            if let assignee = realTask.assigneeUserKey {
+                assigneeLabel.text = assignee
+            } else {
+                assigneeLabel.text = "not assigned"
             }
             if let state = realTask.state {
                 statusLabel.text = state
@@ -39,14 +48,24 @@ class TaskDetailViewController: UIViewController {
             }
             if let dueDate = realTask.dueDate {
                 dueDateLabel.text = JahiaServerServices.getShortDate(dueDate)
+            } else {
+                dueDateLabel.text = ""
             }
+            outcomeToolbar.items?.removeAll(keepCapacity: false)
             if let nextActions = realTask.nextActions {
                 var insertedItems = 0;
                 for nextAction in nextActions {
                     if let outcome = nextAction.finalOutcome {
-                        outcomeToolbar.items!.append(UIBarButtonItem(title: JahiaServerServices.capitalizeFirstLetter(outcome), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(outcome)))
+                        let outcomeBarButtonItem = IdUIBarButtonItem(title: nextAction.displayName, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("actionTriggered:"))
+                        outcomeBarButtonItem.tag = outcome.hash
+                        outcomeBarButtonItem.identifier = nextAction.name
+                        outcomeBarButtonItem.subIdentifier = outcome
+                        outcomeToolbar.items!.append(outcomeBarButtonItem)
                     } else {
-                        outcomeToolbar.items!.append(UIBarButtonItem(title: JahiaServerServices.capitalizeFirstLetter(nextAction.name), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(nextAction.name!)))
+                        let nextActionBarButtonItem = IdUIBarButtonItem(title: nextAction.displayName, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("actionTriggered:"))
+                        nextActionBarButtonItem.tag = nextAction.name!.hash
+                        nextActionBarButtonItem.identifier = nextAction.name
+                        outcomeToolbar.items!.append(nextActionBarButtonItem)
                     }
                     insertedItems++;
                     if (insertedItems < nextActions.count) {
@@ -60,20 +79,25 @@ class TaskDetailViewController: UIViewController {
                 previewButton.hidden = true
             }
         }
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func accept() {
-        
+
+    func actionTriggered(sender : UIBarButtonItem!) {
+        if let idSender = sender as? IdUIBarButtonItem {
+            println("Action triggered for \(idSender.title) with tag \(idSender.tag) identifier=\(idSender.identifier) subIdentifier=\(idSender.subIdentifier)")
+            jahiaServerServices.performTaskAction(task!, actionName: idSender.identifier!, finalOutcome: idSender.subIdentifier)
+        } else {
+            println("Action triggered for \(sender.title) with tag \(sender.tag)")
+        }
+        task = jahiaServerServices.refreshTask(task!)
+        displayTask()
     }
     
-    func reject() {
-        
-    }
     /*
     // MARK: - Navigation
     */

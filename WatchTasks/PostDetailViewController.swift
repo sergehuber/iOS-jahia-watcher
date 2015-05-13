@@ -10,6 +10,8 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
 
+    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var postContentLabel: UILabel!
     @IBOutlet weak var postDateLabel: UILabel!
@@ -53,5 +55,15 @@ class PostDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    @IBAction func reply(sender: AnyObject) {
+    }
 
+    @IBAction func markAsSpam(sender: AnyObject) {
+        jahiaServerServices.markAsSpam(post!.identifier!)
+    }
+    @IBAction func blockUser(sender: AnyObject) {
+        jahiaServerServices.blockUser(post!.author!)
+    }
+    @IBAction func deletePost(sender: AnyObject) {
+    }
 }

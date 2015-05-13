@@ -12,6 +12,7 @@ class TaskExtractTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dueDateLabel: UILabel!
+    @IBOutlet weak var assigneeLabel: UILabel!
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var extractLabel: UILabel!
 }

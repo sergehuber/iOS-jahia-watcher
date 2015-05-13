@@ -24,6 +24,23 @@ class TasksTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    func refreshData(sender:AnyObject) {
+        // Code to refresh table view
+        workflowTasks = jahiaServerServices.getWorkflowTasks()
+        if (workflowTasks.count == 0) {
+            return
+        }
+        workflowTasksChildren = workflowTasks["children"] as! NSDictionary
+        
+        let workflowTaskChildrenDict = workflowTasksChildren as Dictionary
+        taskArray = Array(workflowTaskChildrenDict.keys)
+        self.refreshControl?.endRefreshing()
+        self.tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -71,7 +88,16 @@ class TasksTableViewController: UITableViewController {
         
         if let dueDate = task.dueDate {
             cell.dueDateLabel.text = JahiaServerServices.getRelativeTime(dueDate)
+        } else {
+            cell.dueDateLabel.text = ""
         }
+        
+        if let assignee = task.assigneeUserKey {
+            cell.assigneeLabel.text = assignee
+        } else {
+            cell.assigneeLabel.text = "not assigned"
+        }
+        
         
         if let state = task.state {
             cell.stateLabel.text = state

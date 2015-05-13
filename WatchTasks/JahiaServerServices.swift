@@ -219,6 +219,39 @@ class JahiaServerServices {
         return NSDictionary()
     }
     
+    func refreshTask(task : Task) -> Task? {
+        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")!
+        
+        println("Refreshing task \(task.path) ...")
+        
+        let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+            if (httpResponse.statusCode != 200) {
+                println("Error retrieving workflow tasks, probably none were ever created ?")
+            } else {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+                
+                return Task(taskName: task.name!, fromNSDictionary: jsonResult)
+                
+            }
+        } else {
+            println("Couldn't retrieve workflow tasks")
+        }
+        return nil
+    }
+    
     func getTaskActions(task : Task) -> Task {
         if (!areServicesAvailable()) {
             return task
@@ -253,6 +286,7 @@ class JahiaServerServices {
                     var nextActions = [TaskAction]()
                     for possibleAction in possibleActions {
                         let taskAction = TaskAction()
+                        taskAction.displayName = possibleAction["displayName"] as? String
                         taskAction.name = possibleAction["name"] as? String
                         taskAction.finalOutcome = possibleAction["finalOutcome"] as? String
                         nextActions.append(taskAction)
@@ -267,6 +301,39 @@ class JahiaServerServices {
         return task
     }
     
+    func performTaskAction(task: Task, actionName : String, finalOutcome : String?) {
+        println("Sending task action \(actionName) with outcome \(finalOutcome) to Jahia server...")
+        
+        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.taskActionsUrl(task.path!))!
+        let request = NSMutableURLRequest(URL: jahiaTaskActionsURL)
+        let requestString : String = "action=\(actionName)" + ((finalOutcome != nil) ? "&finalOutcome=\(finalOutcome!)" : "");
+        let postData = NSMutableData()
+        postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        
+        request.HTTPMethod = "POST"
+        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = postData
+        request.timeoutInterval = 4
+        
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println(httpResponse.statusCode)
+            servicesAvailable = true
+            let userPath = getUserPath()
+            if let realUserPath = userPath {
+                jahiaWatcherSettings.jahiaUserPath = realUserPath
+            }
+        } else {
+            println("Login failed")
+        }
+        
+    }
+    
     func getLatestPosts() -> NSArray {
         if (!areServicesAvailable()) {
             return NSArray()
@@ -276,6 +343,7 @@ class JahiaServerServices {
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/live/en/query")!
         
         let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
         let requestString : String = "{\"query\" : \"select * from [jnt:post] as p order by p.[jcr:created] desc\", \"limit\": 20, \"offset\":0 }";
         let postData = NSMutableData()
         postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)

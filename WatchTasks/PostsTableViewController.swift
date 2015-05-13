@@ -21,6 +21,17 @@ class PostsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
+        // self.tableView.addSubview(refreshControl)
+    }
+    
+    func refreshData(sender:AnyObject) {
+        // Code to refresh table view
+        latestPosts = jahiaServerServices.getLatestPosts();
+        self.refreshControl?.endRefreshing()
+        self.tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {

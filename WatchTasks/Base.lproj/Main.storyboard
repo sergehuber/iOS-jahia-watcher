@@ -185,13 +185,29 @@
                                     <constraint firstAttribute="width" id="fYl-DR-vGG"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Reply" style="plain" id="CnT-Ru-bQY" userLabel="Reply"/>
+                                    <barButtonItem title="Reply" style="plain" id="CnT-Ru-bQY" userLabel="Reply">
+                                        <connections>
+                                            <action selector="reply:" destination="BnB-6C-Enw" id="wJS-Ao-4Id"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="zRB-mq-BE3"/>
-                                    <barButtonItem title="Mark as spam" id="JBL-NF-yG4"/>
+                                    <barButtonItem title="Mark as spam" id="JBL-NF-yG4">
+                                        <connections>
+                                            <action selector="markAsSpam:" destination="BnB-6C-Enw" id="SRU-7v-z9Z"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="TlS-BY-Ucy"/>
-                                    <barButtonItem title="Block user" id="bcm-ew-Cpq"/>
+                                    <barButtonItem title="Block user" id="bcm-ew-Cpq">
+                                        <connections>
+                                            <action selector="blockUser:" destination="BnB-6C-Enw" id="EU2-EL-9Th"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="fhN-hj-dsa"/>
-                                    <barButtonItem title="Delete" id="ILm-uP-oGi"/>
+                                    <barButtonItem title="Delete" id="ILm-uP-oGi">
+                                        <connections>
+                                            <action selector="deletePost:" destination="BnB-6C-Enw" id="sWL-jv-Hdi"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -610,6 +626,12 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Assignee" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfw-iM-NMC">
+                                            <rect key="frame" x="529" y="29" width="70" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Iax-Pm-D17" firstAttribute="bottom" secondItem="7Zl-2s-SCb" secondAttribute="bottomMargin" id="23b-n9-wKi"/>
@@ -629,6 +651,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="assigneeLabel" destination="Cfw-iM-NMC" id="pi3-qP-DH4"/>
                                     <outlet property="dueDateLabel" destination="Mb5-7j-hJe" id="BEa-3e-LsT"/>
                                     <outlet property="extractLabel" destination="Iax-Pm-D17" id="F1z-L9-kKN"/>
                                     <outlet property="stateLabel" destination="fvQ-Zq-Rjg" id="yc9-IQ-cQT"/>
@@ -660,8 +683,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Task title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTc-CL-K8v">
-                                <rect key="frame" x="32" y="8" width="552" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTc-CL-K8v">
+                                <rect key="frame" x="32" y="8" width="482" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="474" id="uoT-X9-ILm"/>
                                 </constraints>
@@ -680,7 +703,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Task status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3i-AG-2aj">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3i-AG-2aj">
                                 <rect key="frame" x="32" y="29" width="131" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="131" id="6MT-DJ-338"/>
@@ -716,13 +739,24 @@
                                     <segue destination="Mj3-TH-Hx9" kind="show" id="1aw-ot-VX8"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assignee" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fr-Pi-His">
+                                <rect key="frame" x="514" y="8" width="70" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="k7F-u3-ked"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Wue-EW-Jrm" firstAttribute="top" secondItem="JwI-oM-udY" secondAttribute="top" constant="58" id="0fr-Gp-cBa"/>
+                            <constraint firstItem="4fr-Pi-His" firstAttribute="trailing" secondItem="JwI-oM-udY" secondAttribute="trailingMargin" id="3Gh-Ft-fTV"/>
                             <constraint firstItem="Wue-EW-Jrm" firstAttribute="leading" secondItem="b3i-AG-2aj" secondAttribute="leading" id="9qh-7U-8ew"/>
                             <constraint firstItem="QTc-CL-K8v" firstAttribute="top" secondItem="O8M-Ql-9eA" secondAttribute="bottom" constant="8" symbolic="YES" id="C2b-fo-HBu"/>
                             <constraint firstItem="QTc-CL-K8v" firstAttribute="leading" secondItem="JwI-oM-udY" secondAttribute="leadingMargin" constant="16" id="D4W-dP-ojD"/>
+                            <constraint firstItem="4fr-Pi-His" firstAttribute="leading" secondItem="QTc-CL-K8v" secondAttribute="trailing" id="Ebo-wf-1hB"/>
                             <constraint firstItem="Wue-EW-Jrm" firstAttribute="top" secondItem="b3i-AG-2aj" secondAttribute="bottom" constant="8" symbolic="YES" id="H78-h2-yOF"/>
                             <constraint firstItem="wuP-ZT-64m" firstAttribute="leading" secondItem="Wue-EW-Jrm" secondAttribute="leading" id="Ibq-hk-dRS"/>
                             <constraint firstItem="wuP-ZT-64m" firstAttribute="trailing" secondItem="b3i-AG-2aj" secondAttribute="trailing" id="OuC-PS-19R"/>
@@ -732,14 +766,22 @@
                             <constraint firstAttribute="trailing" secondItem="DgS-Rb-VAs" secondAttribute="trailing" id="SM3-tw-iFl"/>
                             <constraint firstItem="RXd-sj-rKd" firstAttribute="trailing" secondItem="JwI-oM-udY" secondAttribute="trailingMargin" id="Zxd-qx-5Wm"/>
                             <constraint firstItem="b3i-AG-2aj" firstAttribute="top" secondItem="QTc-CL-K8v" secondAttribute="bottom" id="ckk-u2-FEE"/>
+                            <constraint firstItem="4fr-Pi-His" firstAttribute="bottom" secondItem="QTc-CL-K8v" secondAttribute="bottom" id="h19-5h-CPP"/>
                             <constraint firstItem="QTc-CL-K8v" firstAttribute="leading" secondItem="b3i-AG-2aj" secondAttribute="leading" id="mku-02-Vid"/>
+                            <constraint firstItem="4fr-Pi-His" firstAttribute="top" secondItem="QTc-CL-K8v" secondAttribute="top" id="nfb-Fs-Pao"/>
                             <constraint firstItem="QTc-CL-K8v" firstAttribute="trailing" secondItem="RXd-sj-rKd" secondAttribute="trailing" id="ngf-WK-ADj"/>
                             <constraint firstItem="DgS-Rb-VAs" firstAttribute="leading" secondItem="JwI-oM-udY" secondAttribute="leading" id="wWe-lM-svx"/>
                             <constraint firstItem="wuP-ZT-64m" firstAttribute="top" secondItem="Wue-EW-Jrm" secondAttribute="bottom" constant="8" symbolic="YES" id="wbd-EF-8Bi"/>
                             <constraint firstItem="RXd-sj-rKd" firstAttribute="baseline" secondItem="b3i-AG-2aj" secondAttribute="baseline" id="zoD-Na-eQt"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ngf-WK-ADj"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="assigneeLabel" destination="4fr-Pi-His" id="vkb-WY-leA"/>
                         <outlet property="descriptionLabel" destination="Wue-EW-Jrm" id="3vX-Jb-jJ9"/>
                         <outlet property="dueDateLabel" destination="RXd-sj-rKd" id="3eE-aN-laP"/>
                         <outlet property="outcomeToolbar" destination="DgS-Rb-VAs" id="ylb-ST-b1g"/>

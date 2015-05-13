@@ -9,6 +9,7 @@
 import Foundation
 
 class TaskAction: NSObject {
+    var displayName : String?
     var name : String?
     var finalOutcome : String?
 }
