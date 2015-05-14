@@ -28,7 +28,7 @@ class TasksTableViewController: UITableViewController {
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
     }
-    
+        
     func refreshData(sender:AnyObject) {
         // Code to refresh table view
         workflowTasks = jahiaServerServices.getWorkflowTasks()
@@ -44,6 +44,7 @@ class TasksTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        SwiftSpinner.show("Loading tasks...", animated:true)
         workflowTasks = jahiaServerServices.getWorkflowTasks()
         if (workflowTasks.count == 0) {
             return
@@ -52,6 +53,7 @@ class TasksTableViewController: UITableViewController {
         
         let workflowTaskChildrenDict = workflowTasksChildren as Dictionary
         taskArray = Array(workflowTaskChildrenDict.keys)
+        SwiftSpinner.hide()
     }
     
     override func didReceiveMemoryWarning() {

@@ -11,6 +11,7 @@ import Foundation
 class Post {
         
     var identifier : String?
+    var path : String?
     var title : String?
     var author : String?
     var date : NSDate?
@@ -19,6 +20,13 @@ class Post {
     
     init(fromNSDictionary : NSDictionary) {
         identifier = fromNSDictionary["id"] as? String
+        path = fromNSDictionary["path"] as? String
+        let mixins = fromNSDictionary["mixins"] as! NSDictionary
+        if (mixins["jmix__spamFilteringSpamDetected"] != nil) {
+            spam = true
+        } else {
+            spam = false
+        }
         let postProperties : NSDictionary = fromNSDictionary["properties"] as! NSDictionary
         let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
         title = titleProperty["value"] as? String

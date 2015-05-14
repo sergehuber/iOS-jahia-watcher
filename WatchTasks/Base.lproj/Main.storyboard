@@ -99,6 +99,7 @@
                                     <outlet property="postAuthorLabel" destination="cYP-HY-dnJ" id="IEn-b4-A0R"/>
                                     <outlet property="postDateLabel" destination="p5i-UI-4lR" id="srf-M3-KfT"/>
                                     <outlet property="postExtractLabel" destination="IkY-2K-rPk" id="bg7-83-J4w"/>
+                                    <outlet property="postMarkedAsSpamLabel" destination="pca-Ey-AHn" id="d4O-iS-wgG"/>
                                     <outlet property="postTitleLabel" destination="aFg-Cu-YTu" id="j9R-QX-Q2Q"/>
                                     <segue destination="BnB-6C-Enw" kind="show" id="hUS-cn-wXD"/>
                                 </connections>
@@ -322,6 +323,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="markAsSpamButton" destination="JBL-NF-yG4" id="rzq-Ev-Xgd"/>
                         <outlet property="markedAsSpamLabel" destination="VKO-eT-28t" id="Yge-q2-7t8"/>
                         <outlet property="postAuthorLabel" destination="fnK-8p-M43" id="bYi-iM-vzU"/>
                         <outlet property="postContentLabel" destination="LKd-4T-T4H" id="582-eF-v6Z"/>

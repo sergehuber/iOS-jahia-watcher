@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications();
         
-        jahiaServerServices.login()
+        JahiaServerServices.messageDelegate = SwiftSpinnerMessageDelegate()
         
         return true
     }

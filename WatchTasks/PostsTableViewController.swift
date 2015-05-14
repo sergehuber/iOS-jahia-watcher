@@ -27,15 +27,16 @@ class PostsTableViewController: UITableViewController {
         // self.tableView.addSubview(refreshControl)
     }
     
+        
     func refreshData(sender:AnyObject) {
         // Code to refresh table view
-        latestPosts = jahiaServerServices.getLatestPosts();
+        latestPosts = jahiaServerServices.getLatestPosts()
         self.refreshControl?.endRefreshing()
         self.tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
-        latestPosts = jahiaServerServices.getLatestPosts();        
+        latestPosts = jahiaServerServices.getLatestPosts()
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +80,15 @@ class PostsTableViewController: UITableViewController {
         if let postAuthor = post.author {
             cell.postAuthorLabel.text = postAuthor
         }
+        
+        if let postSpam = post.spam {
+            if (postSpam) {
+                cell.postMarkedAsSpamLabel.hidden = false
+            } else {
+                cell.postMarkedAsSpamLabel.hidden = true
+            }
+        }
+        
         
         return cell
     }

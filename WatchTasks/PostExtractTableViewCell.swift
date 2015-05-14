@@ -14,6 +14,7 @@ class PostExtractTableViewCell: UITableViewCell {
     @IBOutlet weak var postAuthorLabel: UILabel!
     @IBOutlet weak var postExtractLabel: UILabel!
     @IBOutlet weak var postDateLabel: UILabel!
+    @IBOutlet weak var postMarkedAsSpamLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

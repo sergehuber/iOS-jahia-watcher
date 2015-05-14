@@ -38,6 +38,7 @@ class SettingsViewController: UIViewController {
         jahiaWatcherSettings.jahiaUserName = userNameTextField.text
         jahiaWatcherSettings.jahiaPassword = passwordTextField.text
         jahiaWatcherSettings.save()
+        jahiaServerServices.attemptedLogin = false
         jahiaServerServices.login()
         if self.parentViewController is MainTabBarController {
             let mainTabBarController = self.parentViewController as! MainTabBarController

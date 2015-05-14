@@ -51,6 +51,11 @@
 		F4F412D01B0250F500DB21BD /* TaskAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412CE1B0250F500DB21BD /* TaskAction.swift */; };
 		F4F412D11B0250F500DB21BD /* TaskAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412CE1B0250F500DB21BD /* TaskAction.swift */; };
 		F4F412D71B03276400DB21BD /* IdUIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412D61B03276400DB21BD /* IdUIBarButtonItem.swift */; };
+		F4F412D91B04D35E00DB21BD /* SwiftSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412D81B04D35E00DB21BD /* SwiftSpinner.swift */; };
+		F4F412DB1B04D63F00DB21BD /* MessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */; };
+		F4F412DD1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */; };
+		F4F412DE1B04DE1F00DB21BD /* MessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */; };
+		F4F412DF1B04DE2000DB21BD /* MessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */; };
 		F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4FFCA7F1AADE39600B2F040 /* logo-jahia-small.png in Resources */ = {isa = PBXBuildFile; fileRef = F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */; };
@@ -142,6 +147,9 @@
 		F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskContentPreviewViewController.swift; sourceTree = "<group>"; };
 		F4F412CE1B0250F500DB21BD /* TaskAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskAction.swift; sourceTree = "<group>"; };
 		F4F412D61B03276400DB21BD /* IdUIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdUIBarButtonItem.swift; sourceTree = "<group>"; };
+		F4F412D81B04D35E00DB21BD /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
+		F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDelegate.swift; sourceTree = "<group>"; };
+		F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinnerMessageDelegate.swift; sourceTree = "<group>"; };
 		F4F7AD131AEA865000AFBBB8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WatchTasks/Post.swift; sourceTree = "<group>"; };
 		F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-jahia-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -180,6 +188,7 @@
 				F4478D941AFC998B00763D5C /* NSDate+RelativeTime.swift */,
 				F4478D981AFC9F0D00763D5C /* Task.swift */,
 				F4F412CE1B0250F500DB21BD /* TaskAction.swift */,
+				F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */,
 			);
 			name = "Shared Code";
 			sourceTree = "<group>";
@@ -210,6 +219,7 @@
 		F4EB43BC1AAD7E910049F30F /* Jahia Watcher */ = {
 			isa = PBXGroup;
 			children = (
+				F4F412D81B04D35E00DB21BD /* SwiftSpinner.swift */,
 				F4428C401AD412430034A722 /* Jahia Watcher.entitlements */,
 				F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */,
 				F4EB43C11AAD7E910049F30F /* FirstViewController.swift */,
@@ -228,6 +238,7 @@
 				F4478DA21AFCA27000763D5C /* TaskExtractTableViewCell.swift */,
 				F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */,
 				F4F412D61B03276400DB21BD /* IdUIBarButtonItem.swift */,
+				F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */,
 			);
 			name = "Jahia Watcher";
 			path = WatchTasks;
@@ -493,6 +504,7 @@
 				F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4428C431AD41AEE0034A722 /* JahiaWatcherSettings.swift in Sources */,
 				F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */,
+				F4F412D91B04D35E00DB21BD /* SwiftSpinner.swift in Sources */,
 				F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */,
 				F4428C461AD534490034A722 /* SettingsViewController.swift in Sources */,
 				F4428C481AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
@@ -500,12 +512,14 @@
 				F4478D991AFC9F0D00763D5C /* Task.swift in Sources */,
 				F4478DA11AFCA24F00763D5C /* TaskDetailViewController.swift in Sources */,
 				F4478DA31AFCA27000763D5C /* TaskExtractTableViewCell.swift in Sources */,
+				F4F412DB1B04D63F00DB21BD /* MessageDelegate.swift in Sources */,
 				F4F412CD1B00D91300DB21BD /* TaskContentPreviewViewController.swift in Sources */,
 				F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */,
 				F4478D951AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
 				F4EB43C21AAD7E910049F30F /* FirstViewController.swift in Sources */,
 				F4478D9F1AFCA13100763D5C /* TasksTableViewController.swift in Sources */,
 				F4428C581AD5638D0034A722 /* PostsTableViewController.swift in Sources */,
+				F4F412DD1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift in Sources */,
 				F4F412D71B03276400DB21BD /* IdUIBarButtonItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,6 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F412DE1B04DE1F00DB21BD /* MessageDelegate.swift in Sources */,
 				F4F412D01B0250F500DB21BD /* TaskAction.swift in Sources */,
 				F4EB43D81AAD7E910049F30F /* JahiaWatcherTests.swift in Sources */,
 				F4478D961AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
@@ -528,6 +543,7 @@
 				F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */,
 				F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
 				F4478D971AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
+				F4F412DF1B04DE2000DB21BD /* MessageDelegate.swift in Sources */,
 				F4428C441AD422740034A722 /* JahiaWatcherSettings.swift in Sources */,
 				F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4428C4C1AD554580034A722 /* PostsInterfaceController.swift in Sources */,
