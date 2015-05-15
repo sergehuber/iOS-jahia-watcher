@@ -42,11 +42,13 @@ class ConfirmationDialogInterfaceController: WKInterfaceController {
         if let realYesHandler = yesHandler {
             realYesHandler(context: confirmationDialogContext!)
         }
+        dismissController()
     }
     
     @IBAction func noButtonPressed() {
         if let realNoHandler = noHandler {
             realNoHandler(context: confirmationDialogContext!)
         }
+        dismissController()
     }
 }

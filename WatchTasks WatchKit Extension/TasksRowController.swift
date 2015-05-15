@@ -6,8 +6,12 @@
 //  Copyright (c) 2015 Jahia Solutions. All rights reserved.
 //
 
-import UIKit
+import WatchKit
 
-class TasksRowController: NSObject {
-   
+class TasksRowController : NSObject {
+    
+    @IBOutlet weak var taskNameLabel: WKInterfaceLabel!
+    @IBOutlet weak var taskAssigneeUserKeyLabel: WKInterfaceLabel!
+    @IBOutlet weak var taskDescriptionLabel: WKInterfaceLabel!
+    @IBOutlet weak var taskStateLabel: WKInterfaceLabel!
 }

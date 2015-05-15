@@ -12,10 +12,32 @@ import Foundation
 
 class TaskDetailInterfaceController: WKInterfaceController {
 
+    @IBOutlet weak var nameLabel: WKInterfaceLabel!
+    @IBOutlet weak var assigneeUserKeyLabel: WKInterfaceLabel!
+    @IBOutlet weak var descriptionLabel: WKInterfaceLabel!
+    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    var task : Task?
+    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
+        task = context as? Task
+            nameLabel.setText(task!.name)
+            assigneeUserKeyLabel.setText(task!.assigneeUserKey)
+            descriptionLabel.setText(task!.description)
+            
+            let updatedTask = jahiaServerServices.getTaskActions(task!)
+            if (updatedTask.nextActions != nil) {
+                for nextAction in updatedTask.nextActions! {
+                    let actionSelector = Selector(nextAction.name! + "Pressed:")
+                    addMenuItemWithItemIcon(WKMenuItemIcon.Accept, title: nextAction.displayName!, action: actionSelector)
+                }
+            }
         // Configure interface objects here.
+    }
+    
+    func assignToMePressed(sender : AnyObject?) {
+        jahiaServerServices.performTaskAction(task!, actionName: "assignToMe", finalOutcome: nil)
     }
 
     override func willActivate() {

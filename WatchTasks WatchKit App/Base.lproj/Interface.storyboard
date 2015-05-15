@@ -60,18 +60,43 @@
                             <color key="backgroundColor" red="0.16470588235294117" green="0.50980392156862742" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                             <edgeInsets key="margins" left="2" right="2" top="0.0" bottom="0.0"/>
                         </group>
-                        <label width="1" alignment="left" text="No tasks found" textAlignment="center" numberOfLines="2" id="dpq-An-stF"/>
+                        <label width="1" alignment="left" text="No tasks found" textAlignment="center" numberOfLines="2" id="dpq-An-stF">
+                            <fontDescription key="font" type="system" pointSize="8"/>
+                        </label>
                         <table alignment="left" id="GXe-Cs-4W0">
                             <items>
                                 <tableRow identifier="taskRow" id="Bsu-a9-ZnF" customClass="TasksRowController" customModule="Jahia_Watcher_WatchKit_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="W0J-Hf-ztR">
+                                    <group key="rootItem" width="1" alignment="left" layout="vertical" spacing="0.0" id="W0J-Hf-ztR">
                                         <items>
-                                            <label alignment="left" text="Label" id="Z5L-G8-fJR"/>
+                                            <group width="1" alignment="left" spacing="0.0" id="UH2-mG-jao">
+                                                <items>
+                                                    <label width="0.60000000000000009" alignment="left" text="Task name" id="Z5L-G8-fJR">
+                                                        <fontDescription key="font" type="system" pointSize="12"/>
+                                                    </label>
+                                                    <label width="0.40000000000000013" alignment="left" text="Assignee" textAlignment="right" id="5Xv-yv-j7w">
+                                                        <fontDescription key="font" type="system" pointSize="8"/>
+                                                    </label>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                            <label width="1" alignment="left" text="Status" id="8v3-QY-Z8C">
+                                                <fontDescription key="font" type="system" pointSize="8"/>
+                                            </label>
+                                            <label width="1" alignment="left" text="Description" id="BhG-UY-D6A">
+                                                <fontDescription key="font" type="system" pointSize="10"/>
+                                            </label>
                                         </items>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                         <connections>
                                             <segue destination="6tc-QF-REN" kind="push" id="DyE-kZ-lD9"/>
                                         </connections>
                                     </group>
+                                    <connections>
+                                        <outlet property="taskAssigneeUserKeyLabel" destination="5Xv-yv-j7w" id="0zo-8l-eIq"/>
+                                        <outlet property="taskDescriptionLabel" destination="BhG-UY-D6A" id="GAw-8M-Hmv"/>
+                                        <outlet property="taskNameLabel" destination="Z5L-G8-fJR" id="Fpl-pl-8wq"/>
+                                        <outlet property="taskStateLabel" destination="8v3-QY-Z8C" id="zN8-9V-AVl"/>
+                                    </connections>
                                 </tableRow>
                             </items>
                         </table>
@@ -83,6 +108,7 @@
                     </items>
                     <connections>
                         <outlet property="tasksLabel" destination="dpq-An-stF" id="28X-ln-BHi"/>
+                        <outlet property="tasksTable" destination="GXe-Cs-4W0" id="ulO-ai-aMs"/>
                         <outlet property="viewTasksButton" destination="VpO-2A-URB" id="Hp1-PX-yF1"/>
                     </connections>
                 </controller>
@@ -102,11 +128,28 @@
                             <color key="backgroundColor" red="0.1647058824" green="0.50980392159999999" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                             <edgeInsets key="margins" left="2" right="2" top="0.0" bottom="0.0"/>
                         </group>
-                        <label width="1" alignment="left" text="Title" id="jve-I5-MOG">
-                            <fontDescription key="font" type="boldSystem" pointSize="16"/>
-                        </label>
-                        <label width="1" alignment="left" text="Body" numberOfLines="0" id="Ahg-aq-cOG"/>
+                        <group width="1" alignment="left" id="1Gn-CL-ScE">
+                            <items>
+                                <label width="0.60000000000000009" alignment="left" text="Name" id="jve-I5-MOG">
+                                    <fontDescription key="font" type="boldSystem" pointSize="16"/>
+                                </label>
+                                <label width="0.40000000000000013" alignment="left" text="Assignee" textAlignment="right" id="IjX-A0-AkL">
+                                    <fontDescription key="font" type="system" pointSize="10"/>
+                                </label>
+                            </items>
+                        </group>
+                        <label width="1" alignment="left" text="Description" numberOfLines="0" id="Ahg-aq-cOG"/>
                     </items>
+                    <menu key="menu" id="9Jb-Fe-f9D">
+                        <items>
+                            <menuItem title="Menu Item" id="HfL-ca-AjO"/>
+                        </items>
+                    </menu>
+                    <connections>
+                        <outlet property="assigneeUserKeyLabel" destination="IjX-A0-AkL" id="CYX-gA-Sfg"/>
+                        <outlet property="descriptionLabel" destination="Ahg-aq-cOG" id="gIV-5p-bmn"/>
+                        <outlet property="nameLabel" destination="jve-I5-MOG" id="YB9-YB-ag0"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="483" y="701"/>
@@ -132,15 +175,15 @@
                                         <group width="1" height="1" alignment="left" id="B5E-Kw-o9q">
                                             <items>
                                                 <imageView width="0.5" height="20" alignment="left" image="ConnectedUsersIcon" contentMode="scaleAspectFit" id="qGd-P8-JcD"/>
-                                                <label width="0.5" alignment="left" text="100" textAlignment="left" id="DKR-Cs-4Xz">
+                                                <label width="0.5" alignment="left" text="100" textAlignment="center" id="DKR-Cs-4Xz">
                                                     <fontDescription key="font" type="boldSystem" pointSize="18"/>
                                                 </label>
                                             </items>
                                             <edgeInsets key="margins" left="0.0" right="0.0" top="2" bottom="0.0"/>
                                         </group>
-                                        <label width="1" alignment="left" text="Users in last 20 posts" textAlignment="center" id="JaW-Ga-z4z">
+                                        <label width="1" alignment="left" text="(users in last 20 posts)" textAlignment="center" id="JaW-Ga-z4z">
                                             <color key="textColor" red="0.16470588235294117" green="0.50980392156862742" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="system" pointSize="12"/>
+                                            <fontDescription key="font" type="system" pointSize="10"/>
                                         </label>
                                     </items>
                                 </group>
@@ -343,10 +386,18 @@
         <!--confirmationDialog-->
         <scene sceneID="gYV-BP-3ej">
             <objects>
-                <controller identifier="confirmationDialog" id="gWQ-Uj-4y2" customClass="ConfirmationDialogInterfaceController" customModule="Jahia_Watcher">
+                <controller identifier="confirmationDialog" backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFill" id="gWQ-Uj-4y2" customClass="ConfirmationDialogInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
                     <items>
-                        <label alignment="left" text="Title" id="abn-OU-poH"/>
-                        <label width="1" alignment="left" text="message" textAlignment="center" id="dBL-en-MaK"/>
+                        <group width="1" alignment="left" id="2QH-w6-hsX">
+                            <items>
+                                <label width="1" alignment="left" text="Title" textAlignment="center" minimumScaleFactor="0.50000000000000011" id="abn-OU-poH"/>
+                            </items>
+                            <color key="backgroundColor" red="0.16470588235294117" green="0.50980392156862742" blue="1" alpha="0.67000000000000004" colorSpace="calibratedRGB"/>
+                            <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
+                        </group>
+                        <label width="1" alignment="left" text="message" textAlignment="left" numberOfLines="0" id="dBL-en-MaK">
+                            <fontDescription key="font" type="system" pointSize="12"/>
+                        </label>
                         <button width="1" alignment="left" title="Yes" id="hMd-t1-8Kh">
                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>

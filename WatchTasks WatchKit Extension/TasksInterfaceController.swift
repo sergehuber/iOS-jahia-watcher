@@ -16,7 +16,11 @@ class TasksInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var tasksLabel: WKInterfaceLabel!
     
+    @IBOutlet weak var tasksTable: WKInterfaceTable!
+
     @IBOutlet weak var viewTasksButton: WKInterfaceButton!
+    
+    var workflowTasks : [Task]?
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -25,13 +29,13 @@ class TasksInterfaceController: WKInterfaceController {
         
         jahiaServerServices.login()
 
-        let workflowTasks = jahiaServerServices.getWorkflowTasks()
+        workflowTasks = jahiaServerServices.getWorkflowTasks()
 
         var openTaskCount = 0;
         
-        if (workflowTasks.count > 0) {
-            println("\(workflowTasks.count) tasks found.")
-            for task in workflowTasks {
+        if (workflowTasks!.count > 0) {
+            println("\(workflowTasks!.count) tasks found.")
+            for task in workflowTasks! {
                 if (task.state! != "finished") {
                     openTaskCount++;
                 }
@@ -49,6 +53,21 @@ class TasksInterfaceController: WKInterfaceController {
             viewTasksButton.setHidden(false)
         }
         
+        tasksTable.setNumberOfRows(workflowTasks!.count, withRowType: "taskRow")
+        for i in 0...workflowTasks!.count-1 {
+            let tasksRowController = tasksTable.rowControllerAtIndex(i) as! TasksRowController
+            let task = workflowTasks![i]
+            tasksRowController.taskNameLabel.setText(task.name)
+            tasksRowController.taskAssigneeUserKeyLabel.setText(task.assigneeUserKey)
+            tasksRowController.taskDescriptionLabel.setText(task.description)
+            tasksRowController.taskStateLabel.setText(task.state)
+        }
+        
+        
+    }
+    
+    override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table:WKInterfaceTable, rowIndex: Int) -> AnyObject? {
+        return workflowTasks![rowIndex]
     }
     
     @IBAction func viewTasks() {
