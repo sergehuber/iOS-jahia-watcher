@@ -12,10 +12,9 @@ import UIKit
 class TasksTableViewController: UITableViewController {
 
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    var workflowTasks : NSDictionary = NSDictionary()
-    var workflowTasksChildren : NSDictionary = NSDictionary()
-    var taskArray : [AnyObject] = Array()
-
+    var workflowTasks : [Task] = [Task]()
+    var needsRefreshing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,33 +26,32 @@ class TasksTableViewController: UITableViewController {
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
+            if (self.workflowTasks.count == 0) {
+                return
+            }
+            self.tableView.reloadData()
+        }
     }
         
     func refreshData(sender:AnyObject) {
         // Code to refresh table view
-        workflowTasks = jahiaServerServices.getWorkflowTasks()
-        if (workflowTasks.count == 0) {
-            return
+        dispatch_async(dispatch_get_main_queue()) {
+            self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
+            if (self.workflowTasks.count == 0) {
+                return
+            }
+            self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
         }
-        workflowTasksChildren = workflowTasks["children"] as! NSDictionary
-        
-        let workflowTaskChildrenDict = workflowTasksChildren as Dictionary
-        taskArray = Array(workflowTaskChildrenDict.keys)
-        self.refreshControl?.endRefreshing()
-        self.tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
-        SwiftSpinner.show("Loading tasks...", animated:true)
-        workflowTasks = jahiaServerServices.getWorkflowTasks()
-        if (workflowTasks.count == 0) {
-            return
+        if (needsRefreshing) {
+            self.tableView.reloadData()
+            needsRefreshing = false
         }
-        workflowTasksChildren = workflowTasks["children"] as! NSDictionary
-        
-        let workflowTaskChildrenDict = workflowTasksChildren as Dictionary
-        taskArray = Array(workflowTaskChildrenDict.keys)
-        SwiftSpinner.hide()
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,7 +70,7 @@ class TasksTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return workflowTasksChildren.count
+        return workflowTasks.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -80,9 +78,7 @@ class TasksTableViewController: UITableViewController {
         
         // Configure the cell...
         let currentIndex : Int = indexPath.row
-        let taskName = taskArray[currentIndex] as! String
-        let workflowTask : NSDictionary = workflowTasksChildren[taskName] as! NSDictionary
-        let task : Task = Task(taskName: taskName, fromNSDictionary: workflowTask)
+        let task = workflowTasks[currentIndex]
         
         if let title = task.title {
             cell.titleLabel.text = title
@@ -156,10 +152,10 @@ class TasksTableViewController: UITableViewController {
         let taskDetailViewController = segue.destinationViewController as! TaskDetailViewController
         let selectedIndexPath = self.tableView.indexPathForSelectedRow()
         if let indexPath = selectedIndexPath {
-            let taskName = taskArray[indexPath.row] as! String
-            let workflowTask : NSDictionary = workflowTasksChildren[taskName] as! NSDictionary
-            let task = Task(taskName: taskName, fromNSDictionary: workflowTask)
+            let task = workflowTasks[indexPath.row]
             taskDetailViewController.task = task
+            taskDetailViewController.tasksTableViewController = self
+            taskDetailViewController.taskIndex = indexPath.row
         }
     }
 

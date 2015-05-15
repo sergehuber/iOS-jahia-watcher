@@ -41,11 +41,10 @@ class MainInterfaceController: WKInterfaceController {
             case "viewPostAction" :
                 println("View post action")
                 let latestPosts = jahiaServerServices.getLatestPosts()
-                var post : NSDictionary?;
+                var post : Post?
                 for currentPost in latestPosts {
-                    if (currentPost["id"] as! String == nodeIdentifier) {
-                        post = currentPost as? NSDictionary
-                    }
+                    if (currentPost.identifier == nodeIdentifier) {
+                        post = currentPost                    }
                 }
                 if (post != nil) {
                     pushControllerWithName("postDetailController", context: post)

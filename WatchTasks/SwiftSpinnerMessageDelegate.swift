@@ -11,12 +11,12 @@ import Foundation
 class SwiftSpinnerMessageDelegate : MessageDelegate {
 
     func displayMessage(message : String) {
-        SwiftSpinner.show(message, animated:true)
+        //SwiftSpinner.show(message, animated:true)
         println("message:" + message)
     }
     
     func hideAllMessages() {
-        SwiftSpinner.hide()
+        //SwiftSpinner.hide()
     }
     
     

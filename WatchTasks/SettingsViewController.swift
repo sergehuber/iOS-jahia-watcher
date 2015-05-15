@@ -39,7 +39,15 @@ class SettingsViewController: UIViewController {
         jahiaWatcherSettings.jahiaPassword = passwordTextField.text
         jahiaWatcherSettings.save()
         jahiaServerServices.attemptedLogin = false
-        jahiaServerServices.login()
+        if (!jahiaServerServices.login()) {
+            let alertController = UIAlertController(title: "Login error", message: "Login failed. ",preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: { action in
+                // do nothing
+            }))
+            self.presentViewController(alertController, animated: true) {
+                
+            }
+        }
         if self.parentViewController is MainTabBarController {
             let mainTabBarController = self.parentViewController as! MainTabBarController
             mainTabBarController.displayPosts()

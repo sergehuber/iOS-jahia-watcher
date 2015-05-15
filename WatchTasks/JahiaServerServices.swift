@@ -39,8 +39,9 @@ class JahiaServerServices {
         JahiaServerServices.hideMessages()
     }
     
-    func login() {
+    func login() -> Bool {
         
+        var result : Bool = false
         mprintln("Logging into Jahia...")
         
         let jahiaLoginURL : NSURL = NSURL(string: jahiaWatcherSettings.loginUrl())!
@@ -69,6 +70,7 @@ class JahiaServerServices {
                 if let realUserPath = userPath {
                     jahiaWatcherSettings.jahiaUserPath = realUserPath
                 }
+                result = true
             } else {
                 mprintln("Error during login!")
             }
@@ -77,6 +79,7 @@ class JahiaServerServices {
             loggedIn = false
         }
         hideMessages()
+        return result
     }
     
     func areServicesAvailable() -> Bool {
@@ -215,11 +218,12 @@ class JahiaServerServices {
         return nil;
     }
     
-    func getWorkflowTasks() -> NSDictionary {
+    func getWorkflowTasks() -> [Task] {
+        var taskArray = [Task]()
         if (!areServicesAvailable()) {
-            return NSDictionary()
+            return taskArray
         }
-        
+
         mprintln("Retrieving workflow tasks...")
         
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/default/en/paths\(jahiaWatcherSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
@@ -242,15 +246,20 @@ class JahiaServerServices {
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
                 var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
                 
-                hideMessages()
-                return jsonResult
+                let workflowTasksChildren = jsonResult["children"] as! NSDictionary
                 
+                let workflowTaskChildrenDict = workflowTasksChildren as! [String:NSDictionary]
+                
+                for (key,value) in workflowTaskChildrenDict {
+                    let task = Task(taskName: key, fromNSDictionary: value)
+                    taskArray.append(task)
+                }
             }
         } else {
             mprintln("Couldn't retrieve workflow tasks")
         }
         hideMessages()
-        return NSDictionary()
+        return taskArray
     }
     
     func refreshTask(task : Task) -> Task? {
@@ -340,7 +349,8 @@ class JahiaServerServices {
         return task
     }
     
-    func performTaskAction(task: Task, actionName : String, finalOutcome : String?) {
+    func performTaskAction(task: Task, actionName : String, finalOutcome : String?) -> Bool {
+        var result = false
         mprintln("Sending task action \(actionName) with outcome \(finalOutcome) to Jahia server...")
         
         let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.taskActionsUrl(task.path!))!
@@ -363,17 +373,19 @@ class JahiaServerServices {
         if let httpResponse = response as? NSHTTPURLResponse {
             if (httpResponse.statusCode == 200) {
                 mprintln("Action sent successfully.")
+                result = true
             }
         } else {
             mprintln("Action sending failed")
         }
         hideMessages()
-        
+        return result
     }
     
-    func getLatestPosts() -> NSArray {
+    func getLatestPosts() -> [Post] {
+        var posts = [Post]()
         if (!areServicesAvailable()) {
-            return NSArray()
+            return posts
         }
         mprintln("Retrieving latest posts...")
         
@@ -404,17 +416,19 @@ class JahiaServerServices {
                 mprintln("Error retrieving latest posts!")
             } else {
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSArray
-                
-                hideMessages()
-                return jsonResult
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
+
+                for postDict in jsonResult {
+                    let post = Post(fromNSDictionary: postDict)
+                    posts.append(post)
+                }
                 
             }
         } else {
             mprintln("Couldn't retrieve latest posts!")
         }
         hideMessages()
-        return NSArray()
+        return posts
         
     }
     

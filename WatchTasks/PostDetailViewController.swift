@@ -21,6 +21,9 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var markAsSpamButton: UIBarButtonItem!
     
     var post : Post?
+    var postsTableViewController : PostsTableViewController?
+    var postIndex : Int?
+    var postDeleted = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +73,21 @@ class PostDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func viewWillDisappear(animated : Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (self.isMovingFromParentViewController()){
+            // we update the list entry
+            if (postDeleted) {
+                postsTableViewController!.latestPosts.removeAtIndex(postIndex!)
+            } else {
+                postsTableViewController!.latestPosts[postIndex!] = post!
+            }
+            postsTableViewController!.needsRefreshing = true
+        }
+    }
+    
     @IBAction func reply(sender: AnyObject) {
     }
 

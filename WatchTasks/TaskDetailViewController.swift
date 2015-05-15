@@ -22,10 +22,14 @@ class TaskDetailViewController: UIViewController {
     @IBOutlet weak var outcomeToolbar: UIToolbar!
     @IBOutlet weak var previewButton: UIButton!
     var task : Task?
+    var taskIndex : Int?
+    var tasksTableViewController : TasksTableViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayTask()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.displayTask()
+        }
     }
     
     func displayTask() {
@@ -94,8 +98,10 @@ class TaskDetailViewController: UIViewController {
         } else {
             println("Action triggered for \(sender.title) with tag \(sender.tag)")
         }
-        task = jahiaServerServices.refreshTask(task!)
-        displayTask()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.task = self.jahiaServerServices.refreshTask(self.task!)
+            self.displayTask()
+        }
     }
     
     /*
@@ -109,5 +115,16 @@ class TaskDetailViewController: UIViewController {
         let taskContentPreviewController = segue.destinationViewController as! TaskContentPreviewViewController
         taskContentPreviewController.contentUrl = jahiaWatcherSettings.contentRenderUrl(task!.previewUrl!)
     }
+    
+    override func viewWillDisappear(animated : Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (self.isMovingFromParentViewController()){
+            // we update the list entry
+            tasksTableViewController!.workflowTasks[taskIndex!] = task!
+            tasksTableViewController!.needsRefreshing = true
+        }
+    }
+    
     
 }

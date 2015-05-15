@@ -11,7 +11,8 @@ import UIKit
 class PostsTableViewController: UITableViewController {
 
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    var latestPosts : NSArray = NSArray()
+    var latestPosts = [Post]()
+    var needsRefreshing = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,18 +26,27 @@ class PostsTableViewController: UITableViewController {
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
         // self.tableView.addSubview(refreshControl)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            self.tableView.reloadData()
+        }
     }
     
         
     func refreshData(sender:AnyObject) {
         // Code to refresh table view
-        latestPosts = jahiaServerServices.getLatestPosts()
-        self.refreshControl?.endRefreshing()
-        self.tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
-        latestPosts = jahiaServerServices.getLatestPosts()
+        if needsRefreshing {
+            tableView.reloadData()
+            needsRefreshing = false
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,8 +73,7 @@ class PostsTableViewController: UITableViewController {
 
         // Configure the cell...
         let currentIndex : Int = indexPath.row
-        let post : Post = Post(fromNSDictionary: latestPosts[currentIndex] as! NSDictionary)
-        
+        let post = latestPosts[currentIndex]
         if let postTitle = post.title {
             cell.postTitleLabel.text = postTitle
         }
@@ -137,8 +146,10 @@ class PostsTableViewController: UITableViewController {
         let postDetailViewController = segue.destinationViewController as! PostDetailViewController
         let selectedIndexPath = self.tableView.indexPathForSelectedRow()
         if let indexPath = selectedIndexPath {
-            let post = Post(fromNSDictionary: latestPosts[indexPath.row] as! NSDictionary)
+            let post = latestPosts[indexPath.row]
             postDetailViewController.post = post
+            postDetailViewController.postIndex = indexPath.row
+            postDetailViewController.postsTableViewController = self
         }
     }
 

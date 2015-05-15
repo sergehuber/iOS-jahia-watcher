@@ -25,18 +25,14 @@ class TasksInterfaceController: WKInterfaceController {
         
         jahiaServerServices.login()
 
-        let workflowTasks : NSDictionary = jahiaServerServices.getWorkflowTasks()
+        let workflowTasks = jahiaServerServices.getWorkflowTasks()
 
         var openTaskCount = 0;
         
         if (workflowTasks.count > 0) {
-            let taskChildren : NSDictionary = workflowTasks["children"] as! NSDictionary
-            println("\(taskChildren.count) tasks found.")
-            for (taskName, task) in taskChildren {
-                let taskProperties = task["properties"] as! NSDictionary
-                let taskState = taskProperties["state"] as! NSDictionary
-                let taskStateValue = taskState["value"] as! NSString
-                if (taskStateValue != "finished") {
+            println("\(workflowTasks.count) tasks found.")
+            for task in workflowTasks {
+                if (task.state! != "finished") {
                     openTaskCount++;
                 }
             }
