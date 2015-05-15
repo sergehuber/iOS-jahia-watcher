@@ -18,40 +18,17 @@ class PostDetailInterfaceController: WKInterfaceController {
     @IBOutlet weak var postAuthorLabel: WKInterfaceLabel!
     @IBOutlet weak var postBodyLabel: WKInterfaceLabel!
     
-    var postTitle : String = ""
-    var postIdentifier : String = ""
-    var postAuthor : String = ""
-    var postDate : NSDate = NSDate()
-    var postContent : String = ""
+    var post : Post?
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
-        let post = context as! NSDictionary
-        postIdentifier = post["id"] as! String
-        let postProperties : NSDictionary = post["properties"] as! NSDictionary
-        let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
-        postTitle = titleProperty["value"] as! String
-        postTitleLabel.setText(postTitle as String)
-        let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
-        let createdProperty  : NSDictionary? = postProperties["jcr__created"] as? NSDictionary
-        let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
-        if (contentProperty != nil) {
-            var postContent : String = contentProperty!["value"] as! String
-            postContent = JahiaServerServices.stripHTML(postContent)
-            postBodyLabel.setText(postContent)
-        }
-        if (createdProperty != nil) {
-            let createdValue : NSNumber = createdProperty!["value"] as! NSNumber
-            let postDateTimeInterval = NSTimeInterval(createdValue.longValue / 1000)
-            postDate = NSDate(timeIntervalSince1970: postDateTimeInterval)
-            postDateLabel.setText("\(postDate)")
-        }
-        if (createdByProperty != nil) {
-            postAuthor = createdByProperty!["value"] as! String
-            postAuthorLabel.setText(postAuthor)
-        }
+        post = context as? Post
+        postTitleLabel.setText(post!.title)
+        postBodyLabel.setText(post!.content)
+        postDateLabel.setText("\(post!.date!.relativeTime)")
+        postAuthorLabel.setText(post!.author!)
     }
     
     override func willActivate() {
@@ -69,8 +46,8 @@ class PostDetailInterfaceController: WKInterfaceController {
     }
     
     @IBAction func markAsSpam() {
-        println("Marking post \(postIdentifier) as spam...")
-        jahiaServerServices.markAsSpam(postIdentifier)
+        println("Marking post \(post!.path!) as spam...")
+        jahiaServerServices.markAsSpam(post!.identifier!)
     }
     
     @IBAction func deletePost() {
@@ -78,7 +55,7 @@ class PostDetailInterfaceController: WKInterfaceController {
     }
     
     @IBAction func blockUser() {
-        println("Blocking user \(postAuthor)...")
-        jahiaServerServices.blockUser(postAuthor)
+        println("Blocking user \(post!.author!)...")
+        jahiaServerServices.blockUser(post!.author!)
     }
 }

@@ -27,34 +27,20 @@ class GlanceController: WKInterfaceController {
         // Configure interface objects here.
         jahiaServerServices.login()
         
-        let latestPosts : NSArray = jahiaServerServices.getLatestPosts()
-        var lastPostTime : Int = 0
+        let latestPosts = jahiaServerServices.getLatestPosts()
+        var lastestPostDate : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(0))
         var uniqueUsers = [String:String]()
 
         for latestPost in latestPosts {
-            let postProperties : NSDictionary = latestPost["properties"] as! NSDictionary
-            let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
-            let postTitle : NSString = titleProperty["value"] as! NSString
-            let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
-            let createdProperty  : NSDictionary? = postProperties["jcr__created"] as? NSDictionary
-            let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
-            if (contentProperty != nil) {
-                let postContent : NSString = contentProperty!["value"] as! NSString
+            if (latestPost.author != nil) {
+                uniqueUsers[latestPost.author!] = latestPost.author
             }
-            if (createdProperty != nil) {
-                let createdValue : NSNumber = createdProperty!["value"] as! NSNumber
-                if (createdValue.longValue > lastPostTime) {
-                    lastPostTime = createdValue.longValue
-                }
-            }
-            if (createdByProperty != nil) {
-                let createdByValue : String = createdByProperty!["value"] as! String
-                uniqueUsers[createdByValue] = createdByValue
+            if (lastestPostDate.compare(latestPost.date!) == NSComparisonResult.OrderedAscending) {
+                lastestPostDate = latestPost.date!
             }
         }
 
-        let dateValue : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(lastPostTime/1000));
-        lastPostDate.setText("\(dateValue)")
+        lastPostDate.setText("\(lastestPostDate.relativeTime)")
         last24hoursUsers.setText("\(uniqueUsers.count)")
         
         let workflowTasks = jahiaServerServices.getWorkflowTasks()

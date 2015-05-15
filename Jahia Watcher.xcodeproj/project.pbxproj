@@ -274,16 +274,16 @@
 			isa = PBXGroup;
 			children = (
 				F4428C411AD4125E0034A722 /* Jahia Watcher WatchKit Extension.entitlements */,
-				F4EB43EA1AAD7F010049F30F /* TasksInterfaceController.swift */,
-				F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */,
 				F4EB43EE1AAD7F010049F30F /* GlanceController.swift */,
 				F4EB43F01AAD7F010049F30F /* Images.xcassets */,
 				F4EB43E71AAD7F010049F30F /* Supporting Files */,
-				F4428C4B1AD554580034A722 /* PostsInterfaceController.swift */,
 				F4428C4D1AD554680034A722 /* MainInterfaceController.swift */,
+				F4428C4B1AD554580034A722 /* PostsInterfaceController.swift */,
 				F4428C4F1AD556B40034A722 /* PostDetailInterfaceController.swift */,
-				F4428C511AD556DF0034A722 /* TaskDetailInterfaceController.swift */,
 				F4428C531AD55B020034A722 /* PostsRowController.swift */,
+				F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */,
+				F4EB43EA1AAD7F010049F30F /* TasksInterfaceController.swift */,
+				F4428C511AD556DF0034A722 /* TaskDetailInterfaceController.swift */,
 				F4428C551AD55B100034A722 /* TasksRowController.swift */,
 				F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */,
 			);

@@ -15,7 +15,7 @@ class PostsInterfaceController: WKInterfaceController {
 
     @IBOutlet weak var noPostFoundLabel: WKInterfaceLabel!
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    var latestPosts : NSArray = NSArray()
+    var latestPosts = [Post]()
     
     override func awakeWithContext(context: AnyObject?) {
         
@@ -32,37 +32,17 @@ class PostsInterfaceController: WKInterfaceController {
         
         for i in 0...latestPosts.count-1 {
             let postsRowController = postsTable.rowControllerAtIndex(i) as! PostsRowController
-            let latestPost = latestPosts[i] as! NSDictionary
-            let postProperties : NSDictionary = latestPost["properties"] as! NSDictionary
-            let titleProperty : NSDictionary = postProperties["jcr__title"] as! NSDictionary
-            let postTitle : NSString = titleProperty["value"] as! NSString
-            postsRowController.postTitle.setText(postTitle as String)
-            let contentProperty : NSDictionary? = postProperties["content"] as? NSDictionary
-            let createdProperty  : NSDictionary? = postProperties["jcr__created"] as? NSDictionary
-            let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
-            if (contentProperty != nil) {
-                var postContent : String = contentProperty!["value"] as! String
-                postContent = JahiaServerServices.stripHTML(postContent)
-                postsRowController.postExtract.setText(postContent as String)
-            }
-            if (createdProperty != nil) {
-                let createdValue : NSNumber = createdProperty!["value"] as! NSNumber
-                let postDateTimeInterval = NSTimeInterval(createdValue.longValue / 1000)
-                let postDate = NSDate(timeIntervalSince1970: postDateTimeInterval)
-                // postsRowController.postDate.setText("\(postDate)")
-            }
-            if (createdByProperty != nil) {
-                let createdByValue : String = createdByProperty!["value"] as! String
-                postsRowController.postAuthor.setText(createdByValue)
-            }
-            
-            
+            let latestPost = latestPosts[i]
+            postsRowController.postTitle.setText(latestPost.title)
+            postsRowController.postExtract.setText(latestPost.content)
+            // postsRowController.postDate.setText("\(latestPost.date.relativeTime)")
+            postsRowController.postAuthor.setText(latestPost.author)
         }
         
     }
     
     override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table:WKInterfaceTable, rowIndex: Int) -> AnyObject? {
-        return latestPosts[rowIndex] as! NSDictionary
+        return latestPosts[rowIndex]
     }
     
     override func willActivate() {
