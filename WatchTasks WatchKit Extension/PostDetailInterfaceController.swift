@@ -46,8 +46,10 @@ class PostDetailInterfaceController: WKInterfaceController {
     }
     
     @IBAction func markAsSpam() {
-        println("Marking post \(post!.path!) as spam...")
-        jahiaServerServices.markAsSpam(post!.identifier!)
+        presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
+            println("Marking post \(self.post!.path!) as spam...")
+            self.jahiaServerServices.markAsSpam(self.post!.identifier!)
+            }, noHandler : {context in }))
     }
     
     @IBAction func deletePost() {

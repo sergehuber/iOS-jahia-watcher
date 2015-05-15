@@ -56,6 +56,8 @@
 		F4F412DD1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */; };
 		F4F412DE1B04DE1F00DB21BD /* MessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */; };
 		F4F412DF1B04DE2000DB21BD /* MessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */; };
+		F4F412E41B064BD600DB21BD /* ConfirmationDialogContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412E01B064A9300DB21BD /* ConfirmationDialogContext.swift */; };
+		F4F412E51B064CF000DB21BD /* ConfirmationDialogInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412E21B064B6000DB21BD /* ConfirmationDialogInterfaceController.swift */; };
 		F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
 		F4FFCA7F1AADE39600B2F040 /* logo-jahia-small.png in Resources */ = {isa = PBXBuildFile; fileRef = F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */; };
@@ -150,6 +152,8 @@
 		F4F412D81B04D35E00DB21BD /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
 		F4F412DA1B04D63F00DB21BD /* MessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDelegate.swift; sourceTree = "<group>"; };
 		F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinnerMessageDelegate.swift; sourceTree = "<group>"; };
+		F4F412E01B064A9300DB21BD /* ConfirmationDialogContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationDialogContext.swift; sourceTree = "<group>"; };
+		F4F412E21B064B6000DB21BD /* ConfirmationDialogInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationDialogInterfaceController.swift; sourceTree = "<group>"; };
 		F4F7AD131AEA865000AFBBB8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WatchTasks/Post.swift; sourceTree = "<group>"; };
 		F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-jahia-small.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -286,6 +290,8 @@
 				F4428C511AD556DF0034A722 /* TaskDetailInterfaceController.swift */,
 				F4428C551AD55B100034A722 /* TasksRowController.swift */,
 				F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */,
+				F4F412E01B064A9300DB21BD /* ConfirmationDialogContext.swift */,
+				F4F412E21B064B6000DB21BD /* ConfirmationDialogInterfaceController.swift */,
 			);
 			name = "Jahia Watcher WatchKit Extension";
 			path = "WatchTasks WatchKit Extension";
@@ -541,6 +547,7 @@
 			files = (
 				F4428C541AD55B020034A722 /* PostsRowController.swift in Sources */,
 				F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */,
+				F4F412E41B064BD600DB21BD /* ConfirmationDialogContext.swift in Sources */,
 				F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
 				F4478D971AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
 				F4F412DF1B04DE2000DB21BD /* MessageDelegate.swift in Sources */,
@@ -555,6 +562,7 @@
 				F4F412D11B0250F500DB21BD /* TaskAction.swift in Sources */,
 				F4428C521AD556DF0034A722 /* TaskDetailInterfaceController.swift in Sources */,
 				F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */,
+				F4F412E51B064CF000DB21BD /* ConfirmationDialogInterfaceController.swift in Sources */,
 				F4EB43EF1AAD7F010049F30F /* GlanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

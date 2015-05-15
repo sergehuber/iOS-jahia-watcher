@@ -340,5 +340,32 @@
             </objects>
             <point key="canvasLocation" x="483" y="346"/>
         </scene>
+        <!--confirmationDialog-->
+        <scene sceneID="gYV-BP-3ej">
+            <objects>
+                <controller identifier="confirmationDialog" id="gWQ-Uj-4y2" customClass="ConfirmationDialogInterfaceController" customModule="Jahia_Watcher">
+                    <items>
+                        <label alignment="left" text="Title" id="abn-OU-poH"/>
+                        <label width="1" alignment="left" text="message" textAlignment="center" id="dBL-en-MaK"/>
+                        <button width="1" alignment="left" title="Yes" id="hMd-t1-8Kh">
+                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="yesButtonPressed" destination="gWQ-Uj-4y2" id="Vmk-dm-iJZ"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="No" id="aZl-52-XHI">
+                            <connections>
+                                <action selector="noButtonPressed" destination="gWQ-Uj-4y2" id="T53-kk-KDO"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="messageLabel" destination="dBL-en-MaK" id="GlG-7v-7mt"/>
+                        <outlet property="titleLabel" destination="abn-OU-poH" id="Lpx-tj-jWD"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="720" y="347"/>
+        </scene>
     </scenes>
 </document>
