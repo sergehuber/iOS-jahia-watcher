@@ -15,6 +15,9 @@ class TaskDetailInterfaceController: WKInterfaceController {
     @IBOutlet weak var nameLabel: WKInterfaceLabel!
     @IBOutlet weak var assigneeUserKeyLabel: WKInterfaceLabel!
     @IBOutlet weak var descriptionLabel: WKInterfaceLabel!
+    
+    @IBOutlet weak var stateLabel: WKInterfaceLabel!
+    @IBOutlet weak var titleLabel: WKInterfaceLabel!
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     var task : Task?
     
@@ -25,6 +28,8 @@ class TaskDetailInterfaceController: WKInterfaceController {
             nameLabel.setText(task!.name)
             assigneeUserKeyLabel.setText(task!.assigneeUserKey)
             descriptionLabel.setText(task!.description)
+        stateLabel.setText(task!.state)
+        titleLabel.setText(task!.title)
             
             let updatedTask = jahiaServerServices.getTaskActions(task!)
             if (updatedTask.nextActions != nil) {
@@ -36,10 +41,15 @@ class TaskDetailInterfaceController: WKInterfaceController {
         // Configure interface objects here.
     }
     
+    @IBAction func previewChangesPressed() {
+        WKInterfaceController.openParentApplication(["viewTasks" : "root"], reply: { (reply, error) -> Void in
+        })
+    }
     func assignToMePressed(sender : AnyObject?) {
         jahiaServerServices.performTaskAction(task!, actionName: "assignToMe", finalOutcome: nil)
     }
 
+    
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()

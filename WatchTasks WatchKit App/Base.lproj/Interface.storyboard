@@ -138,7 +138,16 @@
                                 </label>
                             </items>
                         </group>
+                        <label width="1" alignment="left" text="Status" id="GP2-8W-zJC">
+                            <fontDescription key="font" type="system" pointSize="8"/>
+                        </label>
+                        <label width="1" alignment="left" text="Title" numberOfLines="0" id="zZI-Yf-Zvt"/>
                         <label width="1" alignment="left" text="Description" numberOfLines="0" id="Ahg-aq-cOG"/>
+                        <button width="1" alignment="left" title="Preview changes" id="YY6-qj-7Ug">
+                            <connections>
+                                <action selector="previewChangesPressed" destination="6tc-QF-REN" id="2Mp-I1-H5G"/>
+                            </connections>
+                        </button>
                     </items>
                     <menu key="menu" id="9Jb-Fe-f9D">
                         <items>
@@ -149,6 +158,9 @@
                         <outlet property="assigneeUserKeyLabel" destination="IjX-A0-AkL" id="CYX-gA-Sfg"/>
                         <outlet property="descriptionLabel" destination="Ahg-aq-cOG" id="gIV-5p-bmn"/>
                         <outlet property="nameLabel" destination="jve-I5-MOG" id="YB9-YB-ag0"/>
+                        <outlet property="previewChanges" destination="YY6-qj-7Ug" id="ah4-8Y-wSY"/>
+                        <outlet property="stateLabel" destination="GP2-8W-zJC" id="QTd-le-Ts0"/>
+                        <outlet property="titleLabel" destination="zZI-Yf-Zvt" id="YiG-zg-0Yu"/>
                     </connections>
                 </controller>
             </objects>
