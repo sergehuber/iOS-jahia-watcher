@@ -32,6 +32,7 @@ class MainInterfaceController: WKInterfaceController {
             println("handleActionWithIdentifier(\(identifier))")
 
             let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+            JahiaServerServices.messageDelegate = DefaultMessageDelegate()
             jahiaServerServices.login()
             
             let userName = ""
@@ -44,7 +45,8 @@ class MainInterfaceController: WKInterfaceController {
                 var post : Post?
                 for currentPost in latestPosts {
                     if (currentPost.identifier == nodeIdentifier) {
-                        post = currentPost                    }
+                        post = currentPost
+                    }
                 }
                 if (post != nil) {
                     pushControllerWithName("postDetailController", context: post)

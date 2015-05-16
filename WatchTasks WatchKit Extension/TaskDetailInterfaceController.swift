@@ -42,13 +42,25 @@ class TaskDetailInterfaceController: WKInterfaceController {
     }
     
     @IBAction func previewChangesPressed() {
+        println("Preview button pressed")
         WKInterfaceController.openParentApplication(["viewTasks" : "root"], reply: { (reply, error) -> Void in
         })
     }
+    
     func assignToMePressed(sender : AnyObject?) {
+        println("Assign to me pressed")
         jahiaServerServices.performTaskAction(task!, actionName: "assignToMe", finalOutcome: nil)
     }
+    
+    func refusePressed(sender: AnyObject?) {
+        println("Refuse pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "refuse", finalOutcome: nil)
+    }
 
+    func startPressed(sender : AnyObject?) {
+        println("Start pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "start", finalOutcome: nil)
+    }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user

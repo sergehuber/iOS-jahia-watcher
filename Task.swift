@@ -37,7 +37,7 @@ class Task {
         
         let matches = JahiaServerServices.matchesForRegexInText("##resourceBundle\\((.*),(.*)\\)## : (.*)", text: complexTitle)
         
-        title = JahiaServerServices.capitalizeFirstLetter("\(matches[1]) for object \(matches[3])")
+        title = JahiaServerServices.capitalizeFirstLetter("\(matches[1]) of content \(matches[3])")
         assigneeUserKey = JahiaServerServices.getStringPropertyValue(properties, propertyName: "assigneeUserKey")
         description = JahiaServerServices.getStringPropertyValue(properties, propertyName: "description")
         priority = JahiaServerServices.getStringPropertyValue(properties, propertyName: "priority")

@@ -141,8 +141,12 @@
                         <label width="1" alignment="left" text="Status" id="GP2-8W-zJC">
                             <fontDescription key="font" type="system" pointSize="8"/>
                         </label>
-                        <label width="1" alignment="left" text="Title" numberOfLines="0" id="zZI-Yf-Zvt"/>
-                        <label width="1" alignment="left" text="Description" numberOfLines="0" id="Ahg-aq-cOG"/>
+                        <label width="1" alignment="left" text="Title" numberOfLines="0" id="zZI-Yf-Zvt">
+                            <fontDescription key="font" type="system" pointSize="14"/>
+                        </label>
+                        <label width="1" alignment="left" text="Description" numberOfLines="0" id="Ahg-aq-cOG">
+                            <fontDescription key="font" type="system" pointSize="10"/>
+                        </label>
                         <button width="1" alignment="left" title="Preview changes" id="YY6-qj-7Ug">
                             <connections>
                                 <action selector="previewChangesPressed" destination="6tc-QF-REN" id="2Mp-I1-H5G"/>

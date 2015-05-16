@@ -53,11 +53,15 @@ class PostDetailInterfaceController: WKInterfaceController {
     }
     
     @IBAction func deletePost() {
-        println("Deleting post...")
+        presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "deletePostDialog", title: "Delete ?", message: "Are you sure you want to delete this post ?", yesHandler : { context in
+            println("Deleting post...")
+            }, noHandler : {context in }))
     }
     
     @IBAction func blockUser() {
-        println("Blocking user \(post!.author!)...")
-        jahiaServerServices.blockUser(post!.author!)
+        presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Block user", message: "Are you sure you want to block the account of this posts author", yesHandler : { context in
+            println("Block user account \(self.post!.author!)...")
+            self.jahiaServerServices.blockUser(self.post!.author!)
+            }, noHandler : {context in }))
     }
 }
