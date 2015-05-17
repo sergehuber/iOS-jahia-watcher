@@ -25,20 +25,33 @@ class TaskDetailInterfaceController: WKInterfaceController {
         super.awakeWithContext(context)
         
         task = context as? Task
-            nameLabel.setText(task!.name)
+        nameLabel.setText(task!.name)
+        if (task!.assigneeUserKey != nil && count(task!.assigneeUserKey!) > 0) {
             assigneeUserKeyLabel.setText(task!.assigneeUserKey)
-            descriptionLabel.setText(task!.description)
+        } else {
+            assigneeUserKeyLabel.setText("not assigned")
+        }
+        descriptionLabel.setText(task!.description)
         stateLabel.setText(task!.state)
         titleLabel.setText(task!.title)
             
-            let updatedTask = jahiaServerServices.getTaskActions(task!)
-            if (updatedTask.nextActions != nil) {
-                for nextAction in updatedTask.nextActions! {
-                    let actionSelector = Selector(nextAction.name! + "Pressed:")
-                    addMenuItemWithItemIcon(WKMenuItemIcon.Accept, title: nextAction.displayName!, action: actionSelector)
-                }
-            }
         // Configure interface objects here.
+        
+        buildTaskActionsMenu()
+    }
+    
+    func buildTaskActionsMenu() {
+        clearAllMenuItems()
+        let updatedTask = jahiaServerServices.getTaskActions(task!)
+        if (updatedTask.nextActions != nil) {
+            for nextAction in updatedTask.nextActions! {
+                var actionSelector = Selector(nextAction.name! + "Pressed:")
+                if nextAction.finalOutcome != nil {
+                    actionSelector = Selector(nextAction.finalOutcome! + "Pressed:")
+                }
+                addMenuItemWithItemIcon(WKMenuItemIcon.Accept, title: nextAction.displayName!, action: actionSelector)
+            }
+        }
     }
     
     @IBAction func previewChangesPressed() {
@@ -50,16 +63,59 @@ class TaskDetailInterfaceController: WKInterfaceController {
     func assignToMePressed(sender : AnyObject?) {
         println("Assign to me pressed")
         jahiaServerServices.performTaskAction(task!, actionName: "assignToMe", finalOutcome: nil)
+        buildTaskActionsMenu()
+        stateLabel.setText("Active")
+        assigneeUserKeyLabel.setText(jahiaServerServices.getUserName())
     }
     
     func refusePressed(sender: AnyObject?) {
         println("Refuse pressed")
         jahiaServerServices.performTaskAction(task!, actionName: "refuse", finalOutcome: nil)
+        buildTaskActionsMenu()
+        stateLabel.setText("Active")
+        assigneeUserKeyLabel.setText("Not assigned")
     }
 
     func startPressed(sender : AnyObject?) {
         println("Start pressed")
         jahiaServerServices.performTaskAction(task!, actionName: "start", finalOutcome: nil)
+        buildTaskActionsMenu()
+        stateLabel.setText("Started")
+    }
+
+    func suspendPressed(sender : AnyObject?) {
+        println("Suspend pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "suspend", finalOutcome: nil)
+        buildTaskActionsMenu()
+        stateLabel.setText("Suspended")
+    }
+
+    func continuePressed(sender : AnyObject?) {
+        println("Continue pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "continue", finalOutcome: nil)
+        buildTaskActionsMenu()
+        stateLabel.setText("Started")
+    }
+
+    func acceptPressed(sender : AnyObject?) {
+        println("Accept pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "finished", finalOutcome: "accept")
+        buildTaskActionsMenu()
+        stateLabel.setText("Finished")
+    }
+    
+    func rejectPressed(sender : AnyObject?) {
+        println("Reject pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "finished", finalOutcome: "reject")
+        buildTaskActionsMenu()
+        stateLabel.setText("Finished")
+    }
+
+    func completePressed(sender : AnyObject?) {
+        println("Complete pressed")
+        jahiaServerServices.performTaskAction(task!, actionName: "finished", finalOutcome: nil)
+        buildTaskActionsMenu()
+        stateLabel.setText("Finished")
     }
     
     override func willActivate() {

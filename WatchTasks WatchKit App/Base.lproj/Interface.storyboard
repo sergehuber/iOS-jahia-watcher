@@ -73,7 +73,7 @@
                                                     <label width="0.60000000000000009" alignment="left" text="Task name" id="Z5L-G8-fJR">
                                                         <fontDescription key="font" type="system" pointSize="12"/>
                                                     </label>
-                                                    <label width="0.40000000000000013" alignment="left" text="Assignee" textAlignment="right" id="5Xv-yv-j7w">
+                                                    <label width="0.40000000000000013" alignment="left" text="Assignee" textAlignment="right" minimumScaleFactor="0.50000000000000011" id="5Xv-yv-j7w">
                                                         <fontDescription key="font" type="system" pointSize="8"/>
                                                     </label>
                                                 </items>
@@ -133,7 +133,7 @@
                                 <label width="0.60000000000000009" alignment="left" text="Name" id="jve-I5-MOG">
                                     <fontDescription key="font" type="boldSystem" pointSize="16"/>
                                 </label>
-                                <label width="0.40000000000000013" alignment="left" text="Assignee" textAlignment="right" id="IjX-A0-AkL">
+                                <label width="0.40000000000000013" alignment="left" text="Assignee" textAlignment="right" minimumScaleFactor="0.50000000000000011" id="IjX-A0-AkL">
                                     <fontDescription key="font" type="system" pointSize="10"/>
                                 </label>
                             </items>

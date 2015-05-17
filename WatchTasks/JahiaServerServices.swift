@@ -39,6 +39,10 @@ class JahiaServerServices {
         JahiaServerServices.hideMessages()
     }
     
+    func getUserName() -> String {
+        return jahiaWatcherSettings.jahiaUserName
+    }
+    
     func login() -> Bool {
         
         var result : Bool = false
@@ -339,6 +343,8 @@ class JahiaServerServices {
                         nextActions.append(taskAction)
                     }
                     task.nextActions = nextActions
+                } else {
+                    task.nextActions = nil
                 }
             }
         } else {
