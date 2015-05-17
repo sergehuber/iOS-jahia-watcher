@@ -53,16 +53,17 @@ class TasksInterfaceController: WKInterfaceController {
             viewTasksButton.setHidden(false)
         }
         
-        tasksTable.setNumberOfRows(workflowTasks!.count, withRowType: "taskRow")
-        for i in 0...workflowTasks!.count-1 {
-            let tasksRowController = tasksTable.rowControllerAtIndex(i) as! TasksRowController
-            let task = workflowTasks![i]
-            tasksRowController.taskNameLabel.setText(task.name)
-            tasksRowController.taskAssigneeUserKeyLabel.setText(task.assigneeUserKey)
-            tasksRowController.taskDescriptionLabel.setText(task.description)
-            tasksRowController.taskStateLabel.setText(task.state)
+        if (workflowTasks!.count > 0) {
+            tasksTable.setNumberOfRows(workflowTasks!.count, withRowType: "taskRow")
+            for i in 0...workflowTasks!.count-1 {
+                let tasksRowController = tasksTable.rowControllerAtIndex(i) as! TasksRowController
+                let task = workflowTasks![i]
+                tasksRowController.taskNameLabel.setText(task.name)
+                tasksRowController.taskAssigneeUserKeyLabel.setText(task.assigneeUserKey)
+                tasksRowController.taskDescriptionLabel.setText(task.description)
+                tasksRowController.taskStateLabel.setText(task.state)
+            }
         }
-        
         
     }
     

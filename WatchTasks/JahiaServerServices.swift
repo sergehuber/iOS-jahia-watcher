@@ -256,7 +256,9 @@ class JahiaServerServices {
                 
                 for (key,value) in workflowTaskChildrenDict {
                     let task = Task(taskName: key, fromNSDictionary: value)
-                    taskArray.append(task)
+                    if (task.state != "Finished") {
+                        taskArray.append(task)
+                    }
                 }
             }
         } else {
