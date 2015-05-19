@@ -188,6 +188,56 @@ class JahiaServerServices {
         hideMessages()
     }
 
+    func getPostActions(post : Post) -> Post {
+        if (!areServicesAvailable()) {
+            return post
+        }
+        mprintln("Retrieving post actions...")
+        
+        let jahiaPostActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.postActionsUrl(post.path!))!
+        
+        let request = NSMutableURLRequest(URL: jahiaPostActionsURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode != 200) {
+                mprintln("Error retrieving post actions!")
+            } else {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+                
+                if let viewUrl = jsonResult["view-url"] as? String {
+                    post.viewUrl = viewUrl
+                }
+                if let possibleActions = jsonResult["possibleActions"] as? [NSDictionary] {
+                    var actions = [PostAction]()
+                    for possibleAction in possibleActions {
+                        let postAction = PostAction()
+                        postAction.displayName = possibleAction["displayName"] as? String
+                        postAction.name = possibleAction["name"] as? String
+                        actions.append(postAction)
+                    }
+                    post.actions = actions
+                } else {
+                    post.actions = nil
+                }
+            }
+        } else {
+            mprintln("Couldn't retrieve post actions")
+        }
+        
+        hideMessages()
+        return post
+    }
+    
     
     func getUserPath() -> String? {
         if (!areServicesAvailable()) {

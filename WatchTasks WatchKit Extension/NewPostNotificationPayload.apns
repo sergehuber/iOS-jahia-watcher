@@ -12,27 +12,9 @@
             "title": "View",
             "identifier": "viewPostAction"
         },
-        {
-            "title": "Mark as spam",
-            "identifier": "markPostAsSpamAction"
-        },
-        {
-            "title": "Block user",
-            "identifier": "blockUserAction"
-        },
-        {
-            "title": "Delete",
-            "identifier": "deletePostAction"
-        }
                                    
     ],
     
-    "nodeIdentifier" : "333333333333333",
+    "nodeIdentifier" : "123456789",
     
-    "customKey": {
-        "postTitle" : "Post title",
-        "postDate" : 0,
-        "postAuthor" : "Serge Huber",
-        "postContent" : "This is the content of the post"
-    }
 }

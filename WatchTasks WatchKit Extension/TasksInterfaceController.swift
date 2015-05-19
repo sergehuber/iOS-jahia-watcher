@@ -17,8 +17,6 @@ class TasksInterfaceController: WKInterfaceController {
     @IBOutlet weak var tasksLabel: WKInterfaceLabel!
     
     @IBOutlet weak var tasksTable: WKInterfaceTable!
-
-    @IBOutlet weak var viewTasksButton: WKInterfaceButton!
     
     var workflowTasks : [Task]?
     
@@ -44,13 +42,10 @@ class TasksInterfaceController: WKInterfaceController {
 
         if (openTaskCount == 0) {
             tasksLabel.setText("No tasks waiting");
-            viewTasksButton.setHidden(true)
         } else if (openTaskCount == 1) {
             tasksLabel.setText("One task waiting.");
-            viewTasksButton.setHidden(false)
         } else if (openTaskCount > 1) {
             tasksLabel.setText("You have \(openTaskCount) tasks waiting.");
-            viewTasksButton.setHidden(false)
         }
         
         if (workflowTasks!.count > 0) {

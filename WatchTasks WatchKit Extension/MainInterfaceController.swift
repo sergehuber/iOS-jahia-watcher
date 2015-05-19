@@ -43,20 +43,41 @@ class MainInterfaceController: WKInterfaceController {
                 println("View post action")
                 let latestPosts = jahiaServerServices.getLatestPosts()
                 var post : Post?
-                for currentPost in latestPosts {
-                    if (currentPost.identifier == nodeIdentifier) {
-                        post = currentPost
+                if latestPosts.count == 0 {
+                    return
+                }
+                if (nodeIdentifier == "123456789") {
+                    // this is a special case if using simulated notifications
+                    post = latestPosts[0]
+                } else {
+                    for currentPost in latestPosts {
+                        if (currentPost.identifier == nodeIdentifier) {
+                            post = currentPost
+                        }
                     }
                 }
                 if (post != nil) {
                     pushControllerWithName("postDetailController", context: post)
                 }
-            case "blockUserAction" :
-                println("Block user action")
-                jahiaServerServices.blockUser(userName)
-            case "markPostAsSpamAction" :
-                println("Mark as spam action")
-                jahiaServerServices.markAsSpam(nodeIdentifier)
+            case "viewTaskAction" :
+                let workflowTasks = jahiaServerServices.getWorkflowTasks()
+                var task : Task?
+                if (workflowTasks.count == 0) {
+                    return
+                }
+                if (nodeIdentifier == "123456789") {
+                    // this is a special case if using simulated notifications
+                    task = workflowTasks[0]
+                } else {
+                    for currentTask in workflowTasks {
+                        if (currentTask.identifier == nodeIdentifier) {
+                            task = currentTask
+                        }
+                    }
+                }
+                if (task != nil) {
+                    pushControllerWithName("taskDetailController", context: task)
+                }
             default:
                 println("Unrecognized action")
             }

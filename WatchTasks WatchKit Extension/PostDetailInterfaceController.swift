@@ -43,6 +43,11 @@ class PostDetailInterfaceController: WKInterfaceController {
 
     @IBAction func viewOnPhone() {
         println("Viewing post on phone...")
+        var userInfo : [NSObject : AnyObject] = ["action": "viewPost",
+            "previewUrl": jahiaWatcherSettings.contentRenderUrl(post!.previewUrl!)]
+        WKInterfaceController.openParentApplication(userInfo, reply: { (reply, error) -> Void in
+            println("parent application replied reply=\(reply) error=\(error)")
+        })
     }
     
     @IBAction func markAsSpam() {

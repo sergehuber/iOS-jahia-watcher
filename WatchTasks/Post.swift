@@ -17,6 +17,8 @@ class Post {
     var date : NSDate?
     var spam : Bool?
     var content : String?
+    var viewUrl : String?
+    var actions : [PostAction]?
     
     init(fromNSDictionary : NSDictionary) {
         identifier = fromNSDictionary["id"] as? String

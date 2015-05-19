@@ -31,6 +31,7 @@ class JahiaWatcherSettings {
     var jahiaServerBlockUserServletPath : String = "/cms/render/live/en/sites.blockUser.do"
     var jahiaServerMarkAsSpamServletPath : String = "/cms/render/live/en/sites.markAsSpam.do"
     var jahiaServerTaskActionsPartialPath : String = "/cms/render/default/en";
+    var jahiaServerPostActionsPartialPath : String = "/cms/render/live/en";
     
     init() {
         load()
@@ -125,6 +126,10 @@ class JahiaWatcherSettings {
 
     func taskActionsUrl(taskPath : String) -> String {
         return contextUrl() + jahiaServerTaskActionsPartialPath + taskPath + ".taskActions.do"
+    }
+
+    func postActionsUrl(postPath : String) -> String {
+        return contextUrl() + jahiaServerPostActionsPartialPath + postPath + ".postActions.do"
     }
     
 }

@@ -37,26 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewPostAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewPostAction.authenticationRequired = false
         
-        var markPostAsSpamAction = UIMutableUserNotificationAction()
-        markPostAsSpamAction.title = NSLocalizedString("Mark as spam", comment: "Mark the current post as spam")
-        markPostAsSpamAction.identifier = "markPostAsSpamAction"
-        markPostAsSpamAction.activationMode = UIUserNotificationActivationMode.Foreground
-        markPostAsSpamAction.authenticationRequired = true
-
-        var deletePostAction = UIMutableUserNotificationAction()
-        deletePostAction.title = NSLocalizedString("Delete", comment: "Delete the current post")
-        deletePostAction.identifier = "deletePostAction"
-        deletePostAction.activationMode = UIUserNotificationActivationMode.Foreground
-        deletePostAction.authenticationRequired = true
-
-        var blockUserAction = UIMutableUserNotificationAction()
-        blockUserAction.title = NSLocalizedString("Block user", comment: "Block the post user")
-        blockUserAction.identifier = "blockUserAction"
-        blockUserAction.activationMode = UIUserNotificationActivationMode.Foreground
-        blockUserAction.authenticationRequired = true
-        
         var newPostCategory = UIMutableUserNotificationCategory()
-        newPostCategory.setActions([viewPostAction, markPostAsSpamAction, deletePostAction, blockUserAction],
+        newPostCategory.setActions([viewPostAction],
         forContext: UIUserNotificationActionContext.Default)
         newPostCategory.identifier = "newPost"
         categories.addObject(newPostCategory)
@@ -109,7 +91,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"http://localhost:8080/cms/dashboard/default/en/users/root.projects.html")!)
+        let action = userInfo!["action"] as! String
+        println("handleWatchKitExtensionRequest with action \(action)")
+        var replyMap = [NSObject:AnyObject]()
+        if action == "previewTaskChanges" {
+            let previewUrl = userInfo!["previewUrl"] as! String
+            UIApplication.sharedApplication().openURL(NSURL(string:previewUrl)!)
+            replyMap["actionPerformed"] = "Opened task changes preview URL \(previewUrl)"
+        }
+        reply(replyMap)
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {

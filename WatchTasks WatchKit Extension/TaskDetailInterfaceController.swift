@@ -19,6 +19,7 @@ class TaskDetailInterfaceController: WKInterfaceController {
     @IBOutlet weak var stateLabel: WKInterfaceLabel!
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
     var task : Task?
     
     override func awakeWithContext(context: AnyObject?) {
@@ -56,7 +57,10 @@ class TaskDetailInterfaceController: WKInterfaceController {
     
     @IBAction func previewChangesPressed() {
         println("Preview button pressed")
-        WKInterfaceController.openParentApplication(["viewTasks" : "root"], reply: { (reply, error) -> Void in
+        var userInfo : [NSObject : AnyObject] = ["action": "previewTaskChanges",
+            "previewUrl": jahiaWatcherSettings.contentRenderUrl(task!.previewUrl!)]
+        WKInterfaceController.openParentApplication(userInfo, reply: { (reply, error) -> Void in
+            println("parent application replied reply=\(reply) error=\(error)")
         })
     }
     
