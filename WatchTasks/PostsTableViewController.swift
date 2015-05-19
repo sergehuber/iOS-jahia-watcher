@@ -27,7 +27,9 @@ class PostsTableViewController: UITableViewController {
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
         // self.tableView.addSubview(refreshControl)
         dispatch_async(dispatch_get_main_queue()) {
+            self.refreshControl?.beginRefreshing()
             self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
     }
@@ -150,6 +152,27 @@ class PostsTableViewController: UITableViewController {
             postDetailViewController.post = post
             postDetailViewController.postIndex = indexPath.row
             postDetailViewController.postsTableViewController = self
+        }
+    }
+    
+    func displaySpecificPost(postIdentifier : String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.refreshControl?.beginRefreshing()
+            self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+            if self.latestPosts.count == 0 {
+                return
+            }
+            var i=0
+            for latestPost in self.latestPosts {
+                if latestPost.identifier! == postIdentifier {
+                    self.tableView.selectRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.Top)
+                    break
+                }
+                i++
+            }
+            self.performSegueWithIdentifier("displayPost", sender: self)
         }
     }
 

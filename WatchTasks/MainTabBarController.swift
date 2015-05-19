@@ -13,10 +13,17 @@ class MainTabBarController: UITabBarController {
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     
     override func viewDidLoad() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTaskNotificationReceived:", name: "pushNotificationnewTask", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPostNotificationReceived:", name: "pushNotificationnewPost", object: nil)
+
         if (!jahiaServerServices.areServicesAvailable()) {
             println("No existing settings found, presenting settings tab first")
             displaySettings()
         }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func displaySettings() {
@@ -34,4 +41,47 @@ class MainTabBarController: UITabBarController {
             }
         }
     }
+
+    func displaySpecificPost(postIdentifier : String) {
+        for viewController in viewControllers as! [UIViewController] {
+            if viewController.restorationIdentifier == "PostsNavigationController" {
+                selectedViewController = viewController
+                let postsNavigationController = viewController as! UINavigationController
+                let postsTableViewController = postsNavigationController.topViewController as! PostsTableViewController
+                postsTableViewController.displaySpecificPost(postIdentifier)
+            }
+        }
+    }
+    
+    func displayTasks() {
+        for viewController in viewControllers as! [UIViewController] {
+            if viewController.restorationIdentifier == "TasksNavigationController" {
+                selectedViewController = viewController
+            }
+        }
+    }
+    
+    func displaySpecificTask(taskIdentifier : String) {
+        for viewController in viewControllers as! [UIViewController] {
+            if viewController.restorationIdentifier == "TasksNavigationController" {
+                selectedViewController = viewController
+                let tasksNavigationController = viewController as! UINavigationController
+                let tasksTableViewController = tasksNavigationController.topViewController as! TasksTableViewController
+                tasksTableViewController.displaySpecificTask(taskIdentifier)
+            }
+        }
+    }
+    
+    func newTaskNotificationReceived(notification : NSNotification) {
+        let userInfo = notification.userInfo
+        let nodeIdentifier = userInfo!["nodeIdentifier"] as! String
+        displaySpecificTask(nodeIdentifier)
+    }
+
+    func newPostNotificationReceived(notification : NSNotification) {
+        let userInfo = notification.userInfo
+        let nodeIdentifier = userInfo!["nodeIdentifier"] as! String
+        displaySpecificPost(nodeIdentifier)
+    }
+    
 }

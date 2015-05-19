@@ -28,20 +28,18 @@ class TasksTableViewController: UITableViewController {
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
         dispatch_async(dispatch_get_main_queue()) {
             self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
-            if (self.workflowTasks.count == 0) {
-                return
-            }
             self.tableView.reloadData()
         }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
         
     func refreshData(sender:AnyObject) {
         // Code to refresh table view
         dispatch_async(dispatch_get_main_queue()) {
             self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
-            if (self.workflowTasks.count == 0) {
-                return
-            }
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
@@ -158,5 +156,24 @@ class TasksTableViewController: UITableViewController {
             taskDetailViewController.taskIndex = indexPath.row
         }
     }
-
+    
+    func displaySpecificTask(taskIdentifier : String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
+            self.tableView.reloadData()
+            if (self.workflowTasks.count == 0) {
+                return;
+            }
+            var i=0
+            for workflowTask in self.workflowTasks {
+                if workflowTask.identifier! == taskIdentifier {
+                    self.tableView.selectRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.Top)
+                    break
+                }
+                i++
+            }
+            self.performSegueWithIdentifier("displayTask", sender: self)
+        }
+    }
+    
 }

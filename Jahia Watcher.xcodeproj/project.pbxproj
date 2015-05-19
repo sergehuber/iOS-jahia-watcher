@@ -31,8 +31,6 @@
 		F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */; };
 		F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */; };
 		F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */; };
-		F4EB43C21AAD7E910049F30F /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43C11AAD7E910049F30F /* FirstViewController.swift */; };
-		F4EB43C41AAD7E910049F30F /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43C31AAD7E910049F30F /* SecondViewController.swift */; };
 		F4EB43C71AAD7E910049F30F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43C51AAD7E910049F30F /* Main.storyboard */; };
 		F4EB43C91AAD7E910049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43C81AAD7E910049F30F /* Images.xcassets */; };
 		F4EB43CC1AAD7E910049F30F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43CA1AAD7E910049F30F /* LaunchScreen.xib */; };
@@ -129,8 +127,6 @@
 		F4EB43BA1AAD7E910049F30F /* Jahia Watcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jahia Watcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EB43BE1AAD7E910049F30F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F4EB43C11AAD7E910049F30F /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		F4EB43C31AAD7E910049F30F /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		F4EB43C61AAD7E910049F30F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F4EB43C81AAD7E910049F30F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F4EB43CB1AAD7E910049F30F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -231,8 +227,6 @@
 				F4F412D81B04D35E00DB21BD /* SwiftSpinner.swift */,
 				F4428C401AD412430034A722 /* Jahia Watcher.entitlements */,
 				F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */,
-				F4EB43C11AAD7E910049F30F /* FirstViewController.swift */,
-				F4EB43C31AAD7E910049F30F /* SecondViewController.swift */,
 				F4EB43C51AAD7E910049F30F /* Main.storyboard */,
 				F4EB43C81AAD7E910049F30F /* Images.xcassets */,
 				F4EB43CA1AAD7E910049F30F /* LaunchScreen.xib */,
@@ -511,7 +505,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4F412CF1B0250F500DB21BD /* TaskAction.swift in Sources */,
-				F4EB43C41AAD7E910049F30F /* SecondViewController.swift in Sources */,
 				F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4F412E71B07720D00DB21BD /* DefaultMessageDelegate.swift in Sources */,
 				F4428C431AD41AEE0034A722 /* JahiaWatcherSettings.swift in Sources */,
@@ -528,7 +521,6 @@
 				F4F412CD1B00D91300DB21BD /* TaskContentPreviewViewController.swift in Sources */,
 				F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */,
 				F4478D951AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
-				F4EB43C21AAD7E910049F30F /* FirstViewController.swift in Sources */,
 				F4478D9F1AFCA13100763D5C /* TasksTableViewController.swift in Sources */,
 				F4428C581AD5638D0034A722 /* PostsTableViewController.swift in Sources */,
 				F4F412DD1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift in Sources */,

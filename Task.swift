@@ -10,6 +10,7 @@ import Foundation
 
 class Task {
     
+    var identifier : String?
     var name : String?
     var path : String?
     var title : String?
@@ -31,6 +32,7 @@ class Task {
         let task = fromNSDictionary
         let properties = task["properties"] as! NSDictionary
         
+        identifier = task["id"] as? String
         path = task["path"] as? String
         
         let complexTitle = JahiaServerServices.getStringPropertyValue(properties, propertyName: "jcr__title")

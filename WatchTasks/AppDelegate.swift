@@ -137,9 +137,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler handler: (UIBackgroundFetchResult) -> Void) {
 
-        println("didReceiveRemoteNotification")
-        displayNotificationAlert(userInfo)
+        println("didReceiveRemoteNotification with fetchCompletionHandler")
+        if ( application.applicationState == UIApplicationState.Active ) {
+            // app was already in the foreground
+            println("Application was already active")
+            displayNotificationAlert(userInfo)
+        } else {
+            // app was just brought from background to foreground
+            println("Application was either in the background or not running")
+            displayNotificationData(userInfo)
+        }
         handler(UIBackgroundFetchResult.NewData)
+    }
+    
+    func displayNotificationData(userInfo : [NSObject : AnyObject]) {
+        let nodeIdentifier = userInfo["nodeIdentifier"] as! String
+        let apsInfo = userInfo["aps"] as! [String:AnyObject]
+        let alertTitle = apsInfo["alert"] as! String
+        let category = apsInfo["category"] as! String
+        NSNotificationCenter.defaultCenter().postNotificationName("pushNotification\(category)", object: nil, userInfo: userInfo)
     }
     
     func displayNotificationAlert(userInfo: [NSObject : AnyObject]) {
@@ -150,13 +166,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var categoryTitle = "A new post was created"
         if (category == "newTask") {
             categoryTitle = "A new task was created"
+        } else if (category == "newPost") {
+        } else {
+            println("Unknown category \(category) received!")
         }
         var alert = UIAlertController(title: categoryTitle, message: alertTitle, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "View", style: UIAlertActionStyle.Default, handler: {
             action in switch action.style{
             case .Default:
                 println("View default")
-                
+                self.displayNotificationData(userInfo)
             case .Cancel:
                 println("View cancel")
                 
@@ -180,7 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("handleActionWithIdentifier identifier=\(identifier) for remote notification")
+        println("handleActionWithIdentifier identifier=\(identifier) for remote notification with completionHandler")
         displayNotificationAlert(userInfo)
         completionHandler()
     }
@@ -194,7 +213,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
-        println("handleActionWithIdentifier for local notification")
+        println("handleActionWithIdentifier for local notification with completionHandler")
         completionHandler()
     }
 }
