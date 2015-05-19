@@ -360,31 +360,13 @@
                             <fontDescription key="font" type="system" pointSize="12"/>
                         </label>
                         <label width="1" alignment="left" text="Body" numberOfLines="0" id="era-wc-tHr"/>
+                        <button width="1" alignment="left" title="View on phone" id="2Hf-nf-dsg">
+                            <connections>
+                                <action selector="viewOnPhone" destination="qeO-gg-xdz" id="U0g-dv-lOR"/>
+                            </connections>
+                        </button>
                     </items>
-                    <menu key="menu" id="3MZ-y7-cMz">
-                        <items>
-                            <menuItem title="View on phone" icon="more" id="pIV-zy-Olw">
-                                <connections>
-                                    <action selector="viewOnPhone" destination="qeO-gg-xdz" id="b9s-LW-Fj5"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Mark as spam" icon="maybe" id="vXG-r9-ix3">
-                                <connections>
-                                    <action selector="markAsSpam" destination="qeO-gg-xdz" id="ghk-UK-bn0"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Delete" icon="trash" id="QFk-Tv-NyC">
-                                <connections>
-                                    <action selector="deletePost" destination="qeO-gg-xdz" id="tUD-va-Obi"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Block user" icon="block" id="ljc-fZ-ksf">
-                                <connections>
-                                    <action selector="blockUser" destination="qeO-gg-xdz" id="9JT-3R-edN"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
+                    <menu key="menu" id="3MZ-y7-cMz"/>
                     <connections>
                         <outlet property="postAuthorLabel" destination="mBk-eF-jqS" id="v1b-Jd-6yI"/>
                         <outlet property="postBodyLabel" destination="era-wc-tHr" id="AyP-Ht-2kG"/>

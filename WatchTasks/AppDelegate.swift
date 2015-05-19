@@ -98,6 +98,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let previewUrl = userInfo!["previewUrl"] as! String
             UIApplication.sharedApplication().openURL(NSURL(string:previewUrl)!)
             replyMap["actionPerformed"] = "Opened task changes preview URL \(previewUrl)"
+        } else if (action == "viewPost") {
+            let viewUrl = userInfo!["viewUrl"] as! String
+            UIApplication.sharedApplication().openURL(NSURL(string:viewUrl)!)
+            replyMap["actionPerformed"] = "Opened post view URL \(viewUrl)"
+            
         }
         reply(replyMap)
     }

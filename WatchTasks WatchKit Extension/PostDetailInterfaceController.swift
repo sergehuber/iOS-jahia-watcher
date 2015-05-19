@@ -11,7 +11,8 @@ import Foundation
 
 class PostDetailInterfaceController: WKInterfaceController {
 
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let jahiaServerServices = JahiaServerServices.sharedInstance
+    let jahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
     
     @IBOutlet weak var postTitleLabel: WKInterfaceLabel!
     @IBOutlet weak var postDateLabel: WKInterfaceLabel!
@@ -29,6 +30,19 @@ class PostDetailInterfaceController: WKInterfaceController {
         postBodyLabel.setText(post!.content)
         postDateLabel.setText("\(post!.date!.relativeTime)")
         postAuthorLabel.setText(post!.author!)
+        
+        buildPostActionsMenu()
+    }
+    
+    func buildPostActionsMenu() {
+        clearAllMenuItems()
+        let updatedPost = jahiaServerServices.getPostActions(post!)
+        if (updatedPost.actions != nil) {
+            for action in updatedPost.actions! {
+                var actionSelector = Selector(action.name! + "Pressed:")
+                addMenuItemWithItemIcon(WKMenuItemIcon.Accept, title: action.displayName!, action: actionSelector)
+            }
+        }
     }
     
     override func willActivate() {
@@ -44,29 +58,32 @@ class PostDetailInterfaceController: WKInterfaceController {
     @IBAction func viewOnPhone() {
         println("Viewing post on phone...")
         var userInfo : [NSObject : AnyObject] = ["action": "viewPost",
-            "previewUrl": jahiaWatcherSettings.contentRenderUrl(post!.previewUrl!)]
+            "viewUrl": jahiaWatcherSettings.contentRenderUrl(post!.viewUrl!)]
         WKInterfaceController.openParentApplication(userInfo, reply: { (reply, error) -> Void in
             println("parent application replied reply=\(reply) error=\(error)")
         })
     }
     
-    @IBAction func markAsSpam() {
+    @IBAction func markAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
             println("Marking post \(self.post!.path!) as spam...")
             self.jahiaServerServices.markAsSpam(self.post!.identifier!)
             }, noHandler : {context in }))
     }
     
-    @IBAction func deletePost() {
+    @IBAction func deletePressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "deletePostDialog", title: "Delete ?", message: "Are you sure you want to delete this post ?", yesHandler : { context in
             println("Deleting post...")
             }, noHandler : {context in }))
     }
     
-    @IBAction func blockUser() {
+    @IBAction func blockUserPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Block user", message: "Are you sure you want to block the account of this posts author", yesHandler : { context in
             println("Block user account \(self.post!.author!)...")
             self.jahiaServerServices.blockUser(self.post!.author!)
             }, noHandler : {context in }))
+    }
+
+    @IBAction func replyPressed(sender : AnyObject?) {
     }
 }
