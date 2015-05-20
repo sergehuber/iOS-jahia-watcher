@@ -26,21 +26,25 @@ class PostsTableViewController: UITableViewController {
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
         // self.tableView.addSubview(refreshControl)
+        self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
             self.refreshControl?.beginRefreshing()
             self.latestPosts = self.jahiaServerServices.getLatestPosts()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.navigationItem.prompt = nil
         }
     }
     
         
     func refreshData(sender:AnyObject) {
+        self.navigationItem.prompt = "Loading..."
         // Code to refresh table view
         dispatch_async(dispatch_get_main_queue()) {
             self.latestPosts = self.jahiaServerServices.getLatestPosts()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.navigationItem.prompt = nil
         }
     }
     
@@ -156,11 +160,13 @@ class PostsTableViewController: UITableViewController {
     }
     
     func displaySpecificPost(postIdentifier : String) {
+        self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
             self.refreshControl?.beginRefreshing()
             self.latestPosts = self.jahiaServerServices.getLatestPosts()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.navigationItem.prompt = nil
             if self.latestPosts.count == 0 {
                 return
             }

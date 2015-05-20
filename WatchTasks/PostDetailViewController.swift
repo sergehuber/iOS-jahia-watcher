@@ -34,6 +34,7 @@ class PostDetailViewController: UIViewController {
     
     func displayPost() {
         if let realPost = post {
+            post = jahiaServerServices.getPostActions(realPost)            
             if let title = realPost.title {
                 postTitleLabel.text = title
             }

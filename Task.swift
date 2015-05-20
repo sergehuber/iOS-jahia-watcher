@@ -35,6 +35,7 @@ class Task {
         identifier = task["id"] as? String
         path = task["path"] as? String
         
+        
         let complexTitle = JahiaServerServices.getStringPropertyValue(properties, propertyName: "jcr__title")
         
         let matches = JahiaServerServices.matchesForRegexInText("##resourceBundle\\((.*),(.*)\\)## : (.*)", text: complexTitle)

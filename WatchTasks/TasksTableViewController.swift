@@ -26,9 +26,11 @@ class TasksTableViewController: UITableViewController {
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
+        self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
             self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
             self.tableView.reloadData()
+            self.navigationItem.prompt = nil
         }
     }
     
@@ -37,11 +39,13 @@ class TasksTableViewController: UITableViewController {
     }
         
     func refreshData(sender:AnyObject) {
+        self.navigationItem.prompt = "Loading..."
         // Code to refresh table view
         dispatch_async(dispatch_get_main_queue()) {
             self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.navigationItem.prompt = nil
         }
     }
     
@@ -158,9 +162,11 @@ class TasksTableViewController: UITableViewController {
     }
     
     func displaySpecificTask(taskIdentifier : String) {
+        self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
             self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
             self.tableView.reloadData()
+            self.navigationItem.prompt = nil
             if (self.workflowTasks.count == 0) {
                 return;
             }

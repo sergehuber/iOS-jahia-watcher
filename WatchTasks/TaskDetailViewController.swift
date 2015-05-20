@@ -93,6 +93,7 @@ class TaskDetailViewController: UIViewController {
 
     func actionTriggered(sender : UIBarButtonItem!) {
         if let idSender = sender as? IdUIBarButtonItem {
+            self.navigationItem.prompt="Performing action..."
             println("Action triggered for \(idSender.title) with tag \(idSender.tag) identifier=\(idSender.identifier) subIdentifier=\(idSender.subIdentifier)")
             jahiaServerServices.performTaskAction(task!, actionName: idSender.identifier!, finalOutcome: idSender.subIdentifier)
         } else {
@@ -101,6 +102,7 @@ class TaskDetailViewController: UIViewController {
         dispatch_async(dispatch_get_main_queue()) {
             self.task = self.jahiaServerServices.refreshTask(self.task!)
             self.displayTask()
+            self.navigationItem.prompt=nil
         }
     }
     
