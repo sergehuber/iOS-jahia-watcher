@@ -622,6 +622,67 @@ class JahiaServerServices {
         
     }
     
+    func replyToPost(post : Post, title : String?, body : String?) -> Post? {
+        if (!areServicesAvailable()) {
+            return post
+        }
+        mprintln("Replying to post \(post.path!) ...")
+        
+        let regex = NSRegularExpression(
+            pattern: "[^0-9a-zA-Z]",
+            options: NSRegularExpressionOptions.CaseInsensitive,
+            error: nil)!
+        
+        let range = NSMakeRange(0, count(title!))
+        let newNodeName : String = regex.stringByReplacingMatchesInString(title!,
+            options: NSMatchingOptions.allZeros,
+            range:range ,
+            withTemplate: "")
+        
+        let jahiaReplyPostURL : NSURL = NSURL(string: jahiaWatcherSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName)!
+        
+        let request = NSMutableURLRequest(URL: jahiaReplyPostURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+
+        let requestString : String = "{\"type\" : \"jnt:post\", \"properties\": { \"jcr:title\" : { \"value\" : \"\(title!)\" }, \"content\" : { \"value\" : \"\(body!)\" } } }";
+        mprintln("PUT \(jahiaReplyPostURL)")
+        mprintln("payload=\(requestString)")
+        let postData = NSMutableData()
+        postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        
+        request.HTTPMethod = "PUT"
+        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = postData
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode != 201) {
+                mprintln("Error creating child post under\(post.path) statusCode=\(httpResponse.statusCode)")
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                mprintln("result=\(datastring)")
+            } else {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+                
+                hideMessages()
+                return Post(fromNSDictionary: jsonResult)
+                
+            }
+        } else {
+            mprintln("Couldn't retrieve update for post \(post.path)")
+        }
+        hideMessages()
+        return nil
+    }
+    
     class func stripHTML(input : String) -> String {
         var output = input.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
         output = output.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")

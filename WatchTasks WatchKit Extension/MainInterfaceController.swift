@@ -11,8 +11,11 @@ import WatchKit
 
 class MainInterfaceController: WKInterfaceController {
     
+    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    
     override func awakeWithContext(context: AnyObject?) {
         println("Starting Jahia Watcher Watch Application...")
+        JahiaServerServices.messageDelegate = DefaultMessageDelegate()
     }
     
     
@@ -31,7 +34,6 @@ class MainInterfaceController: WKInterfaceController {
         forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
             println("handleActionWithIdentifier(\(identifier))")
 
-            let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
             JahiaServerServices.messageDelegate = DefaultMessageDelegate()
             jahiaServerServices.login()
             

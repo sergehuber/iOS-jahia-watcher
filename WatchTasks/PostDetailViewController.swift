@@ -102,6 +102,7 @@ class PostDetailViewController: UIViewController {
     }
     
     func replyActionPressed(sender: AnyObject) {
+        
     }
 
     func markAsSpamActionPressed(sender: AnyObject) {

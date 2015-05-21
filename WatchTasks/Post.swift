@@ -19,6 +19,7 @@ class Post {
     var content : String?
     var viewUrl : String?
     var actions : [PostAction]?
+    var parentUri : String?
     
     init(fromNSDictionary : NSDictionary) {
         identifier = fromNSDictionary["id"] as? String
@@ -47,6 +48,8 @@ class Post {
         if (createdByProperty != nil) {
             author = createdByProperty!["value"] as? String
         }
-        
+        let postLinks = fromNSDictionary["_links"] as! [String:AnyObject]
+        let postParentLink = postLinks["parent"] as! [String:String]
+        parentUri = postParentLink["href"]
     }
 }

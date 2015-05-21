@@ -94,6 +94,7 @@ class PostDetailInterfaceController: WKInterfaceController {
             self.jahiaServerServices.deleteNode(self.postDetailContext!.post!.identifier!, workspace: "live")                
             self.postDetailContext!.postsInterfaceController!.latestPosts.removeAtIndex(self.postDetailContext!.postIndex!)
             self.postDetailContext!.postsInterfaceController!.needsRefreshing = true
+            self.popController()
             }, noHandler : {context in }))
     }
     
@@ -112,5 +113,10 @@ class PostDetailInterfaceController: WKInterfaceController {
     }
     
     func replyPressed(sender : AnyObject?) {
+        let suggestions = [ "lol", "Couldn't agree more !", "I'm busy right now but I'll answer with more details later"]
+        presentTextInputControllerWithSuggestions(suggestions, allowedInputMode: WKTextInputMode.Plain, completion: { input in
+            let body = input[0] as! String
+            self.jahiaServerServices.replyToPost(self.postDetailContext!.post!, title: "Re: " + self.postDetailContext!.post!.title!, body: body)
+        } )
     }
 }
