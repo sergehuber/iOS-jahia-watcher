@@ -305,10 +305,18 @@
                                                     </label>
                                                 </items>
                                             </group>
-                                            <label width="1" alignment="left" text="Extract" id="Ux8-oW-Wn3">
-                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="font" type="system" pointSize="10"/>
-                                            </label>
+                                            <group width="1" alignment="left" id="5Aj-SU-zHH">
+                                                <items>
+                                                    <label alignment="left" text="Extract" id="Ux8-oW-Wn3">
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="font" type="system" pointSize="10"/>
+                                                    </label>
+                                                    <label alignment="right" hidden="YES" text="SPAM" id="pla-Rz-Ta5">
+                                                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="font" type="system" pointSize="9"/>
+                                                    </label>
+                                                </items>
+                                            </group>
                                         </items>
                                         <connections>
                                             <segue destination="qeO-gg-xdz" kind="push" identifier="postDetailSegue" id="GU9-Ph-cs7"/>
@@ -317,6 +325,7 @@
                                     <connections>
                                         <outlet property="postAuthor" destination="hOl-NS-2YI" id="fwB-4X-ewH"/>
                                         <outlet property="postExtract" destination="Ux8-oW-Wn3" id="iwX-ii-NYr"/>
+                                        <outlet property="postSpamMarker" destination="pla-Rz-Ta5" id="c4l-aU-ASx"/>
                                         <outlet property="postTitle" destination="1c5-3c-ENv" id="MAq-xV-E9s"/>
                                     </connections>
                                 </tableRow>
@@ -355,10 +364,18 @@
                                 </label>
                             </items>
                         </group>
-                        <label alignment="left" text="Author" id="mBk-eF-jqS">
-                            <color key="textColor" red="0.22352941179999999" green="0.58823529409999997" blue="0.21176470589999999" alpha="0.98999999999999999" colorSpace="calibratedRGB"/>
-                            <fontDescription key="font" type="system" pointSize="12"/>
-                        </label>
+                        <group width="1" alignment="left" id="Buo-hB-EqU">
+                            <items>
+                                <label alignment="left" text="Author" id="mBk-eF-jqS">
+                                    <color key="textColor" red="0.22352941179999999" green="0.58823529409999997" blue="0.21176470589999999" alpha="0.98999999999999999" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="12"/>
+                                </label>
+                                <label alignment="right" hidden="YES" text="SPAM" id="Gaw-6z-LiG">
+                                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="10"/>
+                                </label>
+                            </items>
+                        </group>
                         <label width="1" alignment="left" text="Body" numberOfLines="0" id="era-wc-tHr"/>
                         <button width="1" alignment="left" title="View on phone" id="2Hf-nf-dsg">
                             <connections>
@@ -371,6 +388,7 @@
                         <outlet property="postAuthorLabel" destination="mBk-eF-jqS" id="v1b-Jd-6yI"/>
                         <outlet property="postBodyLabel" destination="era-wc-tHr" id="AyP-Ht-2kG"/>
                         <outlet property="postDateLabel" destination="Snb-bQ-SVo" id="ThT-Jx-S66"/>
+                        <outlet property="postSpamMarkerLabel" destination="Gaw-6z-LiG" id="uTM-XT-IWR"/>
                         <outlet property="postTitleLabel" destination="ZPy-8o-fig" id="8Ta-ch-RBy"/>
                     </connections>
                 </controller>

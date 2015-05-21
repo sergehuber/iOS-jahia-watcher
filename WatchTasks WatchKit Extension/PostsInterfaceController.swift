@@ -48,6 +48,15 @@ class PostsInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        for i in 0...latestPosts.count-1 {
+            let postsRowController = postsTable.rowControllerAtIndex(i) as! PostsRowController
+            let latestPost = latestPosts[i]
+            if (latestPost.spam!) {
+                postsRowController.postSpamMarker.setHidden(false)
+            } else {
+                postsRowController.postSpamMarker.setHidden(true)
+            }
+        }
         
     }
     

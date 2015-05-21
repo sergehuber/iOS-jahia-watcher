@@ -18,8 +18,10 @@ class PostDetailInterfaceController: WKInterfaceController {
     @IBOutlet weak var postDateLabel: WKInterfaceLabel!
     @IBOutlet weak var postAuthorLabel: WKInterfaceLabel!
     @IBOutlet weak var postBodyLabel: WKInterfaceLabel!
+    @IBOutlet weak var postSpamMarkerLabel: WKInterfaceLabel!
     
     var post : Post?
+    var postsInterfaceController : PostsInterfaceController?
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -48,6 +50,11 @@ class PostDetailInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        if (post!.spam!) {
+            postSpamMarkerLabel.setHidden(false)
+        } else {
+            postSpamMarkerLabel.setHidden(true)
+        }
     }
     
     override func didDeactivate() {
@@ -68,6 +75,7 @@ class PostDetailInterfaceController: WKInterfaceController {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
             println("Marking post \(self.post!.path!) as spam...")
             self.jahiaServerServices.markAsSpam(self.post!.identifier!)
+            self.post!.spam = true
             }, noHandler : {context in }))
     }
 
@@ -75,6 +83,7 @@ class PostDetailInterfaceController: WKInterfaceController {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Unmark as spam", message: "Are you sure you want to unmark this post as spam ?", yesHandler : { context in
             println("Unmarking post \(self.post!.path!) as spam...")
             self.jahiaServerServices.unmarkAsSpam(self.post!.identifier!)
+            self.post!.spam = false
             }, noHandler : {context in }))
     }
     
