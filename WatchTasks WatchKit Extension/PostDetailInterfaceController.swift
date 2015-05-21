@@ -64,26 +64,40 @@ class PostDetailInterfaceController: WKInterfaceController {
         })
     }
     
-    @IBAction func markAsSpamPressed(sender : AnyObject?) {
+    func markAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
             println("Marking post \(self.post!.path!) as spam...")
             self.jahiaServerServices.markAsSpam(self.post!.identifier!)
             }, noHandler : {context in }))
     }
+
+    func unmarkAsSpamPressed(sender : AnyObject?) {
+        presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Unmark as spam", message: "Are you sure you want to unmark this post as spam ?", yesHandler : { context in
+            println("Unmarking post \(self.post!.path!) as spam...")
+            self.jahiaServerServices.unmarkAsSpam(self.post!.identifier!)
+            }, noHandler : {context in }))
+    }
     
-    @IBAction func deletePressed(sender : AnyObject?) {
+    func deletePressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "deletePostDialog", title: "Delete ?", message: "Are you sure you want to delete this post ?", yesHandler : { context in
             println("Deleting post...")
             }, noHandler : {context in }))
     }
     
-    @IBAction func blockUserPressed(sender : AnyObject?) {
+    func blockUserPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Block user", message: "Are you sure you want to block the account of this posts author", yesHandler : { context in
-            println("Block user account \(self.post!.author!)...")
+            println("Blocking user account \(self.post!.author!)...")
             self.jahiaServerServices.blockUser(self.post!.author!)
             }, noHandler : {context in }))
     }
 
-    @IBAction func replyPressed(sender : AnyObject?) {
+    func unblockUserPressed(sender : AnyObject?) {
+        presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Unblock user", message: "Are you sure you want to unblock the account of this posts author", yesHandler : { context in
+            println("Unblocking user account \(self.post!.author!)...")
+            self.jahiaServerServices.unblockUser(self.post!.author!)
+            }, noHandler : {context in }))
+    }
+    
+    func replyPressed(sender : AnyObject?) {
     }
 }
