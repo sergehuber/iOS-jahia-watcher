@@ -29,6 +29,7 @@
 		F4478DA11AFCA24F00763D5C /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4478DA01AFCA24F00763D5C /* TaskDetailViewController.swift */; };
 		F4478DA31AFCA27000763D5C /* TaskExtractTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4478DA21AFCA27000763D5C /* TaskExtractTableViewCell.swift */; };
 		F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */; };
+		F495B6F11B0E2A7700D188DD /* PostDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */; };
 		F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */; };
 		F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */; };
 		F4EB43C71AAD7E910049F30F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43C51AAD7E910049F30F /* Main.storyboard */; };
@@ -125,6 +126,7 @@
 		F4478DA01AFCA24F00763D5C /* TaskDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		F4478DA21AFCA27000763D5C /* TaskExtractTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskExtractTableViewCell.swift; sourceTree = "<group>"; };
 		F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailContext.swift; sourceTree = "<group>"; };
 		F4A3FB0A1AE07130007CB24F /* NewTaskNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = NewTaskNotificationPayload.apns; sourceTree = "<group>"; };
 		F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTaskNotificationController.swift; sourceTree = "<group>"; };
 		F4EB43BA1AAD7E910049F30F /* Jahia Watcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jahia Watcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,6 +298,7 @@
 				F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */,
 				F4F412E01B064A9300DB21BD /* ConfirmationDialogContext.swift */,
 				F4F412E21B064B6000DB21BD /* ConfirmationDialogInterfaceController.swift */,
+				F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */,
 			);
 			name = "Jahia Watcher WatchKit Extension";
 			path = "WatchTasks WatchKit Extension";
@@ -565,6 +568,7 @@
 				F4478D9B1AFC9F0D00763D5C /* Task.swift in Sources */,
 				F4428C501AD556B40034A722 /* PostDetailInterfaceController.swift in Sources */,
 				F4EB43EB1AAD7F010049F30F /* TasksInterfaceController.swift in Sources */,
+				F495B6F11B0E2A7700D188DD /* PostDetailContext.swift in Sources */,
 				F4428C561AD55B100034A722 /* TasksRowController.swift in Sources */,
 				F4428C4E1AD554680034A722 /* MainInterfaceController.swift in Sources */,
 				F4F412D11B0250F500DB21BD /* TaskAction.swift in Sources */,

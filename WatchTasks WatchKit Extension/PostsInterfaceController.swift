@@ -16,6 +16,7 @@ class PostsInterfaceController: WKInterfaceController {
     @IBOutlet weak var noPostFoundLabel: WKInterfaceLabel!
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     var latestPosts = [Post]()
+    var needsRefreshing : Bool = true
     
     override func awakeWithContext(context: AnyObject?) {
         
@@ -23,6 +24,13 @@ class PostsInterfaceController: WKInterfaceController {
         jahiaServerServices.login()
         
         latestPosts = jahiaServerServices.getLatestPosts()
+        if (needsRefreshing) {
+            refreshTable()
+            needsRefreshing = false
+        }        
+    }
+    
+    func refreshTable() {
         if (latestPosts.count == 0) {
             noPostFoundLabel.setHidden(false)
         } else {
@@ -37,27 +45,29 @@ class PostsInterfaceController: WKInterfaceController {
             postsRowController.postExtract.setText(latestPost.content)
             // postsRowController.postDate.setText("\(latestPost.date.relativeTime)")
             postsRowController.postAuthor.setText(latestPost.author)
-        }
-        
-    }
-    
-    override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table:WKInterfaceTable, rowIndex: Int) -> AnyObject? {
-        return latestPosts[rowIndex]
-    }
-    
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-        for i in 0...latestPosts.count-1 {
-            let postsRowController = postsTable.rowControllerAtIndex(i) as! PostsRowController
-            let latestPost = latestPosts[i]
             if (latestPost.spam!) {
                 postsRowController.postSpamMarker.setHidden(false)
             } else {
                 postsRowController.postSpamMarker.setHidden(true)
             }
         }
-        
+    }
+    
+    override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table:WKInterfaceTable, rowIndex: Int) -> AnyObject? {
+        let postDetailContext = PostDetailContext()
+        postDetailContext.post = latestPosts[rowIndex]
+        postDetailContext.postsInterfaceController = self
+        postDetailContext.postIndex = rowIndex
+        return postDetailContext
+    }
+    
+    override func willActivate() {
+        // This method is called when watch view controller is about to be visible to user
+        super.willActivate()
+        if (needsRefreshing) {
+            refreshTable()
+            needsRefreshing = false
+        }
     }
     
     override func didDeactivate() {

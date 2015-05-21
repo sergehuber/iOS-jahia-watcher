@@ -288,7 +288,9 @@
                             <color key="backgroundColor" red="0.22352941179999999" green="0.58823529409999997" blue="0.21176470589999999" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
                             <edgeInsets key="margins" left="2" right="2" top="0.0" bottom="0.0"/>
                         </group>
-                        <label width="1" alignment="left" text="No posts found" textAlignment="center" numberOfLines="2" id="pqa-CR-TYV"/>
+                        <label width="1" alignment="left" text="No posts found" textAlignment="center" numberOfLines="2" id="pqa-CR-TYV">
+                            <fontDescription key="font" type="system" pointSize="8"/>
+                        </label>
                         <table alignment="left" id="Q0k-c5-8n8">
                             <items>
                                 <tableRow identifier="postRow" id="ojF-TC-FAz" customClass="PostsRowController" customModule="Jahia_Watcher_WatchKit_Extension">

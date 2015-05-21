@@ -20,25 +20,24 @@ class PostDetailInterfaceController: WKInterfaceController {
     @IBOutlet weak var postBodyLabel: WKInterfaceLabel!
     @IBOutlet weak var postSpamMarkerLabel: WKInterfaceLabel!
     
-    var post : Post?
-    var postsInterfaceController : PostsInterfaceController?
+    var postDetailContext : PostDetailContext?
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
-        post = context as? Post
-        postTitleLabel.setText(post!.title)
-        postBodyLabel.setText(post!.content)
-        postDateLabel.setText("\(post!.date!.relativeTime)")
-        postAuthorLabel.setText(post!.author!)
+        postDetailContext = context as? PostDetailContext
+        postTitleLabel.setText(postDetailContext!.post!.title)
+        postBodyLabel.setText(postDetailContext!.post!.content)
+        postDateLabel.setText("\(postDetailContext!.post!.date!.relativeTime)")
+        postAuthorLabel.setText(postDetailContext!.post!.author!)
         
         buildPostActionsMenu()
     }
     
     func buildPostActionsMenu() {
         clearAllMenuItems()
-        let updatedPost = jahiaServerServices.getPostActions(post!)
+        let updatedPost = jahiaServerServices.getPostActions(postDetailContext!.post!)
         if (updatedPost.actions != nil) {
             for action in updatedPost.actions! {
                 var actionSelector = Selector(action.name! + "Pressed:")
@@ -50,7 +49,7 @@ class PostDetailInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        if (post!.spam!) {
+        if (postDetailContext!.post!.spam!) {
             postSpamMarkerLabel.setHidden(false)
         } else {
             postSpamMarkerLabel.setHidden(true)
@@ -65,7 +64,7 @@ class PostDetailInterfaceController: WKInterfaceController {
     @IBAction func viewOnPhone() {
         println("Viewing post on phone...")
         var userInfo : [NSObject : AnyObject] = ["action": "viewPost",
-            "viewUrl": jahiaWatcherSettings.contentRenderUrl(post!.viewUrl!)]
+            "viewUrl": jahiaWatcherSettings.contentRenderUrl(postDetailContext!.post!.viewUrl!)]
         WKInterfaceController.openParentApplication(userInfo, reply: { (reply, error) -> Void in
             println("parent application replied reply=\(reply) error=\(error)")
         })
@@ -73,37 +72,42 @@ class PostDetailInterfaceController: WKInterfaceController {
     
     func markAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
-            println("Marking post \(self.post!.path!) as spam...")
-            self.jahiaServerServices.markAsSpam(self.post!.identifier!)
-            self.post!.spam = true
+            println("Marking post \(self.postDetailContext!.post!.path!) as spam...")
+            self.jahiaServerServices.markAsSpam(self.postDetailContext!.post!.identifier!)
+            self.postDetailContext!.post!.spam = true
+            self.postDetailContext!.postsInterfaceController!.needsRefreshing = true
             }, noHandler : {context in }))
     }
 
     func unmarkAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Unmark as spam", message: "Are you sure you want to unmark this post as spam ?", yesHandler : { context in
-            println("Unmarking post \(self.post!.path!) as spam...")
-            self.jahiaServerServices.unmarkAsSpam(self.post!.identifier!)
-            self.post!.spam = false
+            println("Unmarking post \(self.postDetailContext!.post!.path!) as spam...")
+            self.jahiaServerServices.unmarkAsSpam(self.postDetailContext!.post!.identifier!)
+            self.postDetailContext!.post!.spam = false
+            self.postDetailContext!.postsInterfaceController!.needsRefreshing = true
             }, noHandler : {context in }))
     }
     
     func deletePressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "deletePostDialog", title: "Delete ?", message: "Are you sure you want to delete this post ?", yesHandler : { context in
             println("Deleting post...")
+            self.jahiaServerServices.deleteNode(self.postDetailContext!.post!.identifier!, workspace: "live")                
+            self.postDetailContext!.postsInterfaceController!.latestPosts.removeAtIndex(self.postDetailContext!.postIndex!)
+            self.postDetailContext!.postsInterfaceController!.needsRefreshing = true
             }, noHandler : {context in }))
     }
     
     func blockUserPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Block user", message: "Are you sure you want to block the account of this posts author", yesHandler : { context in
-            println("Blocking user account \(self.post!.author!)...")
-            self.jahiaServerServices.blockUser(self.post!.author!)
+            println("Blocking user account \(self.postDetailContext!.post!.author!)...")
+            self.jahiaServerServices.blockUser(self.postDetailContext!.post!.author!)
             }, noHandler : {context in }))
     }
 
     func unblockUserPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Unblock user", message: "Are you sure you want to unblock the account of this posts author", yesHandler : { context in
-            println("Unblocking user account \(self.post!.author!)...")
-            self.jahiaServerServices.unblockUser(self.post!.author!)
+            println("Unblocking user account \(self.postDetailContext!.post!.author!)...")
+            self.jahiaServerServices.unblockUser(self.postDetailContext!.post!.author!)
             }, noHandler : {context in }))
     }
     
