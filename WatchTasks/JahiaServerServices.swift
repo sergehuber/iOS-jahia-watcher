@@ -158,11 +158,41 @@ class JahiaServerServices {
         hideMessages()
     }
 
+    func unblockUser(userName : String) {
+        if (!areServicesAvailable()) {
+            return
+        }
+        mprintln("Unblocking user...")
+        
+        let jahiaUnblockUserURL : NSURL = NSURL(string: jahiaWatcherSettings.unblockUserUrl() + "?userName=\(userName)")!
+        
+        let request = NSMutableURLRequest(URL: jahiaUnblockUserURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 4
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode != 200) {
+                mprintln("Error unblocking user \(userName)?")
+            } else {
+                mprintln("User \(userName) unblocked successfully.")
+            }
+        } else {
+            mprintln("Unblocking of user \(userName) failed")
+        }
+        hideMessages()
+    }
+    
     func markAsSpam(nodeIdentifier : String) {
         if (!areServicesAvailable()) {
             return
         }
-        mprintln("Marking/unmarking post as spam")
+        mprintln("Marking post as spam")
         
         let jahiaMarkAsSpamURL : NSURL = NSURL(string: jahiaWatcherSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
         
@@ -178,16 +208,77 @@ class JahiaServerServices {
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             if (httpResponse.statusCode != 200) {
-                mprintln("Error marking/unmarking post as spam ?")
+                mprintln("Error marking post as spam ?")
             } else {
-                mprintln("Post marked/unmarked as spam successfully.")
+                mprintln("Post marked as spam successfully.")
             }
         } else {
-            mprintln("Marking/unmarking post as spam failed")
+            mprintln("Marking post as spam failed")
         }
         hideMessages()
     }
 
+    func unmarkAsSpam(nodeIdentifier : String) {
+        if (!areServicesAvailable()) {
+            return
+        }
+        mprintln("Unmarking post as spam")
+        
+        let jahiaUnmarkAsSpamURL : NSURL = NSURL(string: jahiaWatcherSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
+        
+        let request = NSMutableURLRequest(URL: jahiaUnmarkAsSpamURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 4
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode != 200) {
+                mprintln("Error unmarking post as spam ?")
+            } else {
+                mprintln("Post unmarked as spam successfully.")
+            }
+        } else {
+            mprintln("Unmarking post as spam failed")
+        }
+        hideMessages()
+    }
+    
+    func deleteNode(nodeIdentifier : String, workspace : String) {
+        if (!areServicesAvailable()) {
+            return
+        }
+        mprintln("Deleting node \(nodeIdentifier)")
+        
+        let jahiaDeleteNodeURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)")!
+        
+        let request = NSMutableURLRequest(URL: jahiaDeleteNodeURL)
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 4
+        request.HTTPMethod = "DELETE"
+        
+        var openTaskCount = 0;
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode != 204) {
+                mprintln("Error deleting node \(nodeIdentifier) statusCode=\(httpResponse.statusCode)")
+            } else {
+                mprintln("Node \(nodeIdentifier) deleted successfully.")
+            }
+        } else {
+            mprintln("Deleting node \(nodeIdentifier) failed.")
+        }
+        hideMessages()
+    }
+    
     func getPostActions(post : Post) -> Post {
         if (!areServicesAvailable()) {
             return post

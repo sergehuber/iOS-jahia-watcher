@@ -29,7 +29,9 @@ class JahiaWatcherSettings {
     var jahiaServerUserPathServletPath : String = "/cms/render/live/en/sites.userPath.do"
     var jahiaServerRegisterDeviceTokenServletPath : String = "/cms/render/live/en/sites.registerToken.do"
     var jahiaServerBlockUserServletPath : String = "/cms/render/live/en/sites.blockUser.do"
+    var jahiaServerUnblockUserServletPath : String = "/cms/render/live/en/sites.unblockUser.do"
     var jahiaServerMarkAsSpamServletPath : String = "/cms/render/live/en/sites.markAsSpam.do"
+    var jahiaServerUnmarkAsSpamServletPath : String = "/cms/render/live/en/sites.unmarkAsSpam.do"
     var jahiaServerTaskActionsPartialPath : String = "/cms/render/default/en";
     var jahiaServerPostActionsPartialPath : String = "/cms/render/live/en";
     
@@ -115,9 +117,17 @@ class JahiaWatcherSettings {
     func blockUserUrl() -> String {
         return contextUrl() + jahiaServerBlockUserServletPath;
     }
+
+    func unblockUserUrl() -> String {
+        return contextUrl() + jahiaServerUnblockUserServletPath;
+    }
     
     func markAsSpamUrl() -> String {
         return contextUrl() + jahiaServerMarkAsSpamServletPath
+    }
+
+    func unmarkAsSpamUrl() -> String {
+        return contextUrl() + jahiaServerUnmarkAsSpamServletPath
     }
     
     func contentRenderUrl(contentPath : String) -> String {

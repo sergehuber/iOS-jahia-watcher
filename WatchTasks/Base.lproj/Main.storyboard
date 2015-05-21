@@ -185,31 +185,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" id="fYl-DR-vGG"/>
                                 </constraints>
-                                <items>
-                                    <barButtonItem title="Reply" style="plain" id="CnT-Ru-bQY" userLabel="Reply">
-                                        <connections>
-                                            <action selector="reply:" destination="BnB-6C-Enw" id="wJS-Ao-4Id"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zRB-mq-BE3"/>
-                                    <barButtonItem title="Mark as spam" id="JBL-NF-yG4">
-                                        <connections>
-                                            <action selector="markAsSpam:" destination="BnB-6C-Enw" id="SRU-7v-z9Z"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="TlS-BY-Ucy"/>
-                                    <barButtonItem title="Block user" id="bcm-ew-Cpq">
-                                        <connections>
-                                            <action selector="blockUser:" destination="BnB-6C-Enw" id="EU2-EL-9Th"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="fhN-hj-dsa"/>
-                                    <barButtonItem title="Delete" id="ILm-uP-oGi">
-                                        <connections>
-                                            <action selector="deletePost:" destination="BnB-6C-Enw" id="sWL-jv-Hdi"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
+                                <items/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="fYl-DR-vGG"/>
@@ -323,7 +299,7 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="markAsSpamButton" destination="JBL-NF-yG4" id="rzq-Ev-Xgd"/>
+                        <outlet property="actionsToolbar" destination="Rhc-Ut-zj0" id="Dkh-t7-QYf"/>
                         <outlet property="markedAsSpamLabel" destination="VKO-eT-28t" id="Yge-q2-7t8"/>
                         <outlet property="postAuthorLabel" destination="fnK-8p-M43" id="bYi-iM-vzU"/>
                         <outlet property="postContentLabel" destination="LKd-4T-T4H" id="582-eF-v6Z"/>

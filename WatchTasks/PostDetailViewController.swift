@@ -18,8 +18,7 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var postAuthorLabel: UILabel!
     @IBOutlet weak var markedAsSpamLabel: UILabel!
     
-    @IBOutlet weak var markAsSpamButton: UIBarButtonItem!
-    
+    @IBOutlet weak var actionsToolbar: UIToolbar!
     var post : Post?
     var postsTableViewController : PostsTableViewController?
     var postIndex : Int?
@@ -50,12 +49,25 @@ class PostDetailViewController: UIViewController {
             if let spam = realPost.spam {
                 if (spam) {
                     markedAsSpamLabel.hidden = false
-                    markAsSpamButton.title = "Not spam"
                 } else {
                     markedAsSpamLabel.hidden = true
-                    markAsSpamButton.title = "Mark as spam"
                 }
             }
+            actionsToolbar.items?.removeAll(keepCapacity: false)
+            if let actions = realPost.actions {
+                var insertedItems = 0;
+                for action in actions {
+                    let actionBarButtonItem = IdUIBarButtonItem(title: action.displayName, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("\(action.name!)ActionPressed:"))
+                    actionBarButtonItem.tag = action.name!.hash
+                    actionBarButtonItem.identifier = action.name
+                    actionsToolbar.items!.append(actionBarButtonItem)
+                    insertedItems++;
+                    if (insertedItems < actions.count) {
+                        actionsToolbar.items!.append(UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil))
+                    }
+                }
+            }
+            
         }
     }
 
@@ -89,16 +101,12 @@ class PostDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func reply(sender: AnyObject) {
+    func replyActionPressed(sender: AnyObject) {
     }
 
-    @IBAction func markAsSpam(sender: AnyObject) {
+    func markAsSpamActionPressed(sender: AnyObject) {
         var dialogTitle : String = "Mark as spam"
         var dialogMessage : String = "Are you sure you want to mark this post as spam ?";
-        if (post!.spam!) {
-            dialogTitle = "Unmark as spam"
-            dialogMessage = "Are you sure you want to remove the spam marker on this message ?"
-        }
         var alert = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
@@ -129,7 +137,42 @@ class PostDetailViewController: UIViewController {
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    @IBAction func blockUser(sender: AnyObject) {
+
+    func unmarkAsSpamActionPressed(sender: AnyObject) {
+        let dialogTitle = "Unmark as spam"
+        let dialogMessage = "Are you sure you want to remove the spam marker on this message ?"
+        var alert = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+                self.jahiaServerServices.unmarkAsSpam(self.post!.identifier!)
+                self.post = self.jahiaServerServices.refreshPost(self.post!)
+                self.displayPost()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func blockUserActionPressed(sender: AnyObject) {
         var alert = UIAlertController(title: "Block user", message: "Are you sure you want to block this user ?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
@@ -160,7 +203,40 @@ class PostDetailViewController: UIViewController {
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    @IBAction func deletePost(sender: AnyObject) {
+
+    func unblockUserActionPressed(sender: AnyObject) {
+        var alert = UIAlertController(title: "Unblock user", message: "Are you sure you want to unblock this user ?", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+                self.jahiaServerServices.unblockUser(self.post!.author!)
+                self.post = self.jahiaServerServices.refreshPost(self.post!)
+                self.displayPost()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func deleteActionPressed(sender: AnyObject) {
         var alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to delete this post ?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
@@ -172,6 +248,7 @@ class PostDetailViewController: UIViewController {
                 
             case .Destructive:
                 println("destructive")
+                self.jahiaServerServices.deleteNode(self.post!.identifier!, workspace: "live")
             }
         }))
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
