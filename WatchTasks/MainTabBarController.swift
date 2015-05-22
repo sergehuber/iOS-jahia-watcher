@@ -47,6 +47,9 @@ class MainTabBarController: UITabBarController {
             if viewController.restorationIdentifier == "PostsNavigationController" {
                 selectedViewController = viewController
                 let postsNavigationController = viewController as! UINavigationController
+                if ((!(postsNavigationController.topViewController is PostsTableViewController))) {
+                    postsNavigationController.popToRootViewControllerAnimated(true)
+                }
                 let postsTableViewController = postsNavigationController.topViewController as! PostsTableViewController
                 postsTableViewController.displaySpecificPost(postIdentifier)
             }
@@ -66,6 +69,9 @@ class MainTabBarController: UITabBarController {
             if viewController.restorationIdentifier == "TasksNavigationController" {
                 selectedViewController = viewController
                 let tasksNavigationController = viewController as! UINavigationController
+                if ((!(tasksNavigationController.topViewController is TasksTableViewController))) {
+                    tasksNavigationController.popToRootViewControllerAnimated(true)
+                }
                 let tasksTableViewController = tasksNavigationController.topViewController as! TasksTableViewController
                 tasksTableViewController.displaySpecificTask(taskIdentifier)
             }
