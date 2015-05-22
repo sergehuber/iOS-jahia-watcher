@@ -661,10 +661,10 @@
                         <viewControllerLayoutGuide type="bottom" id="o6l-Z5-tBL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JwI-oM-udY">
-                        <rect key="frame" x="0.0" y="64" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Task title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTc-CL-K8v">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTc-CL-K8v">
                                 <rect key="frame" x="32" y="8" width="482" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="474" id="uoT-X9-ILm"/>
@@ -684,8 +684,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Task status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3i-AG-2aj">
-                                <rect key="frame" x="32" y="29" width="131" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3i-AG-2aj">
+                                <rect key="frame" x="32" y="28" width="131" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="131" id="6MT-DJ-338"/>
                                 </constraints>
@@ -708,11 +708,11 @@
                                 </variation>
                             </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DgS-Rb-VAs">
-                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="443" width="600" height="44"/>
                                 <items/>
                             </toolbar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuP-ZT-64m">
-                                <rect key="frame" x="32" y="87" width="131" height="30"/>
+                                <rect key="frame" x="32" y="86" width="131" height="30"/>
                                 <state key="normal" title="Preview changes">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -720,7 +720,7 @@
                                     <segue destination="Mj3-TH-Hx9" kind="show" id="1aw-ot-VX8"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Assignee" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fr-Pi-His">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assignee" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fr-Pi-His">
                                 <rect key="frame" x="514" y="8" width="70" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="k7F-u3-ked"/>
@@ -787,14 +787,15 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ShortGreenBar" translatesAutoresizingMaskIntoConstraints="NO" id="Alr-zG-lkz">
-                                <rect key="frame" x="37" y="20" width="13" height="129"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" misplaced="YES" image="ShortGreenBar" translatesAutoresizingMaskIntoConstraints="NO" id="Alr-zG-lkz">
+                                <rect key="frame" x="16" y="20" width="13" height="129"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="13" id="Kea-5w-XIf"/>
+                                    <constraint firstAttribute="height" constant="134" id="aaQ-0S-pQR"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cpm-5A-Ctk">
-                                <rect key="frame" x="58" y="20" width="33" height="21"/>
+                                <rect key="frame" x="37" y="20" width="33" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="WrV-Tr-XhA"/>
                                     <constraint firstAttribute="width" constant="33" id="vdG-70-sZ1"/>
@@ -804,7 +805,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h3O-hN-wTG">
-                                <rect key="frame" x="58" y="99" width="41" height="21"/>
+                                <rect key="frame" x="37" y="99" width="41" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="41" id="1lA-Ba-EVw"/>
                                     <constraint firstAttribute="height" constant="21" id="WM0-Z6-nBQ"/>
@@ -814,7 +815,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter title here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wtP-LE-vpw">
-                                <rect key="frame" x="58" y="49" width="526" height="30"/>
+                                <rect key="frame" x="37" y="49" width="547" height="30"/>
                                 <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Ime-Mf-FDH"/>
@@ -823,7 +824,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lmj-40-EVp">
-                                <rect key="frame" x="58" y="128" width="526" height="315"/>
+                                <rect key="frame" x="37" y="128" width="547" height="315"/>
                                 <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="0.12" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="315" id="4Pa-f2-Ukx"/>
@@ -858,7 +859,7 @@
                             <constraint firstItem="Cpm-5A-Ctk" firstAttribute="leading" secondItem="Alr-zG-lkz" secondAttribute="trailing" constant="8" symbolic="YES" id="GEY-mU-ndP"/>
                             <constraint firstAttribute="trailing" secondItem="T2X-tf-Qea" secondAttribute="trailing" id="MjS-Np-2R4"/>
                             <constraint firstItem="Lmj-40-EVp" firstAttribute="leading" secondItem="h3O-hN-wTG" secondAttribute="leading" id="Mm5-dF-bTI"/>
-                            <constraint firstItem="Alr-zG-lkz" firstAttribute="leading" secondItem="W7x-dJ-fUf" secondAttribute="leadingMargin" constant="21" id="Mo3-FL-Fig"/>
+                            <constraint firstItem="Alr-zG-lkz" firstAttribute="leading" secondItem="W7x-dJ-fUf" secondAttribute="leadingMargin" id="Mo3-FL-Fig"/>
                             <constraint firstItem="wtP-LE-vpw" firstAttribute="leading" secondItem="h3O-hN-wTG" secondAttribute="leading" id="Oxc-W1-6Ss"/>
                             <constraint firstItem="T2X-tf-Qea" firstAttribute="top" secondItem="Lmj-40-EVp" secondAttribute="bottom" id="Px1-0P-Fhv"/>
                             <constraint firstItem="ohv-83-iMD" firstAttribute="top" secondItem="T2X-tf-Qea" secondAttribute="bottom" id="Qv8-0T-TbL"/>
@@ -871,6 +872,11 @@
                             <constraint firstItem="wtP-LE-vpw" firstAttribute="top" secondItem="Cpm-5A-Ctk" secondAttribute="bottom" constant="8" symbolic="YES" id="qxD-08-zxV"/>
                             <constraint firstItem="Cpm-5A-Ctk" firstAttribute="top" secondItem="Alr-zG-lkz" secondAttribute="top" id="zCS-ML-fA1"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="bms-u6-zYj"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <connections>
@@ -893,10 +899,10 @@
                         <viewControllerLayoutGuide type="bottom" id="XcP-YI-tSp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="RuN-rB-Wt0">
-                        <rect key="frame" x="0.0" y="64" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NTW-Ad-sNh">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NTW-Ad-sNh">
                                 <rect key="frame" x="0.0" y="41" width="600" height="446"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
@@ -943,7 +949,7 @@
         <image name="TasksTabIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZUj-PW-SI3"/>
+        <segue reference="QDY-pM-4Re"/>
         <segue reference="hUS-cn-wXD"/>
     </inferredMetricsTieBreakers>
 </document>

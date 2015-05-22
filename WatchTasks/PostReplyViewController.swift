@@ -22,6 +22,14 @@ class PostReplyViewController: UIViewController {
         // Do any additional setup after loading the view.
         titleTextField.text = "Re:" + post!.title!
         bodyTextView.text = "Quote : \"" + post!.content! + "\"\n";
+
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "dismissKeyboard")
+        let keyboardToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 44))
+        let toolbarItems = [ doneBarButton ]
+        keyboardToolbar.setItems(toolbarItems, animated: false)
+        
+        titleTextField.inputAccessoryView = keyboardToolbar
+        bodyTextView.inputAccessoryView = keyboardToolbar
     }
  
     override func didReceiveMemoryWarning() {
@@ -29,6 +37,9 @@ class PostReplyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
     
     /*
     // MARK: - Navigation
