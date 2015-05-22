@@ -622,6 +622,16 @@ class JahiaServerServices {
         
     }
     
+    func jsonEscaping(input : String) -> String {
+        var s : String = input
+        s = s.stringByReplacingOccurrencesOfString("\"",withString:"\\\"",options:NSStringCompareOptions.CaseInsensitiveSearch, range:Range<String.Index>(start: s.startIndex, end: s.endIndex))
+        s = s.stringByReplacingOccurrencesOfString("/",withString:"\\/", options:NSStringCompareOptions.CaseInsensitiveSearch, range:Range<String.Index>(start: s.startIndex, end: s.endIndex))
+        s = s.stringByReplacingOccurrencesOfString("\n",withString:"\\n", options:NSStringCompareOptions.CaseInsensitiveSearch, range:Range<String.Index>(start: s.startIndex, end: s.endIndex))
+        s = s.stringByReplacingOccurrencesOfString("\r",withString:"\\r", options:NSStringCompareOptions.CaseInsensitiveSearch, range:Range<String.Index>(start: s.startIndex, end: s.endIndex))
+        s = s.stringByReplacingOccurrencesOfString("\t",withString:"\\t", options:NSStringCompareOptions.CaseInsensitiveSearch, range:Range<String.Index>(start: s.startIndex, end: s.endIndex))
+        return s
+    }
+    
     func replyToPost(post : Post, title : String?, body : String?) -> Post? {
         if (!areServicesAvailable()) {
             return post
@@ -644,7 +654,7 @@ class JahiaServerServices {
         let request = NSMutableURLRequest(URL: jahiaReplyPostURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
 
-        let requestString : String = "{\"type\" : \"jnt:post\", \"properties\": { \"jcr:title\" : { \"value\" : \"\(title!)\" }, \"content\" : { \"value\" : \"\(body!)\" } } }";
+        let requestString : String = "{\"type\" : \"jnt:post\", \"properties\": { \"jcr:title\" : { \"value\" : \"\(jsonEscaping(title!))\" }, \"content\" : { \"value\" : \"\(jsonEscaping(body!))\" } } }";
         mprintln("PUT \(jahiaReplyPostURL)")
         mprintln("payload=\(requestString)")
         let postData = NSMutableData()

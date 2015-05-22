@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F431B59E1B0F07AF0037FE1B /* PostReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */; };
 		F4428C431AD41AEE0034A722 /* JahiaWatcherSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */; };
 		F4428C441AD422740034A722 /* JahiaWatcherSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */; };
 		F4428C461AD534490034A722 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C451AD534490034A722 /* SettingsViewController.swift */; };
@@ -107,6 +108,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostReplyViewController.swift; sourceTree = "<group>"; };
 		F4428C401AD412430034A722 /* Jahia Watcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher.entitlements"; sourceTree = SOURCE_ROOT; };
 		F4428C411AD4125E0034A722 /* Jahia Watcher WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher WatchKit Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JahiaWatcherSettings.swift; path = WatchTasks/JahiaWatcherSettings.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				F4428C571AD5638D0034A722 /* PostsTableViewController.swift */,
 				F4428C591AD56AC10034A722 /* PostExtractTableViewCell.swift */,
 				F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */,
+				F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */,
 				F4F23BB31AD99E6E003751C6 /* MainTabBarController.swift */,
 				F4478D9E1AFCA13100763D5C /* TasksTableViewController.swift */,
 				F4478DA01AFCA24F00763D5C /* TaskDetailViewController.swift */,
@@ -532,6 +535,7 @@
 				F4478D9F1AFCA13100763D5C /* TasksTableViewController.swift in Sources */,
 				F4428C581AD5638D0034A722 /* PostsTableViewController.swift in Sources */,
 				F4FD97E41B0B80D1001A0474 /* PostAction.swift in Sources */,
+				F431B59E1B0F07AF0037FE1B /* PostReplyViewController.swift in Sources */,
 				F4F412DD1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift in Sources */,
 				F4F412D71B03276400DB21BD /* IdUIBarButtonItem.swift in Sources */,
 			);

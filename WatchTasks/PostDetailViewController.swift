@@ -77,15 +77,17 @@ class PostDetailViewController: UIViewController {
     }
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "replyToPost") {
+            let postReplyViewController = segue.destinationViewController as! PostReplyViewController
+            postReplyViewController.post = post!
+        }
     }
-    */
     
     override func viewWillDisappear(animated : Bool) {
         super.viewWillDisappear(animated)
@@ -102,7 +104,7 @@ class PostDetailViewController: UIViewController {
     }
     
     func replyActionPressed(sender: AnyObject) {
-        
+        performSegueWithIdentifier("replyToPost", sender: self)
     }
 
     func markAsSpamActionPressed(sender: AnyObject) {
@@ -266,4 +268,9 @@ class PostDetailViewController: UIViewController {
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    @IBAction func unwindBackFromReply(sender : UIStoryboardSegue) {
+        println("Back from reply view controller")
+    }
+    
 }
