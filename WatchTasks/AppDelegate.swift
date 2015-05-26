@@ -96,13 +96,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var replyMap = [NSObject:AnyObject]()
         if action == "previewTaskChanges" {
             let previewUrl = userInfo!["previewUrl"] as! String
-            UIApplication.sharedApplication().openURL(NSURL(string:previewUrl)!)
-            replyMap["actionPerformed"] = "Opened task changes preview URL \(previewUrl)"
+            let previewNSURL = NSURL(string:previewUrl)!
+            let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
+            if (scheduledLocalNotifications.count > 0) {
+                UIApplication.sharedApplication().cancelAllLocalNotifications()
+            }
+            let localNotification = UILocalNotification()
+            localNotification.userInfo = userInfo
+            localNotification.alertTitle = "Preview task"
+            localNotification.alertBody = "This task will open on the iPhone"
+            localNotification.fireDate = NSDate()
+            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+            if UIApplication.sharedApplication().canOpenURL(previewNSURL) {
+                UIApplication.sharedApplication().openURL(previewNSURL)
+                replyMap["actionPerformed"] = "Opened task changes preview URL \(previewUrl)"
+            } else {
+            }
         } else if (action == "viewPost") {
             let viewUrl = userInfo!["viewUrl"] as! String
-            UIApplication.sharedApplication().openURL(NSURL(string:viewUrl)!)
-            replyMap["actionPerformed"] = "Opened post view URL \(viewUrl)"
-            
+            let viewNSURL = NSURL(string:viewUrl)!
+            let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
+            if (scheduledLocalNotifications.count > 0) {
+                UIApplication.sharedApplication().cancelAllLocalNotifications()
+            }
+            let localNotification = UILocalNotification()
+            localNotification.userInfo = userInfo
+            localNotification.alertTitle = "View post"
+            localNotification.alertBody = "This post will open on the iPhone"
+            localNotification.fireDate = NSDate()
+            UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+            if (UIApplication.sharedApplication().canOpenURL(viewNSURL)) {
+                UIApplication.sharedApplication().openURL(viewNSURL)
+                replyMap["actionPerformed"] = "Opened post view URL \(viewUrl)"
+            } else {
+            }
         }
         reply(replyMap)
     }
@@ -204,7 +231,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        println("didReceiveLocalNotification")
+        let userInfo = notification.userInfo
+        let action = userInfo!["action"] as! String
+        println("didReceiveLocationNotification with action \(action)")
+        if action == "previewTaskChanges" {
+            let previewUrl = userInfo!["previewUrl"] as! String
+            let previewNSURL = NSURL(string:previewUrl)!
+            if UIApplication.sharedApplication().canOpenURL(previewNSURL) {
+                UIApplication.sharedApplication().openURL(previewNSURL)
+            } else {
+            }
+        } else if (action == "viewPost") {
+            let viewUrl = userInfo!["viewUrl"] as! String
+            let viewNSURL = NSURL(string:viewUrl)!
+            if (UIApplication.sharedApplication().canOpenURL(viewNSURL)) {
+                UIApplication.sharedApplication().openURL(viewNSURL)
+            } else {
+            }
+        }
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
