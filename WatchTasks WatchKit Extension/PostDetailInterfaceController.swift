@@ -54,6 +54,15 @@ class PostDetailInterfaceController: WKInterfaceController {
         } else {
             postSpamMarkerLabel.setHidden(true)
         }
+        
+        let userInfo : [NSObject : AnyObject] = [ "aps" : [
+            "alert" : "View post",
+            "category" : "newPost"
+            ],
+            "nodeIdentifier" : "\(postDetailContext!.post!.identifier!)"]
+        
+        self.updateUserActivity("com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewPost", userInfo: userInfo, webpageURL: nil)
+        
     }
     
     override func didDeactivate() {

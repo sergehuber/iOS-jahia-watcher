@@ -255,5 +255,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("handleActionWithIdentifier for local notification with completionHandler")
         completionHandler()
     }
+    
+    func application(application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        if (userActivityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewPost" ||
+            userActivityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewTask") {
+                println("Authorizing activity type \(userActivityType)")
+                return true
+        }
+        println("Received unrecognized activity type \(userActivityType)")
+        return false
+    }
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
+        println("Ready to handle activity \(userActivity)")
+        if (userActivity.activityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewPost") {
+            displayNotificationData(userActivity.userInfo!)
+        } else if (userActivity.activityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewTask") {
+            displayNotificationData(userActivity.userInfo!)            
+        } else {
+            println("Received unrecognized activity type \(userActivity.activityType)")
+            return false
+        }
+        return true
+    }
 }
 

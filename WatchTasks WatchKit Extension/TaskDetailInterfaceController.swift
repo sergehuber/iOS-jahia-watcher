@@ -35,7 +35,7 @@ class TaskDetailInterfaceController: WKInterfaceController {
         descriptionLabel.setText(task!.description)
         stateLabel.setText(task!.state)
         titleLabel.setText(task!.title)
-            
+        
         // Configure interface objects here.
         
         buildTaskActionsMenu()
@@ -125,6 +125,13 @@ class TaskDetailInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        let userInfo : [NSObject : AnyObject] = [ "aps" : [
+            "alert" : "View task",
+            "category" : "newTask"
+            ],
+            "nodeIdentifier" : "\(task!.identifier!)"]
+        
+        self.updateUserActivity("com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewTask", userInfo: userInfo, webpageURL: nil)
     }
 
     override func didDeactivate() {

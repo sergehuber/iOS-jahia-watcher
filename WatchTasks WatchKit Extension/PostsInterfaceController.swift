@@ -38,17 +38,19 @@ class PostsInterfaceController: WKInterfaceController {
         }
         postsTable.setNumberOfRows(latestPosts.count, withRowType: "postRow")
         
-        for i in 0...latestPosts.count-1 {
-            let postsRowController = postsTable.rowControllerAtIndex(i) as! PostsRowController
-            let latestPost = latestPosts[i]
-            postsRowController.postTitle.setText(latestPost.title)
-            postsRowController.postExtract.setText(latestPost.content)
-            // postsRowController.postDate.setText("\(latestPost.date.relativeTime)")
-            postsRowController.postAuthor.setText(latestPost.author)
-            if (latestPost.spam!) {
-                postsRowController.postSpamMarker.setHidden(false)
-            } else {
-                postsRowController.postSpamMarker.setHidden(true)
+        if (latestPosts.count > 0) {
+            for i in 0...latestPosts.count-1 {
+                let postsRowController = postsTable.rowControllerAtIndex(i) as! PostsRowController
+                let latestPost = latestPosts[i]
+                postsRowController.postTitle.setText(latestPost.title)
+                postsRowController.postExtract.setText(latestPost.content)
+                // postsRowController.postDate.setText("\(latestPost.date.relativeTime)")
+                postsRowController.postAuthor.setText(latestPost.author)
+                if (latestPost.spam!) {
+                    postsRowController.postSpamMarker.setHidden(false)
+                } else {
+                    postsRowController.postSpamMarker.setHidden(true)
+                }
             }
         }
     }
@@ -68,6 +70,7 @@ class PostsInterfaceController: WKInterfaceController {
             refreshTable()
             needsRefreshing = false
         }
+        self.invalidateUserActivity()
     }
     
     override func didDeactivate() {

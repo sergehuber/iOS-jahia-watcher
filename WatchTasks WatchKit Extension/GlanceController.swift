@@ -17,15 +17,33 @@ class GlanceController: WKInterfaceController {
     
     @IBOutlet weak var last24hoursUsers: WKInterfaceLabel!
     
+    @IBOutlet weak var couldntLoadDataLabel: WKInterfaceLabel!
+    @IBOutlet weak var usersInLastPostsGroup: WKInterfaceGroup!
+    @IBOutlet weak var lastPostAndOpenTasksGroup: WKInterfaceGroup!
+    
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     var latestPosts : NSArray = NSArray()
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
+        JahiaServerServices.messageDelegate = DefaultMessageDelegate()
+
         println("Preparing glance data...")
         
         // Configure interface objects here.
         jahiaServerServices.login()
+        
+        if (!jahiaServerServices.areServicesAvailable()) {
+            println("Services are not available")
+            couldntLoadDataLabel.setHidden(false)
+            usersInLastPostsGroup.setHidden(true)
+            lastPostAndOpenTasksGroup.setHidden(true)
+            return
+        } else {
+            couldntLoadDataLabel.setHidden(true)
+            usersInLastPostsGroup.setHidden(false)
+            lastPostAndOpenTasksGroup.setHidden(false)
+        }
         
         let latestPosts = jahiaServerServices.getLatestPosts()
         var lastestPostDate : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(0))

@@ -144,6 +144,7 @@
                         <button width="1" alignment="left" title="Preview changes" id="YY6-qj-7Ug">
                             <connections>
                                 <action selector="previewChangesPressed" destination="6tc-QF-REN" id="2Mp-I1-H5G"/>
+                                <segue destination="EJ1-aw-OGv" kind="push" identifier="viewTaskOniPhone" id="c5g-17-l88"/>
                             </connections>
                         </button>
                     </items>
@@ -164,6 +165,26 @@
             </objects>
             <point key="canvasLocation" x="483" y="701"/>
         </scene>
+        <!--Interface Controller-->
+        <scene sceneID="MtK-HG-MW2">
+            <objects>
+                <controller id="EJ1-aw-OGv">
+                    <items>
+                        <group width="1" alignment="left" id="Yk9-Bj-gZI">
+                            <items>
+                                <label width="1" alignment="left" text="View on iPhone" textAlignment="center" minimumScaleFactor="0.50000000000000011" id="GIb-6R-kbs"/>
+                            </items>
+                            <color key="backgroundColor" red="0.1647058824" green="0.50980392159999999" blue="1" alpha="0.67000000000000004" colorSpace="calibratedRGB"/>
+                            <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
+                        </group>
+                        <label width="1" alignment="left" text="To view this content on the iPhone, swipe up the Handoff icon on the iPhone's lock screen (in the lower left corner)" textAlignment="left" numberOfLines="0" id="fGR-be-Ywy">
+                            <fontDescription key="font" type="system" pointSize="12"/>
+                        </label>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="725" y="695"/>
+        </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
             <objects>
@@ -180,13 +201,16 @@
                         </group>
                         <group alignment="left" contentMode="scaleAspectFill" layout="vertical" id="uCw-4Q-Ouw">
                             <items>
+                                <label alignment="left" hidden="YES" text="Couldn't load data !" textAlignment="center" minimumScaleFactor="0.30000000000000016" id="Y4s-jA-lJG">
+                                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
                                 <group width="1" alignment="left" layout="vertical" id="FPF-uH-WeE">
                                     <items>
                                         <group width="1" height="1" alignment="left" id="B5E-Kw-o9q">
                                             <items>
                                                 <label width="0.30000000000000016" alignment="left" text=" " id="EQf-Vh-mPl"/>
                                                 <imageView width="0.20000000000000004" height="18" alignment="left" verticalAlignment="center" image="ConnectedUsersIcon" contentMode="scaleAspectFit" id="qGd-P8-JcD"/>
-                                                <label width="0.30000000000000004" alignment="left" text="100" textAlignment="left" id="DKR-Cs-4Xz">
+                                                <label width="0.30000000000000004" alignment="left" text="0" textAlignment="left" id="DKR-Cs-4Xz">
                                                     <fontDescription key="font" type="boldSystem" pointSize="21"/>
                                                 </label>
                                             </items>
@@ -207,7 +231,7 @@
                                                     <fontDescription key="font" type="system" weight="ultraLight" pointSize="12"/>
                                                 </label>
                                                 <imageView width="1" height="15" alignment="left" image="LastPostsIcon" contentMode="scaleAspectFit" id="bet-1F-DGP"/>
-                                                <label width="67" height="15" alignment="center" text="3 years ago" textAlignment="center" minimumScaleFactor="0.40000000000000013" id="1fR-e3-GUP">
+                                                <label width="67" height="15" alignment="center" text="0 years ago" textAlignment="center" minimumScaleFactor="0.40000000000000013" id="1fR-e3-GUP">
                                                     <fontDescription key="font" type="system" pointSize="15"/>
                                                 </label>
                                             </items>
@@ -230,9 +254,12 @@
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
+                        <outlet property="couldntLoadDataLabel" destination="Y4s-jA-lJG" id="qve-qP-P44"/>
                         <outlet property="last24hoursUsers" destination="DKR-Cs-4Xz" id="ttL-Nc-gpk"/>
+                        <outlet property="lastPostAndOpenTasksGroup" destination="z1G-yS-5ZB" id="Yky-C3-uLx"/>
                         <outlet property="lastPostDate" destination="1fR-e3-GUP" id="a4G-eb-luW"/>
                         <outlet property="numberOfTasksLabel" destination="nHl-bh-ydz" id="nmm-B3-0Z0"/>
+                        <outlet property="usersInLastPostsGroup" destination="FPF-uH-WeE" id="3kG-sl-ipE"/>
                     </connections>
                 </glanceController>
             </objects>
@@ -382,6 +409,7 @@
                         <button width="1" alignment="left" title="View on phone" id="2Hf-nf-dsg">
                             <connections>
                                 <action selector="viewOnPhone" destination="qeO-gg-xdz" id="U0g-dv-lOR"/>
+                                <segue destination="EJ1-aw-OGv" kind="push" identifier="viewPostOniPhone" id="6yD-2n-m8w"/>
                             </connections>
                         </button>
                     </items>
@@ -433,4 +461,7 @@
             <point key="canvasLocation" x="720" y="347"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="c5g-17-l88"/>
+    </inferredMetricsTieBreakers>
 </document>
