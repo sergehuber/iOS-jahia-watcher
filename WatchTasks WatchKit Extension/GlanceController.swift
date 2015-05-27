@@ -33,22 +33,21 @@ class GlanceController: WKInterfaceController {
         // Configure interface objects here.
         jahiaServerServices.login()
         
+        usersInLastPostsGroup.setHidden(true)
+        lastPostAndOpenTasksGroup.setHidden(true)
+
         if (!jahiaServerServices.areServicesAvailable()) {
             println("Services are not available")
             couldntLoadDataLabel.setHidden(false)
-            usersInLastPostsGroup.setHidden(true)
-            lastPostAndOpenTasksGroup.setHidden(true)
             return
         } else {
             couldntLoadDataLabel.setHidden(true)
-            usersInLastPostsGroup.setHidden(false)
-            lastPostAndOpenTasksGroup.setHidden(false)
         }
         
         let latestPosts = jahiaServerServices.getLatestPosts()
         var lastestPostDate : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(0))
         var uniqueUsers = [String:String]()
-
+        
         for latestPost in latestPosts {
             if (latestPost.author != nil) {
                 uniqueUsers[latestPost.author!] = latestPost.author
@@ -57,9 +56,11 @@ class GlanceController: WKInterfaceController {
                 lastestPostDate = latestPost.date!
             }
         }
-
+        
         lastPostDate.setText("\(lastestPostDate.relativeTime)")
         last24hoursUsers.setText("\(uniqueUsers.count)")
+        
+        usersInLastPostsGroup.setHidden(false)
         
         let workflowTasks = jahiaServerServices.getWorkflowTasks()
         var openTaskCount = 0;
@@ -74,6 +75,9 @@ class GlanceController: WKInterfaceController {
         }
         
         numberOfTasksLabel.setText("\(openTaskCount)")
+        
+        lastPostAndOpenTasksGroup.setHidden(false)
+
         println("Glance data completed.")
     }
 

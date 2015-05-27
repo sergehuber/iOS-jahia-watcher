@@ -143,7 +143,6 @@
                         </label>
                         <button width="1" alignment="left" title="Preview changes" id="YY6-qj-7Ug">
                             <connections>
-                                <action selector="previewChangesPressed" destination="6tc-QF-REN" id="2Mp-I1-H5G"/>
                                 <segue destination="EJ1-aw-OGv" kind="push" identifier="viewTaskOniPhone" id="c5g-17-l88"/>
                             </connections>
                         </button>
@@ -157,7 +156,6 @@
                         <outlet property="assigneeUserKeyLabel" destination="IjX-A0-AkL" id="CYX-gA-Sfg"/>
                         <outlet property="descriptionLabel" destination="Ahg-aq-cOG" id="gIV-5p-bmn"/>
                         <outlet property="nameLabel" destination="jve-I5-MOG" id="YB9-YB-ag0"/>
-                        <outlet property="previewChanges" destination="YY6-qj-7Ug" id="ah4-8Y-wSY"/>
                         <outlet property="stateLabel" destination="GP2-8W-zJC" id="QTd-le-Ts0"/>
                         <outlet property="titleLabel" destination="zZI-Yf-Zvt" id="YiG-zg-0Yu"/>
                     </connections>
@@ -290,6 +288,9 @@
             <objects>
                 <notificationController backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFill" id="q83-uU-HPy">
                     <items>
+                        <label width="1" alignment="left" text="A new task was created" textAlignment="center" id="UEo-Pe-Zft">
+                            <fontDescription key="font" type="system" pointSize="10"/>
+                        </label>
                         <label alignment="left" text="Alert Label" id="hty-2s-yse"/>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="newTask" id="nUx-Vv-uHT">
@@ -408,7 +409,6 @@
                         <label width="1" alignment="left" text="Body" numberOfLines="0" id="era-wc-tHr"/>
                         <button width="1" alignment="left" title="View on phone" id="2Hf-nf-dsg">
                             <connections>
-                                <action selector="viewOnPhone" destination="qeO-gg-xdz" id="U0g-dv-lOR"/>
                                 <segue destination="EJ1-aw-OGv" kind="push" identifier="viewPostOniPhone" id="6yD-2n-m8w"/>
                             </connections>
                         </button>

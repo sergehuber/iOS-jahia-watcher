@@ -54,16 +54,7 @@ class TaskDetailInterfaceController: WKInterfaceController {
             }
         }
     }
-    
-    @IBAction func previewChangesPressed() {
-        println("Preview button pressed")
-        var userInfo : [NSObject : AnyObject] = ["action": "previewTaskChanges",
-            "previewUrl": jahiaWatcherSettings.contentRenderUrl(task!.previewUrl!)]
-        WKInterfaceController.openParentApplication(userInfo, reply: { (reply, error) -> Void in
-            println("parent application replied reply=\(reply) error=\(error)")
-        })
-    }
-    
+        
     func assignToMePressed(sender : AnyObject?) {
         println("Assign to me pressed")
         jahiaServerServices.performTaskAction(task!, actionName: "assignToMe", finalOutcome: nil)

@@ -69,15 +69,6 @@ class PostDetailInterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-
-    @IBAction func viewOnPhone() {
-        println("Viewing post on phone...")
-        var userInfo : [NSObject : AnyObject] = ["action": "viewPost",
-            "viewUrl": jahiaWatcherSettings.contentRenderUrl(postDetailContext!.post!.viewUrl!)]
-        WKInterfaceController.openParentApplication(userInfo, reply: { (reply, error) -> Void in
-            println("parent application replied reply=\(reply) error=\(error)")
-        })
-    }
     
     func markAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
