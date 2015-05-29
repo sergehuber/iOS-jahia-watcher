@@ -421,7 +421,7 @@
 				TargetAttributes = {
 					F4EB43B91AAD7E910049F30F = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 882WN53RQQ;
+						DevelopmentTeam = R32855XUNL;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -437,7 +437,7 @@
 					};
 					F4EB43E41AAD7F010049F30F = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 882WN53RQQ;
+						DevelopmentTeam = R32855XUNL;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -446,7 +446,7 @@
 					};
 					F4EB43F31AAD7F010049F30F = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 882WN53RQQ;
+						DevelopmentTeam = R32855XUNL;
 					};
 				};
 			};
