@@ -43,6 +43,95 @@ class JahiaServerServices {
         return jahiaWatcherSettings.jahiaUserName
     }
     
+    func writeDataToFile(filePath : String, data : NSData) -> Bool {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) as! [String]
+        let documentDirectory = paths[0]
+        let fullFilePath = documentDirectory.stringByAppendingPathComponent(filePath)
+        data.writeToFile(fullFilePath, atomically: true)
+        return true
+    }
+    
+    func readDataFromFile(filePath : String) -> NSData? {
+        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) as! [String]
+        let documentDirectory = paths[0]
+        let fullFilePath = documentDirectory.stringByAppendingPathComponent(filePath)
+        let data = NSData(contentsOfFile: fullFilePath)
+        return data
+    }
+    
+    func readJSONFromFile(filePath : String) -> AnyObject? {
+        let data = readDataFromFile(filePath)
+        if let dataVal = data {
+            var error : NSError?
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            return jsonResult
+        }
+        return nil
+    }
+    
+    func httpGet(url : String, fileName : String) -> NSData? {
+        let getURL : NSURL = NSURL(string: url)!
+        
+        let request = NSMutableURLRequest(URL: getURL)
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+        
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 10
+        
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode != 200) {
+                mprintln("Error retrieving post actions!")
+                writeDataToFile(fileName, data: dataVal!)
+                return dataVal
+            } else {
+                dataVal = readDataFromFile(fileName)
+                return dataVal
+            }
+        } else {
+            mprintln("Couldn't retrieve post actions")
+            dataVal = readDataFromFile(fileName)
+            return dataVal
+        }
+    }
+    
+    func httpPost(url : String, body : String, fileName : String) -> NSData? {
+        let postURL : NSURL = NSURL(string: url)!
+        let request = NSMutableURLRequest(URL: postURL)
+        let postData = NSMutableData()
+        postData.appendData(body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        
+        request.HTTPMethod = "POST"
+        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = postData
+        request.timeoutInterval = 4
+        
+        var response: NSURLResponse?
+        var error: NSError?
+        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
+        var err: NSError
+        if let httpResponse = response as? NSHTTPURLResponse {
+            if (httpResponse.statusCode == 200) {
+                mprintln("Post successful.")
+                writeDataToFile(fileName, data: dataVal!)
+                return dataVal
+            } else {
+                mprintln("Error during post!")
+                dataVal = readDataFromFile(fileName)
+                return dataVal
+            }
+        } else {
+            mprintln("Post failed")
+            dataVal = readDataFromFile(fileName)
+            return dataVal
+        }
+    }
+    
     func login() -> Bool {
         
         var result : Bool = false
@@ -112,7 +201,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 4
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -141,7 +229,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 4
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -171,7 +258,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 4
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -201,7 +287,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 4
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -231,7 +316,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 4
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -262,7 +346,6 @@ class JahiaServerServices {
         request.timeoutInterval = 4
         request.HTTPMethod = "DELETE"
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -293,7 +376,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 10
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -343,7 +425,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 10
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
@@ -388,6 +469,7 @@ class JahiaServerServices {
             if (httpResponse.statusCode != 200) {
                 mprintln("Error retrieving workflow tasks, probably none were ever created ?")
             } else {
+                writeDataToFile("workflow-tasks.json", data: dataVal!)
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
                 var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
                 
@@ -424,7 +506,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 10
         
-        var openTaskCount = 0;
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -433,6 +514,7 @@ class JahiaServerServices {
             if (httpResponse.statusCode != 200) {
                 mprintln("Error retrieving updated task!")
             } else {
+                writeDataToFile("task-\(task.identifier).json", data: dataVal!)
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
                 var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
                 
@@ -564,6 +646,7 @@ class JahiaServerServices {
             if (httpResponse.statusCode != 200) {
                 mprintln("Error retrieving latest posts!")
             } else {
+                writeDataToFile("latest-posts.json", data: dataVal!)
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
                 var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
 
