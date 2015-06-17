@@ -147,11 +147,7 @@
                             </connections>
                         </button>
                     </items>
-                    <menu key="menu" id="9Jb-Fe-f9D">
-                        <items>
-                            <menuItem title="Menu Item" id="HfL-ca-AjO"/>
-                        </items>
-                    </menu>
+                    <menu key="menu" id="9Jb-Fe-f9D"/>
                     <connections>
                         <outlet property="assigneeUserKeyLabel" destination="IjX-A0-AkL" id="CYX-gA-Sfg"/>
                         <outlet property="descriptionLabel" destination="Ahg-aq-cOG" id="gIV-5p-bmn"/>
@@ -303,10 +299,10 @@
             </objects>
             <point key="canvasLocation" x="-21" y="1568"/>
         </scene>
-        <!--WatchBackgroundImage-->
+        <!--postsController-->
         <scene sceneID="bqM-Qz-uti">
             <objects>
-                <controller backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFill" id="lKu-hv-TAf" customClass="PostsInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
+                <controller identifier="postsController" backgroundImage="WatchBackgroundImage" contentMode="scaleAspectFill" id="lKu-hv-TAf" customClass="PostsInterfaceController" customModule="Jahia_Watcher_WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" id="RLU-r1-2L7">
                             <items>
@@ -462,6 +458,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="c5g-17-l88"/>
+        <segue reference="6yD-2n-m8w"/>
     </inferredMetricsTieBreakers>
 </document>

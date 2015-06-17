@@ -32,10 +32,10 @@
 		F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */; };
 		F495B6F11B0E2A7700D188DD /* PostDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */; };
 		F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */; };
+		F4A436691B305A6C00032BC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43C51AAD7E910049F30F /* Main.storyboard */; };
+		F4A4366A1B305A7D00032BC7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43CA1AAD7E910049F30F /* LaunchScreen.xib */; };
 		F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */; };
-		F4EB43C71AAD7E910049F30F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43C51AAD7E910049F30F /* Main.storyboard */; };
 		F4EB43C91AAD7E910049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43C81AAD7E910049F30F /* Images.xcassets */; };
-		F4EB43CC1AAD7E910049F30F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43CA1AAD7E910049F30F /* LaunchScreen.xib */; };
 		F4EB43D81AAD7E910049F30F /* JahiaWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43D71AAD7E910049F30F /* JahiaWatcherTests.swift */; };
 		F4EB43EB1AAD7F010049F30F /* TasksInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EA1AAD7F010049F30F /* TasksInterfaceController.swift */; };
 		F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */; };
@@ -476,8 +476,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4EB43C71AAD7E910049F30F /* Main.storyboard in Resources */,
-				F4EB43CC1AAD7E910049F30F /* LaunchScreen.xib in Resources */,
+				F4A4366A1B305A7D00032BC7 /* LaunchScreen.xib in Resources */,
+				F4A436691B305A6C00032BC7 /* Main.storyboard in Resources */,
 				F4EB43C91AAD7E910049F30F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,6 +648,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -667,7 +668,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -691,6 +691,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -715,11 +716,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = WatchTasks/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "Jahia Watcher";
 				PROVISIONING_PROFILE = "";
@@ -732,11 +731,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = WatchTasks/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "Jahia Watcher";
 				PROVISIONING_PROFILE = "";
@@ -782,7 +779,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -790,6 +786,7 @@
 				IBSC_MODULE = WatchTasks_WatchKit_Extension;
 				INFOPLIST_FILE = "WatchTasks WatchKit App/Info.plist";
 				PRODUCT_NAME = "Jahia Watcher WatchKit App";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
@@ -800,10 +797,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IBSC_MODULE = WatchTasks_WatchKit_Extension;
 				INFOPLIST_FILE = "WatchTasks WatchKit App/Info.plist";
 				PRODUCT_NAME = "Jahia Watcher WatchKit App";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
@@ -814,8 +811,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -832,8 +827,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher WatchKit Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "WatchTasks WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "Jahia Watcher WatchKit Extension";

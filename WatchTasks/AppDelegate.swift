@@ -51,14 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewTaskAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewTaskAction.authenticationRequired = false
         
-        var viewTaskOnPhoneAction = UIMutableUserNotificationAction()
-        viewTaskOnPhoneAction.title = NSLocalizedString("View on Phone", comment: "View the task on the phone")
-        viewTaskOnPhoneAction.identifier = "viewTaskOnPhoneAction"
-        viewTaskOnPhoneAction.activationMode = UIUserNotificationActivationMode.Foreground
-        viewTaskOnPhoneAction.authenticationRequired = false
-
         var newTaskCategory = UIMutableUserNotificationCategory()
-        newTaskCategory.setActions([viewTaskAction, viewTaskOnPhoneAction],
+        newTaskCategory.setActions([viewTaskAction],
             forContext: UIUserNotificationActionContext.Default)
         newTaskCategory.identifier = "newTask"
         categories.addObject(newTaskCategory)

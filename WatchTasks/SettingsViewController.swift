@@ -28,7 +28,24 @@ class SettingsViewController: UIViewController {
         contextPathTextField.text = jahiaWatcherSettings.jahiaServerContextPath
         userNameTextField.text = jahiaWatcherSettings.jahiaUserName
         passwordTextField.text = jahiaWatcherSettings.jahiaPassword
+        
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "dismissKeyboard")
+        let keyboardToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 44))
+        let toolbarItems = [ doneBarButton ]
+        keyboardToolbar.setItems(toolbarItems, animated: false)
+        
+        protocolTextField.inputAccessoryView = keyboardToolbar
+        hostnameTextField.inputAccessoryView = keyboardToolbar
+        portTextField.inputAccessoryView = keyboardToolbar
+        contextPathTextField.inputAccessoryView = keyboardToolbar
+        userNameTextField.inputAccessoryView = keyboardToolbar
+        passwordTextField.inputAccessoryView = keyboardToolbar
+        
     }
+    
+    func dismissKeyboard() {
+        self.view.endEditing(true)
+    }    
     
     @IBAction func saveSettings(sender: AnyObject) {
         jahiaWatcherSettings.jahiaServerProtocol = protocolTextField.text

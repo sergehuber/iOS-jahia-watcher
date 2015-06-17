@@ -27,7 +27,13 @@ class PostsInterfaceController: WKInterfaceController {
         if (needsRefreshing) {
             refreshTable()
             needsRefreshing = false
-        }        
+        }
+        
+        let postDetailContext = context as? PostDetailContext
+        if (postDetailContext != nil) {
+            postDetailContext?.postsInterfaceController = self
+            pushControllerWithName("postDetailController", context: postDetailContext)
+        }
     }
     
     func refreshTable() {

@@ -21,6 +21,19 @@ class Post {
     var actions : [PostAction]?
     var parentUri : String?
     
+    init(copy : Post) {
+        identifier = copy.identifier
+        path = copy.path
+        title = copy.title
+        author = copy.author
+        date = copy.date
+        spam = copy.spam
+        content = copy.content
+        viewUrl = copy.viewUrl
+        actions = copy.actions
+        parentUri = copy.parentUri
+    }
+    
     init(fromNSDictionary : NSDictionary) {
         identifier = fromNSDictionary["id"] as? String
         path = fromNSDictionary["path"] as? String

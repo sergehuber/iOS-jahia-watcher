@@ -27,6 +27,10 @@ class PostDetailInterfaceController: WKInterfaceController {
         
         // Configure interface objects here.
         postDetailContext = context as? PostDetailContext
+        if (postDetailContext == nil) {
+            println("Unexpected nil postDetailContext !")
+            return
+        }
         postTitleLabel.setText(postDetailContext!.post!.title)
         postBodyLabel.setText(postDetailContext!.post!.content)
         postDateLabel.setText("\(postDetailContext!.post!.date!.relativeTime)")
@@ -49,6 +53,10 @@ class PostDetailInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        if (postDetailContext == nil) {
+            println("Post detail context is nil, won't update handoff or spam markers")
+            return
+        }
         if (postDetailContext!.post!.spam!) {
             postSpamMarkerLabel.setHidden(false)
         } else {
