@@ -95,7 +95,12 @@ class JahiaWatcherSettings {
     }
     
     func contextUrl() -> String {
-        return "\(jahiaServerProtocol)://\(jahiaServerHost):\(jahiaServerPort)/\(jahiaServerContextPath)"
+        var url = "\(jahiaServerProtocol)://\(jahiaServerHost):\(jahiaServerPort)"
+        if (jahiaServerContextPath == "") {
+            return url;
+        } else {
+            return url + "/\(jahiaServerContextPath)";
+        }
     }
     
     func loginUrl() -> String {
