@@ -43,23 +43,32 @@ class JahiaServerServices {
         return jahiaWatcherSettings.jahiaUserName
     }
     
-    func writeDataToFile(filePath : String, data : NSData) -> Bool {
+    func writeDataToFile(filePath : String?, data : NSData) -> Bool {
+        if (filePath == nil) {
+            return false
+        }
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) as! [String]
         let documentDirectory = paths[0]
-        let fullFilePath = documentDirectory.stringByAppendingPathComponent(filePath)
+        let fullFilePath = documentDirectory.stringByAppendingPathComponent(filePath!)
         data.writeToFile(fullFilePath, atomically: true)
         return true
     }
     
-    func readDataFromFile(filePath : String) -> NSData? {
+    func readDataFromFile(filePath : String?) -> NSData? {
+        if (filePath == nil) {
+            return nil
+        }
         let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) as! [String]
         let documentDirectory = paths[0]
-        let fullFilePath = documentDirectory.stringByAppendingPathComponent(filePath)
+        let fullFilePath = documentDirectory.stringByAppendingPathComponent(filePath!)
         let data = NSData(contentsOfFile: fullFilePath)
         return data
     }
     
-    func readJSONFromFile(filePath : String) -> AnyObject? {
+    func readJSONFromFile(filePath : String?) -> AnyObject? {
+        if (filePath == nil) {
+            return nil
+        }
         let data = readDataFromFile(filePath)
         if let dataVal = data {
             var error : NSError?
@@ -83,8 +92,7 @@ class JahiaServerServices {
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                mprintln("Error retrieving post actions!")
+            if (httpResponse.statusCode == 200) {
                 writeDataToFile(fileName, data: dataVal!)
                 return dataVal
             } else {
@@ -92,24 +100,29 @@ class JahiaServerServices {
                 return dataVal
             }
         } else {
-            mprintln("Couldn't retrieve post actions")
+            mprintln("Couldn't retrieve data from url \(url)")
             dataVal = readDataFromFile(fileName)
             return dataVal
         }
     }
     
-    func httpPost(url : String, body : String, fileName : String) -> NSData? {
+    func httpPost(url : String, body : String, fileName : String?, contentType : String?) -> NSData? {
         let postURL : NSURL = NSURL(string: url)!
         let request = NSMutableURLRequest(URL: postURL)
         let postData = NSMutableData()
         postData.appendData(body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         
         request.HTTPMethod = "POST"
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
         request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
+        if (contentType != nil) {
+            request.addValue(contentType!, forHTTPHeaderField: "Content-Type")
+        } else {
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
         request.HTTPBody = postData
-        request.timeoutInterval = 4
+        request.timeoutInterval = 10
         
         var response: NSURLResponse?
         var error: NSError?
@@ -117,11 +130,11 @@ class JahiaServerServices {
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             if (httpResponse.statusCode == 200) {
-                mprintln("Post successful.")
+                mprintln("Post to url \(url) successful.")
                 writeDataToFile(fileName, data: dataVal!)
                 return dataVal
             } else {
-                mprintln("Error during post!")
+                mprintln("Error during post request to url \(url) !")
                 dataVal = readDataFromFile(fileName)
                 return dataVal
             }
@@ -132,41 +145,48 @@ class JahiaServerServices {
         }
     }
     
+    func performQuery(query : String, queryName : String, limit: Int, offset : Int) -> [NSDictionary]? {
+        if (!areServicesAvailable()) {
+            return nil
+        }
+        mprintln("Performing query \(query)...")
+        
+        let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
+        let dataVal = httpPost(jahiaWatcherSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+        
+        if let data = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error: NSError?
+            var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
+
+            return jsonResult
+        } else {
+            mprintln("Couldn't retrieve results for query \(query) !")
+        }
+        return nil
+    }
+    
+    func performPreparedQuery(queryName : String, queryParameters : [AnyObject]) {
+        
+    }
+    
     func login() -> Bool {
         
         var result : Bool = false
         mprintln("Logging into Jahia...")
         
-        let jahiaLoginURL : NSURL = NSURL(string: jahiaWatcherSettings.loginUrl())!
-        let request = NSMutableURLRequest(URL: jahiaLoginURL)
         let requestString : String = "doLogin=true&restMode=true&username=\(jahiaWatcherSettings.jahiaUserName)&password=\(jahiaWatcherSettings.jahiaPassword)&redirectActive=false";
-        let postData = NSMutableData()
-        postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        let dataVal = httpPost(jahiaWatcherSettings.loginUrl(), body:requestString, fileName:nil, contentType:nil)
         
-        request.HTTPMethod = "POST"
-        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postData
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode == 200) {
-                mprintln("Login successful.")
-                servicesAvailable = true
-                loggedIn = true
-                let userPath = getUserPath()
-                if let realUserPath = userPath {
-                    jahiaWatcherSettings.jahiaUserPath = realUserPath
-                }
-                result = true
-            } else {
-                mprintln("Error during login!")
+        if let data = dataVal {
+            mprintln("Login successful.")
+            servicesAvailable = true
+            loggedIn = true
+            let userPath = getUserPath()
+            if let realUserPath = userPath {
+                jahiaWatcherSettings.jahiaUserPath = realUserPath
             }
+            result = true
         } else {
             mprintln("Login failed")
             loggedIn = false
@@ -417,26 +437,13 @@ class JahiaServerServices {
             return ""
         }
         mprintln("Retrieving current user path...")
-        let jahiaUserPathURL : NSURL = NSURL(string: jahiaWatcherSettings.userPathUrl())!
         
-        let request = NSMutableURLRequest(URL: jahiaUserPathURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)!
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                mprintln("Error retrieving current user path")
-            } else {
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                hideMessages()
-                return JahiaServerServices.condenseWhitespace(datastring! as String)
-            }
+        let dataVal = httpGet(jahiaWatcherSettings.userPathUrl(), fileName: "userPath.txt")
+
+        if let data = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            hideMessages()
+            return JahiaServerServices.condenseWhitespace(datastring! as String)
         } else {
             mprintln("Coudln't retrieve current user path")
         }
@@ -620,42 +627,14 @@ class JahiaServerServices {
         }
         mprintln("Retrieving latest posts...")
         
-        let jahiaLatestPostsURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/live/en/query")!
-        
-        let request = NSMutableURLRequest(URL: jahiaLatestPostsURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        let requestString : String = "{\"query\" : \"select * from [jnt:post] as p order by p.[jcr:created] desc\", \"limit\": 20, \"offset\":0 }";
-        let postData = NSMutableData()
-        postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-        
-        request.HTTPMethod = "POST"
-        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postData
-        request.timeoutInterval = 10
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var openTaskCount = 0;
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                mprintln("Error retrieving latest posts!")
-            } else {
-                writeDataToFile("latest-posts.json", data: dataVal!)
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
+        let jsonQueryReply = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0)
 
-                for postDict in jsonResult {
-                    let post = Post(fromNSDictionary: postDict)
-                    posts.append(post)
-                }
-                
-            }
+        if let jsonResult = jsonQueryReply {
+
+            for postDict in jsonResult {
+                let post = Post(fromNSDictionary: postDict)
+                posts.append(post)
+            }                
         } else {
             mprintln("Couldn't retrieve latest posts!")
         }
