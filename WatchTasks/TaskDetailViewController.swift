@@ -11,7 +11,7 @@ import UIKit
 
 class TaskDetailViewController: UIViewController {
 
-    let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -115,7 +115,7 @@ class TaskDetailViewController: UIViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let taskContentPreviewController = segue.destinationViewController as! TaskContentPreviewViewController
-        taskContentPreviewController.contentUrl = jahiaWatcherSettings.contentRenderUrl(task!.previewUrl!)
+        taskContentPreviewController.contentUrl = jahiaServerSettings.contentRenderUrl(task!.previewUrl!)
     }
     
     override func viewWillDisappear(animated : Bool) {

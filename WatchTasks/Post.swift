@@ -51,7 +51,7 @@ class Post {
         let createdByProperty  : NSDictionary? = postProperties["jcr__createdBy"] as? NSDictionary
         if (contentProperty != nil) {
             var postContent : String = contentProperty!["value"] as! String
-            content = JahiaServerServices.stripHTML(postContent)
+            content = JahiaServerServices.stripHTML(postContent, stripExtraWhiteSpace: true)
         }
         if (createdProperty != nil) {
             let createdValue : NSNumber = createdProperty!["value"] as! NSNumber

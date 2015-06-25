@@ -19,7 +19,7 @@ class TaskDetailInterfaceController: WKInterfaceController {
     @IBOutlet weak var stateLabel: WKInterfaceLabel!
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     var task : Task?
     
     override func awakeWithContext(context: AnyObject?) {

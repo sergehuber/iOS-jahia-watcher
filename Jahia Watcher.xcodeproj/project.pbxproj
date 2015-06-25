@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F431B59E1B0F07AF0037FE1B /* PostReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */; };
-		F4428C431AD41AEE0034A722 /* JahiaWatcherSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */; };
-		F4428C441AD422740034A722 /* JahiaWatcherSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */; };
+		F4428C431AD41AEE0034A722 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
+		F4428C441AD422740034A722 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
 		F4428C461AD534490034A722 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C451AD534490034A722 /* SettingsViewController.swift */; };
 		F4428C481AD54ED50034A722 /* JahiaServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* JahiaServerServices.swift */; };
 		F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* JahiaServerServices.swift */; };
@@ -111,7 +111,7 @@
 		F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostReplyViewController.swift; sourceTree = "<group>"; };
 		F4428C401AD412430034A722 /* Jahia Watcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher.entitlements"; sourceTree = SOURCE_ROOT; };
 		F4428C411AD4125E0034A722 /* Jahia Watcher WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher WatchKit Extension.entitlements"; sourceTree = SOURCE_ROOT; };
-		F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JahiaWatcherSettings.swift; path = WatchTasks/JahiaWatcherSettings.swift; sourceTree = "<group>"; };
+		F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JahiaServerSettings.swift; path = WatchTasks/JahiaServerSettings.swift; sourceTree = "<group>"; };
 		F4428C451AD534490034A722 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F4428C471AD54ED50034A722 /* JahiaServerServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JahiaServerServices.swift; path = WatchTasks/JahiaServerServices.swift; sourceTree = "<group>"; };
 		F4428C4B1AD554580034A722 /* PostsInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsInterfaceController.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 		F4428C4A1AD54EDE0034A722 /* Shared Code */ = {
 			isa = PBXGroup;
 			children = (
-				F4428C421AD41AEE0034A722 /* JahiaWatcherSettings.swift */,
+				F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */,
 				F4428C471AD54ED50034A722 /* JahiaServerServices.swift */,
 				F4F7AD131AEA865000AFBBB8 /* Post.swift */,
 				F4478D941AFC998B00763D5C /* NSDate+RelativeTime.swift */,
@@ -518,7 +518,7 @@
 				F4F412CF1B0250F500DB21BD /* TaskAction.swift in Sources */,
 				F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4F412E71B07720D00DB21BD /* DefaultMessageDelegate.swift in Sources */,
-				F4428C431AD41AEE0034A722 /* JahiaWatcherSettings.swift in Sources */,
+				F4428C431AD41AEE0034A722 /* JahiaServerSettings.swift in Sources */,
 				F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */,
 				F4F412D91B04D35E00DB21BD /* SwiftSpinner.swift in Sources */,
 				F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */,
@@ -565,7 +565,7 @@
 				F4FD97E61B0B80D1001A0474 /* PostAction.swift in Sources */,
 				F4478D971AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
 				F4F412DF1B04DE2000DB21BD /* MessageDelegate.swift in Sources */,
-				F4428C441AD422740034A722 /* JahiaWatcherSettings.swift in Sources */,
+				F4428C441AD422740034A722 /* JahiaServerSettings.swift in Sources */,
 				F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4F412E91B07720D00DB21BD /* DefaultMessageDelegate.swift in Sources */,
 				F4428C4C1AD554580034A722 /* PostsInterfaceController.swift in Sources */,

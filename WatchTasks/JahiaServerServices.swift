@@ -10,10 +10,14 @@ import Foundation
 
 class JahiaServerServices {
 
-    let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     var servicesAvailable : Bool = false
     var loggedIn : Bool = false
     var attemptedLogin : Bool = false
+    var jcrApiVersionMap : [String:AnyObject]? = nil
+    var jcrApiVersion : String? = nil
+    var jcrApiModuleVersion : String? = nil
+    var jcrApiVersionRequested = false
     static var messageDelegate : MessageDelegate?
     
     class var sharedInstance: JahiaServerServices {
@@ -40,7 +44,7 @@ class JahiaServerServices {
     }
     
     func getUserName() -> String {
-        return jahiaWatcherSettings.jahiaUserName
+        return jahiaServerSettings.jahiaUserName
     }
     
     func writeDataToFile(filePath : String?, data : NSData) -> Bool {
@@ -78,21 +82,21 @@ class JahiaServerServices {
         return nil
     }
     
-    func httpGet(url : String, fileName : String) -> NSData? {
+    func httpGet(url : String, fileName : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10) -> NSData? {
         let getURL : NSURL = NSURL(string: url)!
         
         let request = NSMutableURLRequest(URL: getURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
         
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
+        request.timeoutInterval = timeoutInterval
         
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode == 200) {
+            if (httpResponse.statusCode == expectedSuccessCode) {
                 writeDataToFile(fileName, data: dataVal!)
                 return dataVal
             } else {
@@ -106,7 +110,7 @@ class JahiaServerServices {
         }
     }
     
-    func httpPost(url : String, body : String, fileName : String?, contentType : String?) -> NSData? {
+    func httpPost(url : String, body : String, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10) -> NSData? {
         let postURL : NSURL = NSURL(string: url)!
         let request = NSMutableURLRequest(URL: postURL)
         let postData = NSMutableData()
@@ -122,14 +126,14 @@ class JahiaServerServices {
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
         request.HTTPBody = postData
-        request.timeoutInterval = 10
+        request.timeoutInterval = timeoutInterval
         
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode == 200) {
+            if (httpResponse.statusCode == expectedSuccessCode) {
                 mprintln("Post to url \(url) successful.")
                 writeDataToFile(fileName, data: dataVal!)
                 return dataVal
@@ -152,7 +156,7 @@ class JahiaServerServices {
         mprintln("Performing query \(query)...")
         
         let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
-        let dataVal = httpPost(jahiaWatcherSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+        let dataVal = httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         
         if let data = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -170,13 +174,25 @@ class JahiaServerServices {
         
     }
     
+    func getApiVersion() -> [String:AnyObject]? {
+        mprintln("Retrieving API version...")
+        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "version.txt")
+        if let versionData = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error: NSError?
+            let version = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as? [String:AnyObject]
+            return version
+        }
+        return nil
+    }
+    
     func login() -> Bool {
         
         var result : Bool = false
         mprintln("Logging into Jahia...")
         
-        let requestString : String = "doLogin=true&restMode=true&username=\(jahiaWatcherSettings.jahiaUserName)&password=\(jahiaWatcherSettings.jahiaPassword)&redirectActive=false";
-        let dataVal = httpPost(jahiaWatcherSettings.loginUrl(), body:requestString, fileName:nil, contentType:nil)
+        let requestString : String = "doLogin=true&restMode=true&username=\(jahiaServerSettings.jahiaUserName)&password=\(jahiaServerSettings.jahiaPassword)&redirectActive=false";
+        let dataVal = httpPost(jahiaServerSettings.loginUrl(), body:requestString)
         
         if let data = dataVal {
             mprintln("Login successful.")
@@ -184,7 +200,7 @@ class JahiaServerServices {
             loggedIn = true
             let userPath = getUserPath()
             if let realUserPath = userPath {
-                jahiaWatcherSettings.jahiaUserPath = realUserPath
+                jahiaServerSettings.jahiaUserPath = realUserPath
             }
             result = true
         } else {
@@ -196,6 +212,21 @@ class JahiaServerServices {
     }
     
     func areServicesAvailable() -> Bool {
+        if (!jcrApiVersionRequested) {
+            jcrApiVersionMap = getApiVersion()
+            jcrApiVersionRequested = true
+            if (jcrApiVersionMap == nil) {
+                servicesAvailable = false
+                return servicesAvailable
+            } else {
+                jcrApiVersion = jcrApiVersionMap!["api"] as! String?
+                jcrApiModuleVersion = jcrApiVersionMap!["module"] as! String?
+            }
+        } else {
+            if (jcrApiVersionMap == nil) {
+                return servicesAvailable
+            }
+        }
         if (!loggedIn && !attemptedLogin) {
             attemptedLogin = true
             login()
@@ -214,22 +245,10 @@ class JahiaServerServices {
         mprintln("Registering device token...")
         let escapedDeviceToken : String = deviceToken.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         
-        let jahiaRegisterDeviceTokenURL : NSURL = NSURL(string: jahiaWatcherSettings.registerDeviceTokenUrl() + "?deviceToken=\(escapedDeviceToken)")!
+        let dataVal = httpGet(jahiaServerSettings.registerDeviceTokenUrl() + "?deviceToken=\(escapedDeviceToken)", fileName: "registerDeviceToken.txt")
         
-        let request = NSMutableURLRequest(URL: jahiaRegisterDeviceTokenURL)
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                mprintln("Error registering device token for current user ?")
-            } else {
-            }
+        if let result = dataVal {
+            mprintln("Device token \(deviceToken) successfully registered on Jahia server for the current user")
         } else {
             mprintln("Device registration failed")
         }
@@ -242,7 +261,7 @@ class JahiaServerServices {
         }
         mprintln("Blocking user...")
         
-        let jahiaBlockUserURL : NSURL = NSURL(string: jahiaWatcherSettings.blockUserUrl() + "?userName=\(userName)")!
+        let jahiaBlockUserURL : NSURL = NSURL(string: jahiaServerSettings.blockUserUrl() + "?userName=\(userName)")!
         
         let request = NSMutableURLRequest(URL: jahiaBlockUserURL)
         
@@ -271,7 +290,7 @@ class JahiaServerServices {
         }
         mprintln("Unblocking user...")
         
-        let jahiaUnblockUserURL : NSURL = NSURL(string: jahiaWatcherSettings.unblockUserUrl() + "?userName=\(userName)")!
+        let jahiaUnblockUserURL : NSURL = NSURL(string: jahiaServerSettings.unblockUserUrl() + "?userName=\(userName)")!
         
         let request = NSMutableURLRequest(URL: jahiaUnblockUserURL)
         
@@ -300,7 +319,7 @@ class JahiaServerServices {
         }
         mprintln("Marking post as spam")
         
-        let jahiaMarkAsSpamURL : NSURL = NSURL(string: jahiaWatcherSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
+        let jahiaMarkAsSpamURL : NSURL = NSURL(string: jahiaServerSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
         
         let request = NSMutableURLRequest(URL: jahiaMarkAsSpamURL)
         
@@ -329,7 +348,7 @@ class JahiaServerServices {
         }
         mprintln("Unmarking post as spam")
         
-        let jahiaUnmarkAsSpamURL : NSURL = NSURL(string: jahiaWatcherSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
+        let jahiaUnmarkAsSpamURL : NSURL = NSURL(string: jahiaServerSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
         
         let request = NSMutableURLRequest(URL: jahiaUnmarkAsSpamURL)
         
@@ -358,7 +377,7 @@ class JahiaServerServices {
         }
         mprintln("Deleting node \(nodeIdentifier)")
         
-        let jahiaDeleteNodeURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)")!
+        let jahiaDeleteNodeURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)")!
         
         let request = NSMutableURLRequest(URL: jahiaDeleteNodeURL)
         
@@ -388,7 +407,7 @@ class JahiaServerServices {
         }
         mprintln("Retrieving post actions...")
         
-        let jahiaPostActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.postActionsUrl(post.path!))!
+        let jahiaPostActionsURL : NSURL = NSURL(string: jahiaServerSettings.postActionsUrl(post.path!))!
         
         let request = NSMutableURLRequest(URL: jahiaPostActionsURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
@@ -438,7 +457,7 @@ class JahiaServerServices {
         }
         mprintln("Retrieving current user path...")
         
-        let dataVal = httpGet(jahiaWatcherSettings.userPathUrl(), fileName: "userPath.txt")
+        let dataVal = httpGet(jahiaServerSettings.userPathUrl(), fileName: "userPath.txt")
 
         if let data = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -459,36 +478,23 @@ class JahiaServerServices {
 
         mprintln("Retrieving workflow tasks...")
         
-        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/default/en/paths\(jahiaWatcherSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
+        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
         
-        let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
+        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json")
         
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var openTaskCount = 0;
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                mprintln("Error retrieving workflow tasks, probably none were ever created ?")
-            } else {
-                writeDataToFile("workflow-tasks.json", data: dataVal!)
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
-                
-                let workflowTasksChildren = jsonResult["children"] as! NSDictionary
-                
-                let workflowTaskChildrenDict = workflowTasksChildren as! [String:NSDictionary]
-                
-                for (key,value) in workflowTaskChildrenDict {
-                    let task = Task(taskName: key, fromNSDictionary: value)
-                    if (task.state != "Finished") {
-                        taskArray.append(task)
-                    }
+        if let data = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error: NSError?
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            
+            let workflowTasksChildren = jsonResult["children"] as! NSDictionary
+            
+            let workflowTaskChildrenDict = workflowTasksChildren as! [String:NSDictionary]
+            
+            for (key,value) in workflowTaskChildrenDict {
+                let task = Task(taskName: key, fromNSDictionary: value)
+                if (task.state != "Finished") {
+                    taskArray.append(task)
                 }
             }
         } else {
@@ -505,7 +511,7 @@ class JahiaServerServices {
         
         mprintln("Refreshing task \(task.path) ...")
 
-        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")!
+        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")!
         
         let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
@@ -542,7 +548,7 @@ class JahiaServerServices {
         }
         mprintln("Retrieving task actions...")
 
-        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.taskActionsUrl(task.path!))!
+        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaServerSettings.taskActionsUrl(task.path!))!
         
         let request = NSMutableURLRequest(URL: jahiaTaskActionsURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
@@ -591,7 +597,7 @@ class JahiaServerServices {
         var result = false
         mprintln("Sending task action \(actionName) with outcome \(finalOutcome) to Jahia server...")
         
-        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaWatcherSettings.taskActionsUrl(task.path!))!
+        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaServerSettings.taskActionsUrl(task.path!))!
         let request = NSMutableURLRequest(URL: jahiaTaskActionsURL)
         let requestString : String = "action=\(actionName)" + ((finalOutcome != nil) ? "&finalOutcome=\(finalOutcome!)" : "");
         let postData = NSMutableData()
@@ -649,7 +655,7 @@ class JahiaServerServices {
         }
         mprintln("Refreshing post \(post.path!) ...")
         
-        let jahiaGetPostURL : NSURL = NSURL(string: jahiaWatcherSettings.jcrApiUrl() + "/live/en/paths\(post.path!)?includeFullChildren&resolveReferences")!
+        let jahiaGetPostURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/live/en/paths\(post.path!)?includeFullChildren&resolveReferences")!
         
         let request = NSMutableURLRequest(URL: jahiaGetPostURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
@@ -711,7 +717,7 @@ class JahiaServerServices {
             range:range ,
             withTemplate: "")
         
-        let jahiaReplyPostURL : NSURL = NSURL(string: jahiaWatcherSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName)!
+        let jahiaReplyPostURL : NSURL = NSURL(string: jahiaServerSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName)!
         
         let request = NSMutableURLRequest(URL: jahiaReplyPostURL)
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
@@ -754,14 +760,17 @@ class JahiaServerServices {
         hideMessages()
         return nil
     }
-    
-    class func stripHTML(input : String) -> String {
+        
+    class func stripHTML(input : String, stripExtraWhiteSpace : Bool) -> String {
         var output = input.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
         output = output.stringByReplacingOccurrencesOfString("&nbsp;", withString: " ")
         output = output.stringByReplacingOccurrencesOfString("&quote;", withString: "'")
         output = output.stringByReplacingOccurrencesOfString("&rsquo;", withString: "'")
         output = output.stringByReplacingOccurrencesOfString("&#39;", withString: "'")
         output = output.stringByReplacingOccurrencesOfString("&amp;", withString: "&")
+        if (stripExtraWhiteSpace) {
+            output = output.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
         return output
     }
     

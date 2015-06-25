@@ -9,7 +9,7 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-    let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
 
     @IBOutlet weak var protocolTextField: UITextField!
@@ -22,12 +22,12 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        protocolTextField.text = jahiaWatcherSettings.jahiaServerProtocol
-        hostnameTextField.text = jahiaWatcherSettings.jahiaServerHost
-        portTextField.text = String(jahiaWatcherSettings.jahiaServerPort)
-        contextPathTextField.text = jahiaWatcherSettings.jahiaServerContextPath
-        userNameTextField.text = jahiaWatcherSettings.jahiaUserName
-        passwordTextField.text = jahiaWatcherSettings.jahiaPassword
+        protocolTextField.text = jahiaServerSettings.jahiaServerProtocol
+        hostnameTextField.text = jahiaServerSettings.jahiaServerHost
+        portTextField.text = String(jahiaServerSettings.jahiaServerPort)
+        contextPathTextField.text = jahiaServerSettings.jahiaServerContextPath
+        userNameTextField.text = jahiaServerSettings.jahiaUserName
+        passwordTextField.text = jahiaServerSettings.jahiaPassword
         
         let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "dismissKeyboard")
         let keyboardToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 44))
@@ -48,13 +48,13 @@ class SettingsViewController: UIViewController {
     }    
     
     @IBAction func saveSettings(sender: AnyObject) {
-        jahiaWatcherSettings.jahiaServerProtocol = protocolTextField.text
-        jahiaWatcherSettings.jahiaServerHost = hostnameTextField.text
-        jahiaWatcherSettings.jahiaServerPort = portTextField.text.toInt()!
-        jahiaWatcherSettings.jahiaServerContextPath = contextPathTextField.text
-        jahiaWatcherSettings.jahiaUserName = userNameTextField.text
-        jahiaWatcherSettings.jahiaPassword = passwordTextField.text
-        jahiaWatcherSettings.save()
+        jahiaServerSettings.jahiaServerProtocol = protocolTextField.text
+        jahiaServerSettings.jahiaServerHost = hostnameTextField.text
+        jahiaServerSettings.jahiaServerPort = portTextField.text.toInt()!
+        jahiaServerSettings.jahiaServerContextPath = contextPathTextField.text
+        jahiaServerSettings.jahiaUserName = userNameTextField.text
+        jahiaServerSettings.jahiaPassword = passwordTextField.text
+        jahiaServerSettings.save()
         jahiaServerServices.attemptedLogin = false
         if (!jahiaServerServices.login()) {
             let alertController = UIAlertController(title: "Login error", message: "Login failed. ",preferredStyle: UIAlertControllerStyle.Alert)
@@ -72,13 +72,13 @@ class SettingsViewController: UIViewController {
     }
 
     @IBAction func reloadSettings(sender: AnyObject) {
-        jahiaWatcherSettings.load()
-        protocolTextField.text = jahiaWatcherSettings.jahiaServerProtocol
-        hostnameTextField.text = jahiaWatcherSettings.jahiaServerHost
-        portTextField.text = String(jahiaWatcherSettings.jahiaServerPort)
-        contextPathTextField.text = jahiaWatcherSettings.jahiaServerContextPath
-        userNameTextField.text = jahiaWatcherSettings.jahiaUserName
-        passwordTextField.text = jahiaWatcherSettings.jahiaPassword
+        jahiaServerSettings.load()
+        protocolTextField.text = jahiaServerSettings.jahiaServerProtocol
+        hostnameTextField.text = jahiaServerSettings.jahiaServerHost
+        portTextField.text = String(jahiaServerSettings.jahiaServerPort)
+        contextPathTextField.text = jahiaServerSettings.jahiaServerContextPath
+        userNameTextField.text = jahiaServerSettings.jahiaUserName
+        passwordTextField.text = jahiaServerSettings.jahiaPassword
     }
     
     @IBAction func endEditingProtocol(sender: AnyObject) {

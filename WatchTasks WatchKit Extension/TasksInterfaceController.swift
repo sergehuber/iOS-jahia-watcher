@@ -11,7 +11,7 @@ import Foundation
 
 class TasksInterfaceController: WKInterfaceController {
     
-    let jahiaWatcherSettings : JahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     
     @IBOutlet weak var tasksLabel: WKInterfaceLabel!

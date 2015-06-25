@@ -12,7 +12,7 @@ import Foundation
 class PostDetailInterfaceController: WKInterfaceController {
 
     let jahiaServerServices = JahiaServerServices.sharedInstance
-    let jahiaWatcherSettings = JahiaWatcherSettings.sharedInstance
+    let jahiaServerSettings = JahiaServerSettings.sharedInstance
     
     @IBOutlet weak var postTitleLabel: WKInterfaceLabel!
     @IBOutlet weak var postDateLabel: WKInterfaceLabel!

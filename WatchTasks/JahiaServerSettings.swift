@@ -1,5 +1,5 @@
 //
-//  JahiaWatcherSettings.swift
+//  JahiaServerSettings.swift
 //  Jahia Watcher
 //
 //  Created by Serge Huber on 07.04.15.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-class JahiaWatcherSettings {
+class JahiaServerSettings {
 
-    class var sharedInstance: JahiaWatcherSettings {
+    class var sharedInstance: JahiaServerSettings {
         struct Static {
-            static let instance: JahiaWatcherSettings = JahiaWatcherSettings()
+            static let instance: JahiaServerSettings = JahiaServerSettings()
         }
         return Static.instance
     }
