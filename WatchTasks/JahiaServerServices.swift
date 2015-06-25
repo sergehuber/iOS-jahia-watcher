@@ -97,6 +97,7 @@ class JahiaServerServices {
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             if (httpResponse.statusCode == expectedSuccessCode) {
+                servicesAvailable = true
                 writeDataToFile(fileName, data: dataVal!)
                 return dataVal
             } else {
@@ -135,6 +136,7 @@ class JahiaServerServices {
         if let httpResponse = response as? NSHTTPURLResponse {
             if (httpResponse.statusCode == expectedSuccessCode) {
                 mprintln("Post to url \(url) successful.")
+                servicesAvailable = true
                 writeDataToFile(fileName, data: dataVal!)
                 return dataVal
             } else {
@@ -151,9 +153,10 @@ class JahiaServerServices {
     
     func performQuery(query : String, queryName : String, limit: Int, offset : Int) -> [NSDictionary]? {
         if (!areServicesAvailable()) {
-            return nil
+            mprintln("Services not available, attempting to perform query \(query) offline...")
+        } else {
+            mprintln("Performing query \(query) online...")
         }
-        mprintln("Performing query \(query)...")
         
         let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
         let dataVal = httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
@@ -176,7 +179,7 @@ class JahiaServerServices {
     
     func getApiVersion() -> [String:AnyObject]? {
         mprintln("Retrieving API version...")
-        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "version.txt")
+        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/version")
         if let versionData = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             var error: NSError?
@@ -216,6 +219,7 @@ class JahiaServerServices {
             jcrApiVersionMap = getApiVersion()
             jcrApiVersionRequested = true
             if (jcrApiVersionMap == nil) {
+                mprintln("Couldn't get API version, marking services as unavailable")
                 servicesAvailable = false
                 return servicesAvailable
             } else {
@@ -473,10 +477,10 @@ class JahiaServerServices {
     func getWorkflowTasks() -> [Task] {
         var taskArray = [Task]()
         if (!areServicesAvailable()) {
-            return taskArray
+            mprintln("Probably offline, retrieving workflow tasks from local cache...")
+        } else {
+            mprintln("Retrieving workflow tasks...")
         }
-
-        mprintln("Retrieving workflow tasks...")
         
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
         
@@ -628,10 +632,10 @@ class JahiaServerServices {
     
     func getLatestPosts() -> [Post] {
         var posts = [Post]()
-        if (!areServicesAvailable()) {
-            return posts
-        }
         mprintln("Retrieving latest posts...")
+        if (!areServicesAvailable()) {
+            mprintln("Services are not available, will try to load offline data if it exists...")
+        }
         
         let jsonQueryReply = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0)
 

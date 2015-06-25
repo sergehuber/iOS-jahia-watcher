@@ -30,16 +30,13 @@ class GlanceController: WKInterfaceController {
 
         println("Preparing glance data...")
         
-        // Configure interface objects here.
-        jahiaServerServices.login()
-        
+        // Configure interface objects here.        
         usersInLastPostsGroup.setHidden(true)
         lastPostAndOpenTasksGroup.setHidden(true)
 
         if (!jahiaServerServices.areServicesAvailable()) {
             println("Services are not available")
             couldntLoadDataLabel.setHidden(false)
-            return
         } else {
             couldntLoadDataLabel.setHidden(true)
         }
