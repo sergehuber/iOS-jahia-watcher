@@ -17,6 +17,7 @@ class JahiaServerSettings {
         return Static.instance
     }
     
+    var jahiaServerTimeout = 10
     var jahiaUserName : String = "root"
     var jahiaPassword : String = "root1234"
     var jahiaUserPath : String = "/users/root"

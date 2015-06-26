@@ -13,6 +13,7 @@ class JahiaServerServices {
     let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     var servicesAvailable : Bool = false
     var loggedIn : Bool = false
+    var lastConnectionAttemptTime : NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
     var attemptedLogin : Bool = false
     var jcrApiVersionMap : [String:AnyObject]? = nil
     var jcrApiVersion : String? = nil
@@ -82,7 +83,7 @@ class JahiaServerServices {
         return nil
     }
     
-    func httpGet(url : String, fileName : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10) -> NSData? {
+    func httpGet(url : String, fileName : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
         let getURL : NSURL = NSURL(string: url)!
         
         let request = NSMutableURLRequest(URL: getURL)
@@ -91,6 +92,25 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = timeoutInterval
         
+        if (completionHandler != nil) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                executeHttpGet(request, fileName: fileName, expectedSuccessCode: expectedSuccessCode, completionHandler: completionHandler)
+            }
+            
+            // we immediately return an existing file content if there is one
+            let dataVal = readDataFromFile(fileName)
+            if (dataVal != nil) {
+                mprintln("Loaded data from local file \(fileName) successfully.")
+            }
+            return dataVal
+            
+        } else {
+        
+            return executeHttpGet(request, fileName: fileName, expectedSuccessCode: expectedSuccessCode, completionHandler: completionHandler)
+        }
+    }
+    
+    func executeHttpGet(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -99,19 +119,34 @@ class JahiaServerServices {
             if (httpResponse.statusCode == expectedSuccessCode) {
                 servicesAvailable = true
                 writeDataToFile(fileName, data: dataVal!)
+                if (completionHandler != nil) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completionHandler!(dataVal)
+                    }
+                }
                 return dataVal
             } else {
                 dataVal = readDataFromFile(fileName)
+                if (completionHandler != nil) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completionHandler!(dataVal)
+                    }
+                }
                 return dataVal
             }
         } else {
-            mprintln("Couldn't retrieve data from url \(url)")
+            mprintln("Couldn't retrieve data from url \(request.URL)")
             dataVal = readDataFromFile(fileName)
+            if (completionHandler != nil) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    completionHandler!(dataVal)
+                }
+            }
             return dataVal
         }
     }
     
-    func httpPost(url : String, body : String, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10) -> NSData? {
+    func httpPost(url : String, body : String, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
         let postURL : NSURL = NSURL(string: url)!
         let request = NSMutableURLRequest(URL: postURL)
         let postData = NSMutableData()
@@ -128,30 +163,66 @@ class JahiaServerServices {
         }
         request.HTTPBody = postData
         request.timeoutInterval = timeoutInterval
+
+        if (completionHandler != nil) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                executeHttpPost(request, fileName: fileName, expectedSuccessCode: expectedSuccessCode, completionHandler: completionHandler)
+            }
+            
+            // we immediately return an existing file content if there is one
+            let dataVal = readDataFromFile(fileName)
+            if (dataVal != nil) {
+                mprintln("Loaded data from local file \(fileName) successfully.")
+            }
+            return dataVal
+            
+        } else {
+            
+            return executeHttpPost(request, fileName: fileName, expectedSuccessCode: expectedSuccessCode, completionHandler: completionHandler)
+        }
         
+    }
+    
+    func executeHttpPost(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
         var err: NSError
         if let httpResponse = response as? NSHTTPURLResponse {
             if (httpResponse.statusCode == expectedSuccessCode) {
-                mprintln("Post to url \(url) successful.")
+                mprintln("Post to url \(request.URL) successful.")
                 servicesAvailable = true
                 writeDataToFile(fileName, data: dataVal!)
+                if (completionHandler != nil) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completionHandler!(dataVal)
+                    }
+                }
                 return dataVal
             } else {
-                mprintln("Error during post request to url \(url) !")
+                mprintln("Error during post request to url \(request.URL) !")
                 dataVal = readDataFromFile(fileName)
+                if (completionHandler != nil) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completionHandler!(dataVal)
+                    }
+                }
                 return dataVal
             }
         } else {
             mprintln("Post failed")
             dataVal = readDataFromFile(fileName)
+            if (completionHandler != nil) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    completionHandler!(dataVal)
+                }
+            }
             return dataVal
         }
+    
     }
     
-    func performQuery(query : String, queryName : String, limit: Int, offset : Int) -> [NSDictionary]? {
+    func performQuery(query : String, queryName : String, limit: Int, offset : Int, completionHandler : (([NSDictionary]?) -> Void)? = nil) -> [NSDictionary]? {
         if (!areServicesAvailable()) {
             mprintln("Services not available, attempting to perform query \(query) offline...")
         } else {
@@ -159,7 +230,18 @@ class JahiaServerServices {
         }
         
         let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
-        let dataVal = httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+        let dataVal = httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json", completionHandler: { dataVal in
+            if let data = dataVal {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var error: NSError?
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
+
+                completionHandler!(jsonResult)
+            } else {
+                self.mprintln("Couldn't retrieve results for query \(query) !")
+            }
+
+        })
         
         if let data = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -474,7 +556,7 @@ class JahiaServerServices {
         return nil;
     }
     
-    func getWorkflowTasks() -> [Task] {
+    func getWorkflowTasks(completionHandler: (([Task]?) -> Void)? = nil) -> [Task] {
         var taskArray = [Task]()
         if (!areServicesAvailable()) {
             mprintln("Probably offline, retrieving workflow tasks from local cache...")
@@ -484,7 +566,26 @@ class JahiaServerServices {
         
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
         
-        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json")
+        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json", completionHandler : { dataVal in
+            if let data = dataVal {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var error: NSError?
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+                
+                let workflowTasksChildren = jsonResult["children"] as! NSDictionary
+                
+                let workflowTaskChildrenDict = workflowTasksChildren as! [String:NSDictionary]
+                
+                for (key,value) in workflowTaskChildrenDict {
+                    let task = Task(taskName: key, fromNSDictionary: value)
+                    if (task.state != "Finished") {
+                        taskArray.append(task)
+                    }
+                }
+            } else {
+                self.mprintln("Couldn't retrieve workflow tasks")
+            }
+        })
         
         if let data = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -630,14 +731,24 @@ class JahiaServerServices {
         return result
     }
     
-    func getLatestPosts() -> [Post] {
+    func getLatestPosts(completionHandler : (([Post]) -> Void)? = nil) -> [Post] {
         var posts = [Post]()
         mprintln("Retrieving latest posts...")
         if (!areServicesAvailable()) {
             mprintln("Services are not available, will try to load offline data if it exists...")
         }
         
-        let jsonQueryReply = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0)
+        let jsonQueryReply = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0, completionHandler: { jsonQueryReply in
+            if let jsonResult = jsonQueryReply {
+                
+                for postDict in jsonResult {
+                    let post = Post(fromNSDictionary: postDict)
+                    posts.append(post)
+                }
+            } else {
+                self.mprintln("Couldn't retrieve latest posts!")
+            }
+        })
 
         if let jsonResult = jsonQueryReply {
 

@@ -41,7 +41,22 @@ class GlanceController: WKInterfaceController {
             couldntLoadDataLabel.setHidden(true)
         }
         
-        let latestPosts = jahiaServerServices.getLatestPosts()
+        let latestPosts = jahiaServerServices.getLatestPosts(completionHandler: { latestPosts in
+            var lastestPostDate : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(0))
+            var uniqueUsers = [String:String]()
+            
+            for latestPost in latestPosts {
+                if (latestPost.author != nil) {
+                    uniqueUsers[latestPost.author!] = latestPost.author
+                }
+                if (lastestPostDate.compare(latestPost.date!) == NSComparisonResult.OrderedAscending) {
+                    lastestPostDate = latestPost.date!
+                }
+            }
+            
+            self.lastPostDate.setText("\(lastestPostDate.relativeTime)")
+            self.last24hoursUsers.setText("\(uniqueUsers.count)")
+        })
         var lastestPostDate : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(0))
         var uniqueUsers = [String:String]()
         
@@ -57,9 +72,26 @@ class GlanceController: WKInterfaceController {
         lastPostDate.setText("\(lastestPostDate.relativeTime)")
         last24hoursUsers.setText("\(uniqueUsers.count)")
         
+        println("Displaying users in last posts...")
         usersInLastPostsGroup.setHidden(false)
         
-        let workflowTasks = jahiaServerServices.getWorkflowTasks()
+        let workflowTasks = jahiaServerServices.getWorkflowTasks(completionHandler: { workflowTasks in
+            var openTaskCount = 0;
+            
+            if (workflowTasks!.count > 0) {
+                println("\(workflowTasks!.count) tasks found.")
+                for task in workflowTasks! {
+                    if (task.state != "finished") {
+                        openTaskCount++;
+                    }
+                }
+            }
+            
+            self.numberOfTasksLabel.setText("\(openTaskCount)")
+            
+            println("Displaying last post date and open tasks...")
+            self.lastPostAndOpenTasksGroup.setHidden(false)
+        })
         var openTaskCount = 0;
         
         if (workflowTasks.count > 0) {
@@ -73,6 +105,7 @@ class GlanceController: WKInterfaceController {
         
         numberOfTasksLabel.setText("\(openTaskCount)")
         
+        println("Displaying last post date and open tasks...")
         lastPostAndOpenTasksGroup.setHidden(false)
 
         println("Glance data completed.")
@@ -80,11 +113,13 @@ class GlanceController: WKInterfaceController {
 
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
+        println("willActivate called")
         super.willActivate()
     }
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
+        println("didDeactivate called")
         super.didDeactivate()
     }
 
