@@ -17,7 +17,7 @@ class GlanceController: WKInterfaceController {
     
     @IBOutlet weak var last24hoursUsers: WKInterfaceLabel!
     
-    @IBOutlet weak var couldntLoadDataLabel: WKInterfaceLabel!
+    @IBOutlet weak var statusLabel: WKInterfaceLabel!
     @IBOutlet weak var usersInLastPostsGroup: WKInterfaceGroup!
     @IBOutlet weak var lastPostAndOpenTasksGroup: WKInterfaceGroup!
     
@@ -33,15 +33,19 @@ class GlanceController: WKInterfaceController {
         // Configure interface objects here.        
         usersInLastPostsGroup.setHidden(true)
         lastPostAndOpenTasksGroup.setHidden(true)
+        
+        let servicesAvailable = jahiaServerServices.areServicesAvailable()
 
-        if (!jahiaServerServices.areServicesAvailable()) {
+        if (!servicesAvailable) {
             println("Services are not available")
-            couldntLoadDataLabel.setHidden(false)
+            statusLabel.setText("OFFLINE")
+            statusLabel.setTextColor(UIColor.redColor())
         } else {
-            couldntLoadDataLabel.setHidden(true)
+            statusLabel.setText("LOADING")
         }
         
-        let latestPosts = jahiaServerServices.getLatestPosts(completionHandler: { latestPosts in
+        statusLabel.setText("LOADING POSTS")
+        let latestPosts = jahiaServerServices.getLatestPosts(completionHandler: { latestPosts, online in
             var lastestPostDate : NSDate = NSDate(timeIntervalSince1970: NSTimeInterval(0))
             var uniqueUsers = [String:String]()
             
@@ -52,6 +56,7 @@ class GlanceController: WKInterfaceController {
                 if (lastestPostDate.compare(latestPost.date!) == NSComparisonResult.OrderedAscending) {
                     lastestPostDate = latestPost.date!
                 }
+                self.statusLabel.setText("POSTS LOADED")
             }
             
             self.lastPostDate.setText("\(lastestPostDate.relativeTime)")
@@ -75,7 +80,9 @@ class GlanceController: WKInterfaceController {
         println("Displaying users in last posts...")
         usersInLastPostsGroup.setHidden(false)
         
-        let workflowTasks = jahiaServerServices.getWorkflowTasks(completionHandler: { workflowTasks in
+        statusLabel.setText("LOADING TASKS")
+        
+        let workflowTasks = jahiaServerServices.getWorkflowTasks(completionHandler: { workflowTasks, online in
             var openTaskCount = 0;
             
             if (workflowTasks!.count > 0) {
@@ -91,6 +98,7 @@ class GlanceController: WKInterfaceController {
             
             println("Displaying last post date and open tasks...")
             self.lastPostAndOpenTasksGroup.setHidden(false)
+            self.statusLabel.setText("TASKS LOADED")
         })
         var openTaskCount = 0;
         
@@ -107,6 +115,11 @@ class GlanceController: WKInterfaceController {
         
         println("Displaying last post date and open tasks...")
         lastPostAndOpenTasksGroup.setHidden(false)
+        
+        if (!servicesAvailable) {
+            statusLabel.setText("OFFLINE")
+            statusLabel.setTextColor(UIColor.redColor())
+        }
 
         println("Glance data completed.")
     }

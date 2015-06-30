@@ -222,7 +222,7 @@ class JahiaServerServices {
     
     }
     
-    func performQuery(query : String, queryName : String, limit: Int, offset : Int, completionHandler : (([NSDictionary]?) -> Void)? = nil) -> [NSDictionary]? {
+    func performQuery(query : String, queryName : String, limit: Int, offset : Int, completionHandler : (([NSDictionary]?, online : Bool) -> Void)? = nil) -> [NSDictionary]? {
         if (!areServicesAvailable()) {
             mprintln("Services not available, attempting to perform query \(query) offline...")
         } else {
@@ -236,7 +236,7 @@ class JahiaServerServices {
                 var error: NSError?
                 var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
 
-                completionHandler!(jsonResult)
+                completionHandler!(jsonResult, online: online)
             } else {
                 self.mprintln("Couldn't retrieve results for query \(query) !")
             }
@@ -593,7 +593,7 @@ class JahiaServerServices {
         return nil;
     }
     
-    func getWorkflowTasks(completionHandler: (([Task]?) -> Void)? = nil) -> [Task] {
+    func getWorkflowTasks(completionHandler: (([Task]?, online: Bool) -> Void)? = nil) -> [Task] {
         var taskArray = [Task]()
         if (!areServicesAvailable()) {
             mprintln("Probably offline, retrieving workflow tasks from local cache...")
@@ -618,6 +618,9 @@ class JahiaServerServices {
                     if (task.state != "Finished") {
                         taskArray.append(task)
                     }
+                }
+                if (completionHandler != nil) {
+                    completionHandler!(taskArray, online: online)
                 }
             } else {
                 self.mprintln("Couldn't retrieve workflow tasks")
@@ -768,19 +771,22 @@ class JahiaServerServices {
         return result
     }
     
-    func getLatestPosts(completionHandler : (([Post]) -> Void)? = nil) -> [Post] {
+    func getLatestPosts(completionHandler : (([Post], online : Bool) -> Void)? = nil) -> [Post] {
         var posts = [Post]()
         mprintln("Retrieving latest posts...")
         if (!areServicesAvailable()) {
             mprintln("Services are not available, will try to load offline data if it exists...")
         }
         
-        let jsonQueryReply = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0, completionHandler: { jsonQueryReply in
+        let jsonQueryReply = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0, completionHandler: { jsonQueryReply, online in
             if let jsonResult = jsonQueryReply {
                 
                 for postDict in jsonResult {
                     let post = Post(fromNSDictionary: postDict)
                     posts.append(post)
+                }
+                if (completionHandler != nil) {
+                    completionHandler!(posts, online: online)
                 }
             } else {
                 self.mprintln("Couldn't retrieve latest posts!")
