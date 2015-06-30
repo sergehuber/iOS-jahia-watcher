@@ -83,7 +83,7 @@ class JahiaServerServices {
         return nil
     }
     
-    func httpGet(url : String, fileName : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
+    func httpGet(url : String, fileName : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, completionHandler: ((NSData?, online: Bool) -> Void)? = nil) -> NSData? {
         let getURL : NSURL = NSURL(string: url)!
         
         let request = NSMutableURLRequest(URL: getURL)
@@ -110,7 +110,7 @@ class JahiaServerServices {
         }
     }
     
-    func executeHttpGet(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
+    func executeHttpGet(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200, completionHandler: ((NSData?, online: Bool) -> Void)? = nil) -> NSData? {
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -121,7 +121,7 @@ class JahiaServerServices {
                 writeDataToFile(fileName, data: dataVal!)
                 if (completionHandler != nil) {
                     dispatch_async(dispatch_get_main_queue()) {
-                        completionHandler!(dataVal)
+                        completionHandler!(dataVal, online: true)
                     }
                 }
                 return dataVal
@@ -129,7 +129,7 @@ class JahiaServerServices {
                 dataVal = readDataFromFile(fileName)
                 if (completionHandler != nil) {
                     dispatch_async(dispatch_get_main_queue()) {
-                        completionHandler!(dataVal)
+                        completionHandler!(dataVal, online: false)
                     }
                 }
                 return dataVal
@@ -139,14 +139,14 @@ class JahiaServerServices {
             dataVal = readDataFromFile(fileName)
             if (completionHandler != nil) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler!(dataVal)
+                    completionHandler!(dataVal, online: false)
                 }
             }
             return dataVal
         }
     }
     
-    func httpPost(url : String, body : String, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
+    func httpPost(url : String, body : String, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, completionHandler: ((NSData?, online: Bool) -> Void)? = nil) -> NSData? {
         let postURL : NSURL = NSURL(string: url)!
         let request = NSMutableURLRequest(URL: postURL)
         let postData = NSMutableData()
@@ -183,7 +183,7 @@ class JahiaServerServices {
         
     }
     
-    func executeHttpPost(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200, completionHandler: ((NSData?) -> Void)? = nil) -> NSData? {
+    func executeHttpPost(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200, completionHandler: ((NSData?, online: Bool) -> Void)? = nil) -> NSData? {
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -195,7 +195,7 @@ class JahiaServerServices {
                 writeDataToFile(fileName, data: dataVal!)
                 if (completionHandler != nil) {
                     dispatch_async(dispatch_get_main_queue()) {
-                        completionHandler!(dataVal)
+                        completionHandler!(dataVal, online:true)
                     }
                 }
                 return dataVal
@@ -204,7 +204,7 @@ class JahiaServerServices {
                 dataVal = readDataFromFile(fileName)
                 if (completionHandler != nil) {
                     dispatch_async(dispatch_get_main_queue()) {
-                        completionHandler!(dataVal)
+                        completionHandler!(dataVal, online: false)
                     }
                 }
                 return dataVal
@@ -214,7 +214,7 @@ class JahiaServerServices {
             dataVal = readDataFromFile(fileName)
             if (completionHandler != nil) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler!(dataVal)
+                    completionHandler!(dataVal, online: false)
                 }
             }
             return dataVal
@@ -230,7 +230,7 @@ class JahiaServerServices {
         }
         
         let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
-        let dataVal = httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json", completionHandler: { dataVal in
+        let dataVal = httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json", completionHandler: { dataVal,online in
             if let data = dataVal {
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
                 var error: NSError?
@@ -259,9 +259,18 @@ class JahiaServerServices {
         
     }
     
-    func getApiVersion() -> [String:AnyObject]? {
+    func getApiVersion(completionHandler : (([String:AnyObject]?) -> Void)? = nil) -> [String:AnyObject]? {
         mprintln("Retrieving API version...")
-        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/version")
+        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "apiVersion.json", completionHandler : { dataVal,online in
+            if let versionData = dataVal {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                var error: NSError?
+                let version = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as? [String:AnyObject]
+                if (completionHandler != nil) {
+                    completionHandler!(version)
+                }
+            }
+        })
         if let versionData = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             var error: NSError?
@@ -277,7 +286,25 @@ class JahiaServerServices {
         mprintln("Logging into Jahia...")
         
         let requestString : String = "doLogin=true&restMode=true&username=\(jahiaServerSettings.jahiaUserName)&password=\(jahiaServerSettings.jahiaPassword)&redirectActive=false";
-        let dataVal = httpPost(jahiaServerSettings.loginUrl(), body:requestString)
+        let dataVal = httpPost(jahiaServerSettings.loginUrl(), body:requestString, fileName: "login.txt", completionHandler: { dataVal,online in
+            if let data = dataVal {
+                self.mprintln("Login successful.")
+                self.servicesAvailable = true
+                self.loggedIn = true
+                let userPath = self.getUserPath(completionHandler: { userPath in
+                    if let realUserPath = userPath {
+                        self.jahiaServerSettings.jahiaUserPath = realUserPath
+                    }
+                })
+                if let realUserPath = userPath {
+                    self.jahiaServerSettings.jahiaUserPath = realUserPath
+                }
+                result = true
+            } else {
+                self.mprintln("Login failed")
+                self.loggedIn = false
+            }
+        })
         
         if let data = dataVal {
             mprintln("Login successful.")
@@ -537,13 +564,23 @@ class JahiaServerServices {
     }
     
     
-    func getUserPath() -> String? {
+    func getUserPath(completionHandler : ((String?) -> Void)? = nil) -> String? {
         if (!areServicesAvailable()) {
             return ""
         }
         mprintln("Retrieving current user path...")
         
-        let dataVal = httpGet(jahiaServerSettings.userPathUrl(), fileName: "userPath.txt")
+        let dataVal = httpGet(jahiaServerSettings.userPathUrl(), fileName: "userPath.txt", completionHandler: {dataVal, online in
+            if let data = dataVal {
+                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                self.hideMessages()
+                if completionHandler != nil {
+                    completionHandler!(JahiaServerServices.condenseWhitespace(datastring! as String))
+                }
+            } else {
+                self.mprintln("Coudln't retrieve current user path")
+            }
+        })
 
         if let data = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -566,7 +603,7 @@ class JahiaServerServices {
         
         let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
         
-        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json", completionHandler : { dataVal in
+        let dataVal = httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json", completionHandler : { dataVal,online in
             if let data = dataVal {
                 var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
                 var error: NSError?
