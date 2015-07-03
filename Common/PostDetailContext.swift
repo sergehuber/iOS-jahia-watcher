@@ -11,5 +11,6 @@ import WatchKit
 class PostDetailContext: NSObject {
     var post : Post?
     var postIndex : Int?
-    var postsInterfaceController : PostsInterfaceController?
+    var postsController : AnyObject?
+    var jahiaServerSession : JahiaServerSession?
 }

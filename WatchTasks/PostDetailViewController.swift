@@ -19,9 +19,7 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var markedAsSpamLabel: UILabel!
     
     @IBOutlet weak var actionsToolbar: UIToolbar!
-    var post : Post?
-    var postsTableViewController : PostsTableViewController?
-    var postIndex : Int?
+    var postDetailContext : PostDetailContext?
     var postDeleted = false
     
     override func viewDidLoad() {
@@ -32,8 +30,8 @@ class PostDetailViewController: UIViewController {
     }
     
     func displayPost() {
-        if let realPost = post {
-            post = jahiaServerServices.getPostActions(realPost)            
+        if let realPost = postDetailContext!.post {
+            postDetailContext!.post = postDetailContext!.jahiaServerSession!.getPostActions(realPost)
             if let title = realPost.title {
                 postTitleLabel.text = title
             }
@@ -85,7 +83,7 @@ class PostDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if (segue.identifier == "replyToPost") {
             let postReplyViewController = segue.destinationViewController as! PostReplyViewController
-            postReplyViewController.post = post!
+            postReplyViewController.postDetailContext = postDetailContext
         }
     }
     
@@ -94,12 +92,13 @@ class PostDetailViewController: UIViewController {
         
         if (self.isMovingFromParentViewController()){
             // we update the list entry
+            let postsTableViewController = postDetailContext?.postsController as! PostsTableViewController
             if (postDeleted) {
-                postsTableViewController!.latestPosts.removeAtIndex(postIndex!)
+                postsTableViewController.latestPosts.removeAtIndex(postDetailContext!.postIndex!)
             } else {
-                postsTableViewController!.latestPosts[postIndex!] = post!
+                postsTableViewController.latestPosts[postDetailContext!.postIndex!] = postDetailContext!.post!
             }
-            postsTableViewController!.needsRefreshing = true
+            postsTableViewController.needsRefreshing = true
         }
     }
     
@@ -121,8 +120,8 @@ class PostDetailViewController: UIViewController {
                 
             case .Destructive:
                 println("destructive")
-                self.jahiaServerServices.markAsSpam(self.post!.identifier!)
-                self.post = self.jahiaServerServices.refreshPost(self.post!)
+                self.postDetailContext!.jahiaServerSession!.markAsSpam(self.postDetailContext!.post!.identifier!)
+                self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
             }
         }))
@@ -155,8 +154,8 @@ class PostDetailViewController: UIViewController {
                 
             case .Destructive:
                 println("destructive")
-                self.jahiaServerServices.unmarkAsSpam(self.post!.identifier!)
-                self.post = self.jahiaServerServices.refreshPost(self.post!)
+                self.postDetailContext!.jahiaServerSession!.unmarkAsSpam(self.postDetailContext!.post!.identifier!)
+                self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
             }
         }))
@@ -187,8 +186,8 @@ class PostDetailViewController: UIViewController {
                 
             case .Destructive:
                 println("destructive")
-                self.jahiaServerServices.blockUser(self.post!.author!)
-                self.post = self.jahiaServerServices.refreshPost(self.post!)
+                self.postDetailContext!.jahiaServerSession!.blockUser(self.postDetailContext!.post!.author!)
+                self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
             }
         }))
@@ -219,8 +218,8 @@ class PostDetailViewController: UIViewController {
                 
             case .Destructive:
                 println("destructive")
-                self.jahiaServerServices.unblockUser(self.post!.author!)
-                self.post = self.jahiaServerServices.refreshPost(self.post!)
+                self.postDetailContext!.jahiaServerSession!.unblockUser(self.postDetailContext!.post!.author!)
+                self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
             }
         }))
@@ -251,7 +250,7 @@ class PostDetailViewController: UIViewController {
                 
             case .Destructive:
                 println("destructive")
-                self.jahiaServerServices.deleteNode(self.post!.identifier!, workspace: "live")
+                self.postDetailContext!.jahiaServerSession!.deleteNode(self.postDetailContext!.post!.identifier!, workspace: "live")
             }
         }))
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in

@@ -143,7 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         println("tokenString: \(tokenString)")
         println(deviceToken.description)
-        jahiaServerServices.registerDeviceToken(tokenString);
+
+        let jahiaServerSession = JahiaServerSession()
+        jahiaServerSession.registerDeviceToken(tokenString);
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

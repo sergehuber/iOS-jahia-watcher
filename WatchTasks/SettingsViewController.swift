@@ -55,9 +55,12 @@ class SettingsViewController: UIViewController {
         jahiaServerSettings.jahiaUserName = userNameTextField.text
         jahiaServerSettings.jahiaPassword = passwordTextField.text
         jahiaServerSettings.save()
-        jahiaServerServices.attemptedLogin = false
-        if (!jahiaServerServices.login()) {
-            let alertController = UIAlertController(title: "Login error", message: "Login failed. ",preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let jahiaServerSession = JahiaServerSession()
+        jahiaServerSession.jcrApiVersionRequested = false
+        jahiaServerSession.attemptedLogin = false
+        if (!jahiaServerSession.areServicesAvailable()) {
+            let alertController = UIAlertController(title: "Connection error", message: "Connection failed. ",preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: { action in
                 // do nothing
             }))

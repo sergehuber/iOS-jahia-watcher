@@ -19,15 +19,18 @@ class TasksInterfaceController: WKInterfaceController {
     @IBOutlet weak var tasksTable: WKInterfaceTable!
     
     var workflowTasks : [Task]?
+    var jahiaServerSession : JahiaServerSession?
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
         
-        jahiaServerServices.login()
+        jahiaServerSession = JahiaServerSession()
+        
+        jahiaServerSession!.areServicesAvailable()
 
-        workflowTasks = jahiaServerServices.getWorkflowTasks()
+        workflowTasks = jahiaServerSession!.getWorkflowTasks()
 
         var openTaskCount = 0;
         
@@ -63,7 +66,12 @@ class TasksInterfaceController: WKInterfaceController {
     }
     
     override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table:WKInterfaceTable, rowIndex: Int) -> AnyObject? {
-        return workflowTasks![rowIndex]
+        let taskDetailContext = TaskDetailContext()
+        taskDetailContext.task = workflowTasks![rowIndex]
+        taskDetailContext.taskIndex = rowIndex
+        taskDetailContext.tasksController = self
+        taskDetailContext.jahiaServerSession = jahiaServerSession
+        return taskDetailContext
     }
     
     @IBAction func viewTasks() {

@@ -11,9 +11,9 @@ import UIKit
 
 class TasksTableViewController: UITableViewController {
 
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     var workflowTasks : [Task] = [Task]()
     var needsRefreshing = false
+    var jahiaServerSession : JahiaServerSession?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,8 @@ class TasksTableViewController: UITableViewController {
         self.refreshControl!.addTarget(self, action: "refreshData:", forControlEvents: UIControlEvents.ValueChanged)
         self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
-            self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
+            self.jahiaServerSession = JahiaServerSession()
+            self.workflowTasks = self.jahiaServerSession!.getWorkflowTasks()
             self.tableView.reloadData()
             self.navigationItem.prompt = nil
         }
@@ -42,7 +43,8 @@ class TasksTableViewController: UITableViewController {
         self.navigationItem.prompt = "Loading..."
         // Code to refresh table view
         dispatch_async(dispatch_get_main_queue()) {
-            self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
+            self.jahiaServerSession = JahiaServerSession()
+            self.workflowTasks = self.jahiaServerSession!.getWorkflowTasks()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
             self.navigationItem.prompt = nil
@@ -155,16 +157,20 @@ class TasksTableViewController: UITableViewController {
         let selectedIndexPath = self.tableView.indexPathForSelectedRow()
         if let indexPath = selectedIndexPath {
             let task = workflowTasks[indexPath.row]
-            taskDetailViewController.task = task
-            taskDetailViewController.tasksTableViewController = self
-            taskDetailViewController.taskIndex = indexPath.row
+            let taskDetailContext = TaskDetailContext()
+            taskDetailContext.task = task
+            taskDetailContext.tasksController = self
+            taskDetailContext.taskIndex = indexPath.row
+            taskDetailContext.jahiaServerSession = jahiaServerSession
+            taskDetailViewController.taskDetailContext = taskDetailContext
         }
     }
     
     func displaySpecificTask(taskIdentifier : String) {
         self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
-            self.workflowTasks = self.jahiaServerServices.getWorkflowTasks()
+            self.jahiaServerSession = JahiaServerSession()
+            self.workflowTasks = self.jahiaServerSession!.getWorkflowTasks()
             self.tableView.reloadData()
             self.navigationItem.prompt = nil
             if (self.workflowTasks.count == 0) {

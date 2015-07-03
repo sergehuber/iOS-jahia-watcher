@@ -11,8 +11,8 @@ import UIKit
 class PostReplyViewController: UIViewController {
     
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    var post : Post?
-
+    var postDetailContext : PostDetailContext?
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     
@@ -20,8 +20,8 @@ class PostReplyViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        titleTextField.text = "Re:" + post!.title!
-        bodyTextView.text = "Quote : \"" + post!.content! + "\"\n";
+        titleTextField.text = "Re:" + postDetailContext!.post!.title!
+        bodyTextView.text = "Quote : \"" + postDetailContext!.post!.content! + "\"\n";
 
         let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "dismissKeyboard")
         let keyboardToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 44))
@@ -60,7 +60,7 @@ class PostReplyViewController: UIViewController {
     }
     
     @IBAction func saveReplyPressed(sender: AnyObject) {
-        jahiaServerServices.replyToPost(post!, title: titleTextField.text, body: bodyTextView.text)
+        postDetailContext!.jahiaServerSession!.replyToPost(postDetailContext!.post!, title: titleTextField.text, body: bodyTextView.text)
         performSegueWithIdentifier("backToPost", sender: self)
     }
         

@@ -11,6 +11,7 @@ import UIKit
 class PostsTableViewController: UITableViewController {
 
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    var jahiaServerSession : JahiaServerSession?
     var latestPosts = [Post]()
     var needsRefreshing = false
     
@@ -29,7 +30,8 @@ class PostsTableViewController: UITableViewController {
         self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
             self.refreshControl?.beginRefreshing()
-            self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            self.jahiaServerSession = JahiaServerSession()
+            self.latestPosts = self.jahiaServerSession!.getLatestPosts()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
             self.navigationItem.prompt = nil
@@ -41,7 +43,8 @@ class PostsTableViewController: UITableViewController {
         self.navigationItem.prompt = "Loading..."
         // Code to refresh table view
         dispatch_async(dispatch_get_main_queue()) {
-            self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            let jahiaServerSession = JahiaServerSession()
+            self.latestPosts = jahiaServerSession.getLatestPosts()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
             self.navigationItem.prompt = nil
@@ -153,9 +156,12 @@ class PostsTableViewController: UITableViewController {
         let selectedIndexPath = self.tableView.indexPathForSelectedRow()
         if let indexPath = selectedIndexPath {
             let post = latestPosts[indexPath.row]
-            postDetailViewController.post = post
-            postDetailViewController.postIndex = indexPath.row
-            postDetailViewController.postsTableViewController = self
+            let postDetailContext = PostDetailContext()
+            postDetailContext.post = post
+            postDetailContext.postIndex = indexPath.row
+            postDetailContext.postsController = self
+            postDetailContext.jahiaServerSession = self.jahiaServerSession
+            postDetailViewController.postDetailContext = postDetailContext
         }
     }
     
@@ -163,7 +169,8 @@ class PostsTableViewController: UITableViewController {
         self.navigationItem.prompt = "Loading..."
         dispatch_async(dispatch_get_main_queue()) {
             self.refreshControl?.beginRefreshing()
-            self.latestPosts = self.jahiaServerServices.getLatestPosts()
+            self.jahiaServerSession = JahiaServerSession()
+            self.latestPosts = self.jahiaServerSession!.getLatestPosts()
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
             self.navigationItem.prompt = nil

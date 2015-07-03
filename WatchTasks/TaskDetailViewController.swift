@@ -10,9 +10,8 @@ import Foundation
 import UIKit
 
 class TaskDetailViewController: UIViewController {
-
+    
     let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var assigneeLabel: UILabel!
@@ -21,9 +20,7 @@ class TaskDetailViewController: UIViewController {
     @IBOutlet weak var dueDateLabel: UILabel!
     @IBOutlet weak var outcomeToolbar: UIToolbar!
     @IBOutlet weak var previewButton: UIButton!
-    var task : Task?
-    var taskIndex : Int?
-    var tasksTableViewController : TasksTableViewController?
+    var taskDetailContext : TaskDetailContext?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +31,8 @@ class TaskDetailViewController: UIViewController {
     
     func displayTask() {
         // Do any additional setup after loading the view.
-        if let realTask = task {
-            task = jahiaServerServices.getTaskActions(realTask)
+        if let realTask = taskDetailContext!.task {
+            taskDetailContext!.task = taskDetailContext!.jahiaServerSession!.getTaskActions(realTask)
             if let title = realTask.title {
                 titleLabel.text = title
             }
@@ -95,12 +92,12 @@ class TaskDetailViewController: UIViewController {
         if let idSender = sender as? IdUIBarButtonItem {
             self.navigationItem.prompt="Performing action..."
             println("Action triggered for \(idSender.title) with tag \(idSender.tag) identifier=\(idSender.identifier) subIdentifier=\(idSender.subIdentifier)")
-            jahiaServerServices.performTaskAction(task!, actionName: idSender.identifier!, finalOutcome: idSender.subIdentifier)
+            taskDetailContext!.jahiaServerSession!.performTaskAction(taskDetailContext!.task!, actionName: idSender.identifier!, finalOutcome: idSender.subIdentifier)
         } else {
             println("Action triggered for \(sender.title) with tag \(sender.tag)")
         }
         dispatch_async(dispatch_get_main_queue()) {
-            self.task = self.jahiaServerServices.refreshTask(self.task!)
+            self.taskDetailContext!.task = self.taskDetailContext!.jahiaServerSession!.refreshTask(self.taskDetailContext!.task!)
             self.displayTask()
             self.navigationItem.prompt=nil
         }
@@ -115,7 +112,7 @@ class TaskDetailViewController: UIViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let taskContentPreviewController = segue.destinationViewController as! TaskContentPreviewViewController
-        taskContentPreviewController.contentUrl = jahiaServerSettings.contentRenderUrl(task!.previewUrl!)
+        taskContentPreviewController.contentUrl = jahiaServerSettings.contentRenderUrl(taskDetailContext!.task!.previewUrl!)
     }
     
     override func viewWillDisappear(animated : Bool) {
@@ -123,8 +120,9 @@ class TaskDetailViewController: UIViewController {
         
         if (self.isMovingFromParentViewController()){
             // we update the list entry
-            tasksTableViewController!.workflowTasks[taskIndex!] = task!
-            tasksTableViewController!.needsRefreshing = true
+            let tasksTableViewController = taskDetailContext?.tasksController as! TasksTableViewController
+            tasksTableViewController.workflowTasks[taskDetailContext!.taskIndex!] = taskDetailContext!.task!
+            tasksTableViewController.needsRefreshing = true
         }
     }
     

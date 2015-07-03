@@ -15,8 +15,10 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTaskNotificationReceived:", name: "pushNotificationnewTask", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPostNotificationReceived:", name: "pushNotificationnewPost", object: nil)
+        
+        let jahiaServerSession = JahiaServerSession()
 
-        if (!jahiaServerServices.areServicesAvailable()) {
+        if (!jahiaServerSession.areServicesAvailable()) {
             println("No existing settings found, presenting settings tab first")
             displaySettings()
         }

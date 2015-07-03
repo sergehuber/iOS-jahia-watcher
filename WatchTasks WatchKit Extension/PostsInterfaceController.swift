@@ -17,13 +17,16 @@ class PostsInterfaceController: WKInterfaceController {
     let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
     var latestPosts = [Post]()
     var needsRefreshing : Bool = true
+    var jahiaServerSession : JahiaServerSession?
     
     override func awakeWithContext(context: AnyObject?) {
         
         // Configure interface objects here.
-        jahiaServerServices.login()
+        jahiaServerSession = JahiaServerSession()
         
-        latestPosts = jahiaServerServices.getLatestPosts()
+        jahiaServerSession!.areServicesAvailable()
+        
+        latestPosts = jahiaServerSession!.getLatestPosts()
         if (needsRefreshing) {
             refreshTable()
             needsRefreshing = false
@@ -31,7 +34,8 @@ class PostsInterfaceController: WKInterfaceController {
         
         let postDetailContext = context as? PostDetailContext
         if (postDetailContext != nil) {
-            postDetailContext?.postsInterfaceController = self
+            postDetailContext?.postsController = self
+            postDetailContext?.jahiaServerSession = jahiaServerSession
             pushControllerWithName("postDetailController", context: postDetailContext)
         }
     }
@@ -64,8 +68,9 @@ class PostsInterfaceController: WKInterfaceController {
     override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table:WKInterfaceTable, rowIndex: Int) -> AnyObject? {
         let postDetailContext = PostDetailContext()
         postDetailContext.post = latestPosts[rowIndex]
-        postDetailContext.postsInterfaceController = self
+        postDetailContext.postsController = self
         postDetailContext.postIndex = rowIndex
+        postDetailContext.jahiaServerSession = jahiaServerSession
         return postDetailContext
     }
     

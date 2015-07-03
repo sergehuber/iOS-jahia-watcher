@@ -35,7 +35,9 @@ class MainInterfaceController: WKInterfaceController {
             println("enter - handleActionWithIdentifier(\(identifier))")
 
             JahiaServerServices.messageDelegate = DefaultMessageDelegate()
-            jahiaServerServices.login()
+            
+            let jahiaServerSession = JahiaServerSession()
+            jahiaServerSession.areServicesAvailable()
             
             let userName = ""
             let nodeIdentifier = remoteNotification["nodeIdentifier"] as! String
@@ -43,7 +45,7 @@ class MainInterfaceController: WKInterfaceController {
             switch identifier! {
             case "viewPostAction" :
                 println("View post action")
-                let latestPosts = jahiaServerServices.getLatestPosts()
+                let latestPosts = jahiaServerSession.getLatestPosts()
                 var post : Post?
                 var postIndex = 0
                 if latestPosts.count == 0 {
@@ -71,7 +73,7 @@ class MainInterfaceController: WKInterfaceController {
                     pushControllerWithName("postsController", context: postDetailContext)
                 }
             case "viewTaskAction" :
-                let workflowTasks = jahiaServerServices.getWorkflowTasks()
+                let workflowTasks = jahiaServerSession.getWorkflowTasks()
                 var task : Task?
                 if (workflowTasks.count == 0) {
                     return
