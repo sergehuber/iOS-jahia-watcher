@@ -56,6 +56,7 @@ class JahiaServerSession {
     func getApiVersion() -> [String:AnyObject]? {
         jahiaServerServices.mprintln("Retrieving API version...")
         let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "apiVersion.json", timeoutInterval: 2)
+        servicesAvailable = online
         if let versionData = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             var error: NSError?
@@ -101,11 +102,17 @@ class JahiaServerSession {
             } else {
                 jcrApiVersion = jcrApiVersionMap!["api"] as! String?
                 jcrApiModuleVersion = jcrApiVersionMap!["module"] as! String?
+                if (!servicesAvailable) {
+                    return servicesAvailable
+                }
             }
         } else {
             if (jcrApiVersionMap == nil) {
                 return servicesAvailable
             }
+        }
+        if (!servicesAvailable) {
+            return servicesAvailable
         }
         if (!loggedIn && !attemptedLogin) {
             attemptedLogin = true
