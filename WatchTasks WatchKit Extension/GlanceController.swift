@@ -89,6 +89,8 @@ class GlanceController: WKInterfaceController {
         if (!servicesAvailable) {
             statusLabel.setText("OFFLINE")
             statusLabel.setTextColor(UIColor.redColor())
+        } else {
+            statusLabel.setText("LOADING COMPLETED")
         }
 
         let endDate = NSDate()
