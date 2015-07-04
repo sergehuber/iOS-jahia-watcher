@@ -18,6 +18,7 @@ class JahiaServerSettings {
     }
     
     var jahiaServerTimeout = 10
+    var jahiaUsePreparedQueries = true
     var jahiaUserName : String = "root"
     var jahiaPassword : String = "root1234"
     var jahiaUserPath : String = "/users/root"

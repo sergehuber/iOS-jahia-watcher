@@ -49,7 +49,77 @@ class JahiaServerSession {
         return (nil,false)
     }
     
-    func performPreparedQuery(queryName : String, queryParameters : [AnyObject]) {
+    func performPreparedQuery(queryName : String, queryParameters : [String:AnyObject], limit: Int, offset : Int) -> ([NSDictionary]?,Bool) {
+        var dataVal : NSData?
+        var online = false
+        
+        if (!areServicesAvailable()) {
+            jahiaServerServices.mprintln("Services not available, attempting to perform query \(queryName) offline...")
+            let fileName = queryName + ".json"
+            dataVal = jahiaServerServices.readDataFromFile(fileName)
+        } else {
+            jahiaServerServices.mprintln("Performing query named \(queryName) with named parameters online...")
+            var queryParamPart : String = "{"
+            var count = 0
+            for (paramName,paramValue) in queryParameters {
+                queryParamPart += "\"\(paramName)\" : \"\(paramValue)\" "
+                count++
+                if (count < queryParameters.count) {
+                    queryParamPart + ","
+                }
+            }
+            queryParamPart += "}"
+            let requestString : String = "{\"queryName\" : \"\(queryName)\", \"namedParameters\": \(queryParamPart), \"limit\": \(limit), \"offset\":\(offset) }";
+            (dataVal,online) = jahiaServerServices.httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+        }
+        
+        if let data = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error: NSError?
+            var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
+            
+            return (jsonResult,online)
+        } else {
+            jahiaServerServices.mprintln("Couldn't retrieve results for query named \(queryName) !")
+        }
+        return (nil,false)
+        
+    }
+
+    func performPreparedQuery(queryName : String, queryParameters : [AnyObject], limit: Int, offset : Int) -> ([NSDictionary]?,Bool) {
+        var dataVal : NSData?
+        var online = false
+        
+        if (!areServicesAvailable()) {
+            jahiaServerServices.mprintln("Services not available, attempting to perform query \(queryName) offline...")
+            let fileName = queryName + ".json"
+            dataVal = jahiaServerServices.readDataFromFile(fileName)
+        } else {
+            jahiaServerServices.mprintln("Performing query named \(queryName) with parameter array online...")
+            var queryParamPart : String = "["
+            var count = 0
+            for paramValue in queryParameters {
+                queryParamPart += "\"\(paramValue)\" "
+                count++
+                if (count < queryParameters.count) {
+                    queryParamPart + ","
+                }
+            }
+            queryParamPart += "]"
+            let requestString : String = "{\"queryName\" : \"\(queryName)\", \"parameters\": \(queryParamPart), \"limit\": \(limit), \"offset\":\(offset) }";
+            (dataVal,online) = jahiaServerServices.httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+        }
+        
+        if let data = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error: NSError?
+            var jsonResult = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! [NSDictionary]
+            
+            return (jsonResult,online)
+        } else {
+            jahiaServerServices.mprintln("Couldn't retrieve results for query named \(queryName) !")
+        }
+        return (nil,false)
         
     }
     
@@ -522,7 +592,15 @@ class JahiaServerSession {
         var jsonQueryReply : [NSDictionary]?
         var online = false
         
-        (jsonQueryReply,online) = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latest-posts", limit: 20, offset: 0)
+        if (jahiaServerSettings.jahiaUsePreparedQueries) {
+            jahiaServerServices.mprintln("Using prepary queries...")
+            (jsonQueryReply,online) = performPreparedQuery("latestPosts", queryParameters: [String:AnyObject](), limit: 20, offset: 0)
+            /*
+            (jsonQueryReply,online) = performPreparedQuery("latestPosts", queryParameters: [], limit: 20, offset: 0)
+            */
+        } else {
+            (jsonQueryReply,online) = performQuery("select * from [jnt:post] as p order by p.[jcr:created] desc", queryName: "latestPosts", limit: 20, offset: 0)
+        }
         
         if let jsonResult = jsonQueryReply {
             
