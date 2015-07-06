@@ -96,10 +96,6 @@ class JahiaServerServices {
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = timeoutInterval
                 
-        return executeHttpGet(request, fileName: fileName, expectedSuccessCode: expectedSuccessCode)
-    }
-    
-    func executeHttpGet(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200) -> (NSData?,Bool) {
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -119,29 +115,26 @@ class JahiaServerServices {
         }
     }
     
-    func httpPost(url : String, body : String, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10) -> (NSData?,Bool) {
+    func httpRequest(url : String, body : String? = nil, fileName : String? = nil, contentType : String? = nil, expectedSuccessCode : Int = 200, timeoutInterval : NSTimeInterval = 10, httpMethod : String = "POST") -> (NSData?,Bool) {
         let postURL : NSURL = NSURL(string: url)!
         let request = NSMutableURLRequest(URL: postURL)
-        let postData = NSMutableData()
-        postData.appendData(body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         
-        request.HTTPMethod = "POST"
+        request.HTTPMethod = httpMethod
         request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
         request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
         if (contentType != nil) {
             request.addValue(contentType!, forHTTPHeaderField: "Content-Type")
         } else {
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
-        request.HTTPBody = postData
         request.timeoutInterval = timeoutInterval
+        if (body != nil) {
+            let postData = NSMutableData()
+            postData.appendData(body!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+            request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
+            request.HTTPBody = postData
+        }
         
-        return executeHttpPost(request, fileName: fileName, expectedSuccessCode: expectedSuccessCode)
-        
-    }
-    
-    func executeHttpPost(request : NSMutableURLRequest, fileName : String? = nil, expectedSuccessCode : Int = 200) -> (NSData?,Bool) {
         var response: NSURLResponse?
         var error: NSError?
         var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
@@ -161,7 +154,6 @@ class JahiaServerServices {
             dataVal = readDataFromFile(fileName)
             return (dataVal,false)
         }
-    
     }
     
     

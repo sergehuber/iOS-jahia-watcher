@@ -34,7 +34,7 @@ class JahiaServerSession {
         } else {
             jahiaServerServices.mprintln("Performing query \(query) online...")
             let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
-            (dataVal,online) = jahiaServerServices.httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+            (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         }
         
         if let data = dataVal {
@@ -70,7 +70,7 @@ class JahiaServerSession {
             }
             queryParamPart += "}"
             let requestString : String = "{\"queryName\" : \"\(queryName)\", \"namedParameters\": \(queryParamPart), \"limit\": \(limit), \"offset\":\(offset) }";
-            (dataVal,online) = jahiaServerServices.httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+            (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         }
         
         if let data = dataVal {
@@ -107,7 +107,7 @@ class JahiaServerSession {
             }
             queryParamPart += "]"
             let requestString : String = "{\"queryName\" : \"\(queryName)\", \"parameters\": \(queryParamPart), \"limit\": \(limit), \"offset\":\(offset) }";
-            (dataVal,online) = jahiaServerServices.httpPost(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+            (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         }
         
         if let data = dataVal {
@@ -125,7 +125,7 @@ class JahiaServerSession {
     
     func getApiVersion() -> [String:AnyObject]? {
         jahiaServerServices.mprintln("Retrieving API version...")
-        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "apiVersion.json", timeoutInterval: 2)
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "apiVersion.json", timeoutInterval: 1)
         servicesAvailable = online
         if let versionData = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -142,7 +142,7 @@ class JahiaServerSession {
         jahiaServerServices.mprintln("Logging into Jahia...")
         
         let requestString : String = "doLogin=true&restMode=true&username=\(jahiaServerSettings.jahiaUserName)&password=\(jahiaServerSettings.jahiaPassword)&redirectActive=false";
-        let (dataVal,online) = jahiaServerServices.httpPost(jahiaServerSettings.loginUrl(), body:requestString, fileName: "login.txt")
+        let (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.loginUrl(), body:requestString, fileName: "login.txt")
         
         if let data = dataVal {
             jahiaServerServices.mprintln("Login successful.")
@@ -218,23 +218,9 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Blocking user...")
         
-        let jahiaBlockUserURL : NSURL = NSURL(string: jahiaServerSettings.blockUserUrl() + "?userName=\(userName)")!
-        
-        let request = NSMutableURLRequest(URL: jahiaBlockUserURL)
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error blocking user \(userName)?")
-            } else {
-                jahiaServerServices.mprintln("User \(userName) blocked successfully.")
-            }
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.blockUserUrl() + "?userName=\(userName)")
+        if let result = dataVal {
+            jahiaServerServices.mprintln("User \(userName) blocked successfully.")
         } else {
             jahiaServerServices.mprintln("Blocking of user \(userName) failed")
         }
@@ -247,23 +233,9 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Unblocking user...")
         
-        let jahiaUnblockUserURL : NSURL = NSURL(string: jahiaServerSettings.unblockUserUrl() + "?userName=\(userName)")!
-        
-        let request = NSMutableURLRequest(URL: jahiaUnblockUserURL)
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error unblocking user \(userName)?")
-            } else {
-                jahiaServerServices.mprintln("User \(userName) unblocked successfully.")
-            }
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.unblockUserUrl() + "?userName=\(userName)")
+        if let result = dataVal {
+            jahiaServerServices.mprintln("User \(userName) unblocked successfully.")
         } else {
             jahiaServerServices.mprintln("Unblocking of user \(userName) failed")
         }
@@ -276,23 +248,9 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Marking post as spam")
         
-        let jahiaMarkAsSpamURL : NSURL = NSURL(string: jahiaServerSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
-        
-        let request = NSMutableURLRequest(URL: jahiaMarkAsSpamURL)
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error marking post as spam ?")
-            } else {
-                jahiaServerServices.mprintln("Post marked as spam successfully.")
-            }
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")
+        if let result = dataVal {
+            jahiaServerServices.mprintln("Post marked as spam successfully.")
         } else {
             jahiaServerServices.mprintln("Marking post as spam failed")
         }
@@ -305,23 +263,9 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Unmarking post as spam")
         
-        let jahiaUnmarkAsSpamURL : NSURL = NSURL(string: jahiaServerSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")!
-        
-        let request = NSMutableURLRequest(URL: jahiaUnmarkAsSpamURL)
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error unmarking post as spam ?")
-            } else {
-                jahiaServerServices.mprintln("Post unmarked as spam successfully.")
-            }
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")
+        if let result = dataVal {
+            jahiaServerServices.mprintln("Post unmarked as spam successfully.")
         } else {
             jahiaServerServices.mprintln("Unmarking post as spam failed")
         }
@@ -334,24 +278,9 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Deleting node \(nodeIdentifier)")
         
-        let jahiaDeleteNodeURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)")!
-        
-        let request = NSMutableURLRequest(URL: jahiaDeleteNodeURL)
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 4
-        request.HTTPMethod = "DELETE"
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 204) {
-                jahiaServerServices.mprintln("Error deleting node \(nodeIdentifier) statusCode=\(httpResponse.statusCode)")
-            } else {
-                jahiaServerServices.mprintln("Node \(nodeIdentifier) deleted successfully.")
-            }
+        let (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)", expectedSuccessCode: 204, httpMethod : "DELETE")
+        if let result = dataVal {
+            jahiaServerServices.mprintln("Node \(nodeIdentifier) deleted successfully.")
         } else {
             jahiaServerServices.mprintln("Deleting node \(nodeIdentifier) failed.")
         }
@@ -364,40 +293,26 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Retrieving post actions...")
         
-        let jahiaPostActionsURL : NSURL = NSURL(string: jahiaServerSettings.postActionsUrl(post.path!))!
-        
-        let request = NSMutableURLRequest(URL: jahiaPostActionsURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error retrieving post actions!")
+        var error : NSError?
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.postActionsUrl(post.path!))
+        if let result = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            
+            if let viewUrl = jsonResult["view-url"] as? String {
+                post.viewUrl = viewUrl
+            }
+            if let possibleActions = jsonResult["possibleActions"] as? [NSDictionary] {
+                var actions = [PostAction]()
+                for possibleAction in possibleActions {
+                    let postAction = PostAction()
+                    postAction.displayName = possibleAction["displayName"] as? String
+                    postAction.name = possibleAction["name"] as? String
+                    actions.append(postAction)
+                }
+                post.actions = actions
             } else {
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
-                
-                if let viewUrl = jsonResult["view-url"] as? String {
-                    post.viewUrl = viewUrl
-                }
-                if let possibleActions = jsonResult["possibleActions"] as? [NSDictionary] {
-                    var actions = [PostAction]()
-                    for possibleAction in possibleActions {
-                        let postAction = PostAction()
-                        postAction.displayName = possibleAction["displayName"] as? String
-                        postAction.name = possibleAction["name"] as? String
-                        actions.append(postAction)
-                    }
-                    post.actions = actions
-                } else {
-                    post.actions = nil
-                }
+                post.actions = nil
             }
         } else {
             jahiaServerServices.mprintln("Couldn't retrieve post actions")
@@ -470,30 +385,15 @@ class JahiaServerSession {
         
         jahiaServerServices.mprintln("Refreshing task \(task.path) ...")
         
-        let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")!
-        
-        let request = NSMutableURLRequest(URL: jahiaWorkflowTasksURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error retrieving updated task!")
-            } else {
-                jahiaServerServices.writeDataToFile("task-\(task.identifier).json", data: dataVal!)
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
-                
-                jahiaServerServices.hideMessages()
-                return Task(taskName: task.name!, fromNSDictionary: jsonResult)
-                
-            }
+        var error : NSError?
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")
+        if let result = dataVal {
+            jahiaServerServices.writeDataToFile("task-\(task.identifier).json", data: dataVal!)
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            
+            jahiaServerServices.hideMessages()
+            return Task(taskName: task.name!, fromNSDictionary: jsonResult)
         } else {
             jahiaServerServices.mprintln("Couldn't retrieve task")
         }
@@ -509,40 +409,27 @@ class JahiaServerSession {
         
         let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaServerSettings.taskActionsUrl(task.path!))!
         
-        let request = NSMutableURLRequest(URL: jahiaTaskActionsURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var openTaskCount = 0;
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error retrieving task actions!")
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")
+        if let result = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error : NSError?
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            
+            if let previewUrl = jsonResult["preview-url"] as? String {
+                task.previewUrl = previewUrl
+            }
+            if let possibleActions = jsonResult["possibleActions"] as? [NSDictionary] {
+                var nextActions = [TaskAction]()
+                for possibleAction in possibleActions {
+                    let taskAction = TaskAction()
+                    taskAction.displayName = possibleAction["displayName"] as? String
+                    taskAction.name = possibleAction["name"] as? String
+                    taskAction.finalOutcome = possibleAction["finalOutcome"] as? String
+                    nextActions.append(taskAction)
+                }
+                task.nextActions = nextActions
             } else {
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
-                
-                if let previewUrl = jsonResult["preview-url"] as? String {
-                    task.previewUrl = previewUrl
-                }
-                if let possibleActions = jsonResult["possibleActions"] as? [NSDictionary] {
-                    var nextActions = [TaskAction]()
-                    for possibleAction in possibleActions {
-                        let taskAction = TaskAction()
-                        taskAction.displayName = possibleAction["displayName"] as? String
-                        taskAction.name = possibleAction["name"] as? String
-                        taskAction.finalOutcome = possibleAction["finalOutcome"] as? String
-                        nextActions.append(taskAction)
-                    }
-                    task.nextActions = nextActions
-                } else {
-                    task.nextActions = nil
-                }
+                task.nextActions = nil
             }
         } else {
             jahiaServerServices.mprintln("Couldn't retrieve task actions")
@@ -556,28 +443,11 @@ class JahiaServerSession {
         var result = false
         jahiaServerServices.mprintln("Sending task action \(actionName) with outcome \(finalOutcome) to Jahia server...")
         
-        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaServerSettings.taskActionsUrl(task.path!))!
-        let request = NSMutableURLRequest(URL: jahiaTaskActionsURL)
         let requestString : String = "action=\(actionName)" + ((finalOutcome != nil) ? "&finalOutcome=\(finalOutcome!)" : "");
-        let postData = NSMutableData()
-        postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-        
-        request.HTTPMethod = "POST"
-        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postData
-        request.timeoutInterval = 4
-        
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode == 200) {
-                jahiaServerServices.mprintln("Action sent successfully.")
-                result = true
-            }
+        let (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.taskActionsUrl(task.path!), body: requestString)
+        if let dataResult = dataVal {
+            jahiaServerServices.mprintln("Action sent successfully.")
+            result = true
         } else {
             jahiaServerServices.mprintln("Action sending failed")
         }
@@ -622,33 +492,14 @@ class JahiaServerSession {
         }
         jahiaServerServices.mprintln("Refreshing post \(post.path!) ...")
         
-        let jahiaGetPostURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/live/en/paths\(post.path!)?includeFullChildren&resolveReferences")!
-        
-        let request = NSMutableURLRequest(URL: jahiaGetPostURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        
-        request.HTTPMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var openTaskCount = 0;
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 200) {
-                jahiaServerServices.mprintln("Error retrieving post \(post.path)")
-            } else {
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
-                
-                jahiaServerServices.hideMessages()
-                return Post(fromNSDictionary: jsonResult)
-                
-            }
+        let (dataVal,online) = jahiaServerServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/live/en/paths\(post.path!)?includeFullChildren&resolveReferences")
+        if let result = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error : NSError?
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            
+            jahiaServerServices.hideMessages()
+            return Post(fromNSDictionary: jsonResult)
         } else {
             jahiaServerServices.mprintln("Couldn't retrieve update for post \(post.path)")
         }
@@ -674,43 +525,16 @@ class JahiaServerSession {
             range:range ,
             withTemplate: "")
         
-        let jahiaReplyPostURL : NSURL = NSURL(string: jahiaServerSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName)!
-        
-        let request = NSMutableURLRequest(URL: jahiaReplyPostURL)
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData
-        
         let requestString : String = "{\"type\" : \"jnt:post\", \"properties\": { \"jcr:title\" : { \"value\" : \"\(jahiaServerServices.jsonEscaping(title!))\" }, \"content\" : { \"value\" : \"\(jahiaServerServices.jsonEscaping(body!))\" } } }";
-        jahiaServerServices.mprintln("PUT \(jahiaReplyPostURL)")
         jahiaServerServices.mprintln("payload=\(requestString)")
-        let postData = NSMutableData()
-        postData.appendData(requestString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-        
-        request.HTTPMethod = "PUT"
-        request.setValue(NSString(format: "%lu", postData.length) as String, forHTTPHeaderField: "Content-Length")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postData
-        
-        request.addValue("application/json,application/hal+json", forHTTPHeaderField: "Accept")
-        request.timeoutInterval = 10
-        
-        var openTaskCount = 0;
-        var response: NSURLResponse?
-        var error: NSError?
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error:&error)
-        var err: NSError
-        if let httpResponse = response as? NSHTTPURLResponse {
-            if (httpResponse.statusCode != 201) {
-                jahiaServerServices.mprintln("Error creating child post under\(post.path) statusCode=\(httpResponse.statusCode)")
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                jahiaServerServices.mprintln("result=\(datastring)")
-            } else {
-                var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
-                
-                jahiaServerServices.hideMessages()
-                return Post(fromNSDictionary: jsonResult)
-                
-            }
+        let (dataVal,online) = jahiaServerServices.httpRequest(jahiaServerSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName, body: requestString, contentType : "application/json", expectedSuccessCode: 201, httpMethod: "PUT")
+        if let dataResult = dataVal {
+            var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+            var error: NSError?
+            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers, error: &error) as! NSDictionary
+            
+            jahiaServerServices.hideMessages()
+            return Post(fromNSDictionary: jsonResult)
         } else {
             jahiaServerServices.mprintln("Couldn't retrieve update for post \(post.path)")
         }
