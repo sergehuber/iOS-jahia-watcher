@@ -18,8 +18,8 @@ class TaskDetailInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var stateLabel: WKInterfaceLabel!
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
-    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
+    let jahiaJahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     var taskDetailContext : TaskDetailContext?
     var task : Task?
     
@@ -29,7 +29,7 @@ class TaskDetailInterfaceController: WKInterfaceController {
         taskDetailContext = context as? TaskDetailContext
         task = taskDetailContext!.task
         nameLabel.setText(task!.name)
-        if (task!.assigneeUserKey != nil && count(task!.assigneeUserKey!) > 0) {
+        if (task!.assigneeUserKey != nil && (task!.assigneeUserKey!).characters.count > 0) {
             assigneeUserKeyLabel.setText(task!.assigneeUserKey)
         } else {
             assigneeUserKeyLabel.setText("not assigned")
@@ -58,15 +58,15 @@ class TaskDetailInterfaceController: WKInterfaceController {
     }
         
     func assignToMePressed(sender : AnyObject?) {
-        println("Assign to me pressed")
+        print("Assign to me pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "assignToMe", finalOutcome: nil)
         buildTaskActionsMenu()
         stateLabel.setText("Active")
-        assigneeUserKeyLabel.setText(jahiaServerServices.getUserName())
+        assigneeUserKeyLabel.setText(jahiaJahiaServerSettings.jahiaUserName)
     }
     
     func refusePressed(sender: AnyObject?) {
-        println("Refuse pressed")
+        print("Refuse pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "refuse", finalOutcome: nil)
         buildTaskActionsMenu()
         stateLabel.setText("Active")
@@ -74,42 +74,42 @@ class TaskDetailInterfaceController: WKInterfaceController {
     }
 
     func startPressed(sender : AnyObject?) {
-        println("Start pressed")
+        print("Start pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "start", finalOutcome: nil)
         buildTaskActionsMenu()
         stateLabel.setText("Started")
     }
 
     func suspendPressed(sender : AnyObject?) {
-        println("Suspend pressed")
+        print("Suspend pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "suspend", finalOutcome: nil)
         buildTaskActionsMenu()
         stateLabel.setText("Suspended")
     }
 
     func continuePressed(sender : AnyObject?) {
-        println("Continue pressed")
+        print("Continue pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "continue", finalOutcome: nil)
         buildTaskActionsMenu()
         stateLabel.setText("Started")
     }
 
     func acceptPressed(sender : AnyObject?) {
-        println("Accept pressed")
+        print("Accept pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "finished", finalOutcome: "accept")
         buildTaskActionsMenu()
         stateLabel.setText("Finished")
     }
     
     func rejectPressed(sender : AnyObject?) {
-        println("Reject pressed")
+        print("Reject pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "finished", finalOutcome: "reject")
         buildTaskActionsMenu()
         stateLabel.setText("Finished")
     }
 
     func completePressed(sender : AnyObject?) {
-        println("Complete pressed")
+        print("Complete pressed")
         taskDetailContext!.jahiaServerSession!.performTaskAction(task!, actionName: "finished", finalOutcome: nil)
         buildTaskActionsMenu()
         stateLabel.setText("Finished")

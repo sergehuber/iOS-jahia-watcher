@@ -10,7 +10,7 @@ import UIKit
 
 class PostsTableViewController: UITableViewController {
 
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     var jahiaServerSession : JahiaServerSession?
     var latestPosts = [Post]()
     var needsRefreshing = false
@@ -92,7 +92,7 @@ class PostsTableViewController: UITableViewController {
         }
         
         if let postDate = post.date {
-            cell.postDateLabel.text = JahiaServerServices.getRelativeTime(postDate)
+            cell.postDateLabel.text = ServerServices.getRelativeTime(postDate)
         }
         
         if let postAuthor = post.author {
@@ -153,7 +153,7 @@ class PostsTableViewController: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let postDetailViewController = segue.destinationViewController as! PostDetailViewController
-        let selectedIndexPath = self.tableView.indexPathForSelectedRow()
+        let selectedIndexPath = self.tableView.indexPathForSelectedRow
         if let indexPath = selectedIndexPath {
             let post = latestPosts[indexPath.row]
             let postDetailContext = PostDetailContext()

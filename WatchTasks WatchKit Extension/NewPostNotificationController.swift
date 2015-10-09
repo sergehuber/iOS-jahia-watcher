@@ -49,9 +49,9 @@ class NewPostNotificationController: WKUserNotificationInterfaceController {
         // Populate your dynamic notification interface as quickly as possible.
         //
         // After populating your dynamic notification interface call the completion block.
+        /*
         let notificationObject = remoteNotification as! [String:AnyObject]
         let nodeIdentifier = notificationObject["nodeIdentifier"] as! String
-        /*
         let customKey = notificationObject["customKey"] as! [String:AnyObject]
         let postTitle = customKey["postTitle"] as! String
         postTitleLabel.setText(postTitle)

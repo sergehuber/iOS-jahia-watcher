@@ -9,8 +9,8 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let jahiaJahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
 
     @IBOutlet weak var protocolTextField: UITextField!
     @IBOutlet weak var hostnameTextField: UITextField!
@@ -22,12 +22,12 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        protocolTextField.text = jahiaServerSettings.jahiaServerProtocol
-        hostnameTextField.text = jahiaServerSettings.jahiaServerHost
-        portTextField.text = String(jahiaServerSettings.jahiaServerPort)
-        contextPathTextField.text = jahiaServerSettings.jahiaServerContextPath
-        userNameTextField.text = jahiaServerSettings.jahiaUserName
-        passwordTextField.text = jahiaServerSettings.jahiaPassword
+        protocolTextField.text = jahiaJahiaServerSettings.jahiaServerProtocol
+        hostnameTextField.text = jahiaJahiaServerSettings.jahiaServerHost
+        portTextField.text = String(jahiaJahiaServerSettings.jahiaServerPort)
+        contextPathTextField.text = jahiaJahiaServerSettings.jahiaServerContextPath
+        userNameTextField.text = jahiaJahiaServerSettings.jahiaUserName
+        passwordTextField.text = jahiaJahiaServerSettings.jahiaPassword
         
         let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "dismissKeyboard")
         let keyboardToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 44))
@@ -48,13 +48,13 @@ class SettingsViewController: UIViewController {
     }    
     
     @IBAction func saveSettings(sender: AnyObject) {
-        jahiaServerSettings.jahiaServerProtocol = protocolTextField.text
-        jahiaServerSettings.jahiaServerHost = hostnameTextField.text
-        jahiaServerSettings.jahiaServerPort = portTextField.text.toInt()!
-        jahiaServerSettings.jahiaServerContextPath = contextPathTextField.text
-        jahiaServerSettings.jahiaUserName = userNameTextField.text
-        jahiaServerSettings.jahiaPassword = passwordTextField.text
-        jahiaServerSettings.save()
+        jahiaJahiaServerSettings.jahiaServerProtocol = protocolTextField.text!
+        jahiaJahiaServerSettings.jahiaServerHost = hostnameTextField.text!
+        jahiaJahiaServerSettings.jahiaServerPort = Int(portTextField.text!)!
+        jahiaJahiaServerSettings.jahiaServerContextPath = contextPathTextField.text!
+        jahiaJahiaServerSettings.jahiaUserName = userNameTextField.text!
+        jahiaJahiaServerSettings.jahiaPassword = passwordTextField.text!
+        jahiaJahiaServerSettings.save()
         
         let jahiaServerSession = JahiaServerSession()
         jahiaServerSession.jcrApiVersionRequested = false
@@ -75,13 +75,13 @@ class SettingsViewController: UIViewController {
     }
 
     @IBAction func reloadSettings(sender: AnyObject) {
-        jahiaServerSettings.load()
-        protocolTextField.text = jahiaServerSettings.jahiaServerProtocol
-        hostnameTextField.text = jahiaServerSettings.jahiaServerHost
-        portTextField.text = String(jahiaServerSettings.jahiaServerPort)
-        contextPathTextField.text = jahiaServerSettings.jahiaServerContextPath
-        userNameTextField.text = jahiaServerSettings.jahiaUserName
-        passwordTextField.text = jahiaServerSettings.jahiaPassword
+        jahiaJahiaServerSettings.load()
+        protocolTextField.text = jahiaJahiaServerSettings.jahiaServerProtocol
+        hostnameTextField.text = jahiaJahiaServerSettings.jahiaServerHost
+        portTextField.text = String(jahiaJahiaServerSettings.jahiaServerPort)
+        contextPathTextField.text = jahiaJahiaServerSettings.jahiaServerContextPath
+        userNameTextField.text = jahiaJahiaServerSettings.jahiaUserName
+        passwordTextField.text = jahiaJahiaServerSettings.jahiaPassword
     }
     
     @IBAction func endEditingProtocol(sender: AnyObject) {

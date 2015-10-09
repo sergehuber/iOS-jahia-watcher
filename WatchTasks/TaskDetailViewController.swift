@@ -11,7 +11,7 @@ import UIKit
 
 class TaskDetailViewController: UIViewController {
     
-    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
+    let jahiaJahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var assigneeLabel: UILabel!
@@ -48,7 +48,7 @@ class TaskDetailViewController: UIViewController {
                 descriptionLabel.text = description
             }
             if let dueDate = realTask.dueDate {
-                dueDateLabel.text = JahiaServerServices.getShortDate(dueDate)
+                dueDateLabel.text = ServerServices.getShortDate(dueDate)
             } else {
                 dueDateLabel.text = ""
             }
@@ -91,10 +91,10 @@ class TaskDetailViewController: UIViewController {
     func actionTriggered(sender : UIBarButtonItem!) {
         if let idSender = sender as? IdUIBarButtonItem {
             self.navigationItem.prompt="Performing action..."
-            println("Action triggered for \(idSender.title) with tag \(idSender.tag) identifier=\(idSender.identifier) subIdentifier=\(idSender.subIdentifier)")
+            print("Action triggered for \(idSender.title) with tag \(idSender.tag) identifier=\(idSender.identifier) subIdentifier=\(idSender.subIdentifier)")
             taskDetailContext!.jahiaServerSession!.performTaskAction(taskDetailContext!.task!, actionName: idSender.identifier!, finalOutcome: idSender.subIdentifier)
         } else {
-            println("Action triggered for \(sender.title) with tag \(sender.tag)")
+            print("Action triggered for \(sender.title) with tag \(sender.tag)")
         }
         dispatch_async(dispatch_get_main_queue()) {
             self.taskDetailContext!.task = self.taskDetailContext!.jahiaServerSession!.refreshTask(self.taskDetailContext!.task!)
@@ -112,7 +112,7 @@ class TaskDetailViewController: UIViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let taskContentPreviewController = segue.destinationViewController as! TaskContentPreviewViewController
-        taskContentPreviewController.contentUrl = jahiaServerSettings.contentRenderUrl(taskDetailContext!.task!.previewUrl!)
+        taskContentPreviewController.contentUrl = jahiaJahiaServerSettings.contentRenderUrl(taskDetailContext!.task!.previewUrl!)
     }
     
     override func viewWillDisappear(animated : Bool) {

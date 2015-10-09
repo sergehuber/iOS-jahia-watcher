@@ -11,8 +11,8 @@ import Foundation
 
 class PostDetailInterfaceController: WKInterfaceController {
 
-    let jahiaServerServices = JahiaServerServices.sharedInstance
-    let jahiaServerSettings = JahiaServerSettings.sharedInstance
+    let serverServices = ServerServices.sharedInstance
+    let jahiaJahiaServerSettings = JahiaServerSettings.sharedInstance
     
     @IBOutlet weak var postTitleLabel: WKInterfaceLabel!
     @IBOutlet weak var postDateLabel: WKInterfaceLabel!
@@ -28,7 +28,7 @@ class PostDetailInterfaceController: WKInterfaceController {
         // Configure interface objects here.
         postDetailContext = context as? PostDetailContext
         if (postDetailContext == nil) {
-            println("Unexpected nil postDetailContext !")
+            print("Unexpected nil postDetailContext !")
             return
         }
         postTitleLabel.setText(postDetailContext!.post!.title)
@@ -44,7 +44,7 @@ class PostDetailInterfaceController: WKInterfaceController {
         let updatedPost = postDetailContext!.jahiaServerSession!.getPostActions(postDetailContext!.post!)
         if (updatedPost.actions != nil) {
             for action in updatedPost.actions! {
-                var actionSelector = Selector(action.name! + "Pressed:")
+                let actionSelector = Selector(action.name! + "Pressed:")
                 addMenuItemWithItemIcon(WKMenuItemIcon.Accept, title: action.displayName!, action: actionSelector)
             }
         }
@@ -54,7 +54,7 @@ class PostDetailInterfaceController: WKInterfaceController {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         if (postDetailContext == nil) {
-            println("Post detail context is nil, won't update handoff or spam markers")
+            print("Post detail context is nil, won't update handoff or spam markers")
             return
         }
         if (postDetailContext!.post!.spam!) {
@@ -80,7 +80,7 @@ class PostDetailInterfaceController: WKInterfaceController {
     
     func markAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Mark as spam", message: "Are you sure you want to mark this post as spam ?", yesHandler : { context in
-            println("Marking post \(self.postDetailContext!.post!.path!) as spam...")
+            print("Marking post \(self.postDetailContext!.post!.path!) as spam...")
             self.postDetailContext!.jahiaServerSession!.markAsSpam(self.postDetailContext!.post!.identifier!)
             self.postDetailContext!.post!.spam = true
             let postsInterfaceController = self.postDetailContext!.postsController! as! PostsInterfaceController
@@ -90,7 +90,7 @@ class PostDetailInterfaceController: WKInterfaceController {
 
     func unmarkAsSpamPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "markAsSpamDialog", title: "Unmark as spam", message: "Are you sure you want to unmark this post as spam ?", yesHandler : { context in
-            println("Unmarking post \(self.postDetailContext!.post!.path!) as spam...")
+            print("Unmarking post \(self.postDetailContext!.post!.path!) as spam...")
             self.postDetailContext!.jahiaServerSession!.unmarkAsSpam(self.postDetailContext!.post!.identifier!)
             self.postDetailContext!.post!.spam = false
             let postsInterfaceController = self.postDetailContext!.postsController! as! PostsInterfaceController
@@ -100,7 +100,7 @@ class PostDetailInterfaceController: WKInterfaceController {
     
     func deletePressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "deletePostDialog", title: "Delete ?", message: "Are you sure you want to delete this post ?", yesHandler : { context in
-            println("Deleting post...")
+            print("Deleting post...")
             self.postDetailContext!.jahiaServerSession!.deleteNode(self.postDetailContext!.post!.identifier!, workspace: "live")
             let postsInterfaceController = self.postDetailContext!.postsController! as! PostsInterfaceController
             postsInterfaceController.latestPosts.removeAtIndex(self.postDetailContext!.postIndex!)
@@ -111,14 +111,14 @@ class PostDetailInterfaceController: WKInterfaceController {
     
     func blockUserPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Block user", message: "Are you sure you want to block the account of this posts author", yesHandler : { context in
-            println("Blocking user account \(self.postDetailContext!.post!.author!)...")
+            print("Blocking user account \(self.postDetailContext!.post!.author!)...")
             self.postDetailContext!.jahiaServerSession!.blockUser(self.postDetailContext!.post!.author!)
             }, noHandler : {context in }))
     }
 
     func unblockUserPressed(sender : AnyObject?) {
         presentControllerWithName("confirmationDialog", context: ConfirmationDialogContext(identifier: "blockUserDialog", title: "Unblock user", message: "Are you sure you want to unblock the account of this posts author", yesHandler : { context in
-            println("Unblocking user account \(self.postDetailContext!.post!.author!)...")
+            print("Unblocking user account \(self.postDetailContext!.post!.author!)...")
             self.postDetailContext!.jahiaServerSession!.unblockUser(self.postDetailContext!.post!.author!)
             }, noHandler : {context in }))
     }
@@ -126,7 +126,7 @@ class PostDetailInterfaceController: WKInterfaceController {
     func replyPressed(sender : AnyObject?) {
         let suggestions = [ "lol", "Couldn't agree more !", "I'm busy right now but I'll answer with more details later"]
         presentTextInputControllerWithSuggestions(suggestions, allowedInputMode: WKTextInputMode.Plain, completion: { input in
-            let body = input[0] as! String
+            let body = input![0] as! String
             self.postDetailContext!.jahiaServerSession!.replyToPost(self.postDetailContext!.post!, title: "Re: " + self.postDetailContext!.post!.title!, body: body)
         } )
     }

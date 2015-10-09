@@ -10,12 +10,31 @@
 		32C6A4032544F67BAC43C806 /* DefaultMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */; };
 		32C6A71D573E5AEC212609EA /* DefaultMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */; };
 		32C6AE2479622ED82A04F6B1 /* DefaultMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */; };
+		F42A45371BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45361BC6F6B5002043A1 /* ContextServerSettings.swift */; };
+		F42A45381BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45361BC6F6B5002043A1 /* ContextServerSettings.swift */; };
+		F42A45391BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45361BC6F6B5002043A1 /* ContextServerSettings.swift */; };
+		F42A453B1BC6F8B3002043A1 /* ContextServerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A453A1BC6F8B3002043A1 /* ContextServerSession.swift */; };
+		F42A453C1BC6F8B3002043A1 /* ContextServerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A453A1BC6F8B3002043A1 /* ContextServerSession.swift */; };
+		F42A453D1BC6F8B3002043A1 /* ContextServerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A453A1BC6F8B3002043A1 /* ContextServerSession.swift */; };
+		F42A453F1BC7C01A002043A1 /* CXSEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A453E1BC7C01A002043A1 /* CXSEvent.swift */; };
+		F42A45401BC7C01A002043A1 /* CXSEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A453E1BC7C01A002043A1 /* CXSEvent.swift */; };
+		F42A45411BC7C01A002043A1 /* CXSEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A453E1BC7C01A002043A1 /* CXSEvent.swift */; };
+		F42A45431BC7C033002043A1 /* CXSContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45421BC7C033002043A1 /* CXSContext.swift */; };
+		F42A45441BC7C033002043A1 /* CXSContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45421BC7C033002043A1 /* CXSContext.swift */; };
+		F42A45451BC7C033002043A1 /* CXSContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45421BC7C033002043A1 /* CXSContext.swift */; };
+		F42A45471BC80211002043A1 /* CXSItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45461BC80211002043A1 /* CXSItem.swift */; };
+		F42A45481BC80211002043A1 /* CXSItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45461BC80211002043A1 /* CXSItem.swift */; };
+		F42A45491BC80211002043A1 /* CXSItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A45461BC80211002043A1 /* CXSItem.swift */; };
+		F42A454B1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */; };
+		F42A454C1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */; };
+		F42A454D1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */; };
+		F42A454F1BC84FA5002043A1 /* CXSSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */; };
 		F431B59E1B0F07AF0037FE1B /* PostReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */; };
 		F4428C431AD41AEE0034A722 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
 		F4428C441AD422740034A722 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
 		F4428C461AD534490034A722 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C451AD534490034A722 /* SettingsViewController.swift */; };
-		F4428C481AD54ED50034A722 /* JahiaServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* JahiaServerServices.swift */; };
-		F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* JahiaServerServices.swift */; };
+		F4428C481AD54ED50034A722 /* ServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* ServerServices.swift */; };
+		F4428C491AD54ED50034A722 /* ServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* ServerServices.swift */; };
 		F4428C4C1AD554580034A722 /* PostsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C4B1AD554580034A722 /* PostsInterfaceController.swift */; };
 		F4428C4E1AD554680034A722 /* MainInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C4D1AD554680034A722 /* MainInterfaceController.swift */; };
 		F4428C501AD556B40034A722 /* PostDetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C4F1AD556B40034A722 /* PostDetailInterfaceController.swift */; };
@@ -40,13 +59,15 @@
 		F4BD6DA21B44440A00FC879A /* JahiaServerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD6DA11B44440A00FC879A /* JahiaServerSession.swift */; };
 		F4BD6DA31B44440A00FC879A /* JahiaServerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD6DA11B44440A00FC879A /* JahiaServerSession.swift */; };
 		F4BD6DA41B44440A00FC879A /* JahiaServerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD6DA11B44440A00FC879A /* JahiaServerSession.swift */; };
+		F4D0C16B1BC3091700245571 /* Jahia Watcher WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F4EB43E51AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F4D0C16E1BC3091700245571 /* Jahia Watcher WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F4EB43F41AAD7F010049F30F /* Jahia Watcher WatchKit App.app */; };
 		F4D704BF1B45875000D9D965 /* PostDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */; };
 		F4D704C01B45875000D9D965 /* PostDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */; };
 		F4D704C11B45875400D9D965 /* TaskDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E7FAE01B451F4A00206968 /* TaskDetailContext.swift */; };
 		F4D704C21B45875500D9D965 /* TaskDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E7FAE01B451F4A00206968 /* TaskDetailContext.swift */; };
 		F4D704C31B4684DD00D9D965 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4478D981AFC9F0D00763D5C /* Task.swift */; };
 		F4D704C41B4684E300D9D965 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7AD131AEA865000AFBBB8 /* Post.swift */; };
-		F4D704C51B4684E700D9D965 /* JahiaServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* JahiaServerServices.swift */; };
+		F4D704C51B4684E700D9D965 /* ServerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C471AD54ED50034A722 /* ServerServices.swift */; };
 		F4D704C61B4684EB00D9D965 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
 		F4E7FAE11B451F4A00206968 /* TaskDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E7FAE01B451F4A00206968 /* TaskDetailContext.swift */; };
 		F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43BF1AAD7E910049F30F /* AppDelegate.swift */; };
@@ -56,10 +77,8 @@
 		F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EC1AAD7F010049F30F /* NewPostNotificationController.swift */; };
 		F4EB43EF1AAD7F010049F30F /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB43EE1AAD7F010049F30F /* GlanceController.swift */; };
 		F4EB43F11AAD7F010049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43F01AAD7F010049F30F /* Images.xcassets */; };
-		F4EB43F51AAD7F010049F30F /* Jahia Watcher WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43F41AAD7F010049F30F /* Jahia Watcher WatchKit App.app */; };
 		F4EB43FD1AAD7F010049F30F /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43FB1AAD7F010049F30F /* Interface.storyboard */; };
 		F4EB43FF1AAD7F010049F30F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4EB43FE1AAD7F010049F30F /* Images.xcassets */; };
-		F4EB44021AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F4EB43E51AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F23BB31AD99E6E003751C6 /* MainTabBarController.swift */; };
 		F4F412CD1B00D91300DB21BD /* TaskContentPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */; };
 		F4F412CF1B0250F500DB21BD /* TaskAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F412CE1B0250F500DB21BD /* TaskAction.swift */; };
@@ -82,6 +101,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F4D0C1691BC3091700245571 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4EB43B21AAD7E910049F30F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4EB43E41AAD7F010049F30F;
+			remoteInfo = "Jahia Watcher WatchKit Extension";
+		};
+		F4D0C16C1BC3091700245571 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4EB43B21AAD7E910049F30F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4EB43F31AAD7F010049F30F;
+			remoteInfo = "Jahia Watcher WatchKit App";
+		};
 		F4EB43D21AAD7E910049F30F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4EB43B21AAD7E910049F30F /* Project object */;
@@ -89,44 +122,48 @@
 			remoteGlobalIDString = F4EB43B91AAD7E910049F30F;
 			remoteInfo = WatchTasks;
 		};
-		F4EB43F61AAD7F010049F30F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4EB43B21AAD7E910049F30F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F4EB43F31AAD7F010049F30F;
-			remoteInfo = "WatchTasks WatchKit App";
-		};
-		F4EB44001AAD7F010049F30F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4EB43B21AAD7E910049F30F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F4EB43E41AAD7F010049F30F;
-			remoteInfo = "WatchTasks WatchKit Extension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F4EB44091AAD7F010049F30F /* Embed App Extensions */ = {
+		F4D0C16F1BC3091700245571 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F4EB44021AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex in Embed App Extensions */,
+				F4D0C16B1BC3091700245571 /* Jahia Watcher WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4D0C1701BC3091700245571 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				F4D0C16E1BC3091700245571 /* Jahia Watcher WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultMessageDelegate.swift; path = Common/DefaultMessageDelegate.swift; sourceTree = "<group>"; };
+		F42A45361BC6F6B5002043A1 /* ContextServerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextServerSettings.swift; path = Common/ContextServerSettings.swift; sourceTree = "<group>"; };
+		F42A453A1BC6F8B3002043A1 /* ContextServerSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextServerSession.swift; path = Common/ContextServerSession.swift; sourceTree = "<group>"; };
+		F42A453E1BC7C01A002043A1 /* CXSEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSEvent.swift; sourceTree = "<group>"; };
+		F42A45421BC7C033002043A1 /* CXSContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSContext.swift; sourceTree = "<group>"; };
+		F42A45461BC80211002043A1 /* CXSItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSItem.swift; sourceTree = "<group>"; };
+		F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSEventCollectorRequest.swift; sourceTree = "<group>"; };
+		F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSSettingsViewController.swift; sourceTree = "<group>"; };
 		F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostReplyViewController.swift; sourceTree = "<group>"; };
 		F4428C401AD412430034A722 /* Jahia Watcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher.entitlements"; sourceTree = SOURCE_ROOT; };
 		F4428C411AD4125E0034A722 /* Jahia Watcher WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher WatchKit Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JahiaServerSettings.swift; path = WatchTasks/JahiaServerSettings.swift; sourceTree = "<group>"; };
 		F4428C451AD534490034A722 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		F4428C471AD54ED50034A722 /* JahiaServerServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JahiaServerServices.swift; path = WatchTasks/JahiaServerServices.swift; sourceTree = "<group>"; };
+		F4428C471AD54ED50034A722 /* ServerServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerServices.swift; path = WatchTasks/ServerServices.swift; sourceTree = "<group>"; };
 		F4428C4B1AD554580034A722 /* PostsInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsInterfaceController.swift; sourceTree = "<group>"; };
 		F4428C4D1AD554680034A722 /* MainInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainInterfaceController.swift; sourceTree = "<group>"; };
 		F4428C4F1AD556B40034A722 /* PostDetailInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailInterfaceController.swift; sourceTree = "<group>"; };
@@ -210,7 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */,
-				F4428C471AD54ED50034A722 /* JahiaServerServices.swift */,
+				F4428C471AD54ED50034A722 /* ServerServices.swift */,
 				F4F7AD131AEA865000AFBBB8 /* Post.swift */,
 				F4478D941AFC998B00763D5C /* NSDate+RelativeTime.swift */,
 				F4478D981AFC9F0D00763D5C /* Task.swift */,
@@ -222,6 +259,12 @@
 				32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */,
 				F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */,
 				F4E7FAE01B451F4A00206968 /* TaskDetailContext.swift */,
+				F42A45361BC6F6B5002043A1 /* ContextServerSettings.swift */,
+				F42A453A1BC6F8B3002043A1 /* ContextServerSession.swift */,
+				F42A453E1BC7C01A002043A1 /* CXSEvent.swift */,
+				F42A45421BC7C033002043A1 /* CXSContext.swift */,
+				F42A45461BC80211002043A1 /* CXSItem.swift */,
+				F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */,
 			);
 			name = "Shared Code";
 			sourceTree = "<group>";
@@ -271,6 +314,7 @@
 				F4F412CC1B00D91300DB21BD /* TaskContentPreviewViewController.swift */,
 				F4F412D61B03276400DB21BD /* IdUIBarButtonItem.swift */,
 				F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */,
+				F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */,
 			);
 			name = "Jahia Watcher";
 			path = WatchTasks;
@@ -365,12 +409,12 @@
 				F4EB43B61AAD7E910049F30F /* Sources */,
 				F4EB43B71AAD7E910049F30F /* Frameworks */,
 				F4EB43B81AAD7E910049F30F /* Resources */,
-				F4EB44091AAD7F010049F30F /* Embed App Extensions */,
+				F4D0C1701BC3091700245571 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F4EB44011AAD7F010049F30F /* PBXTargetDependency */,
+				F4D0C16D1BC3091700245571 /* PBXTargetDependency */,
 			);
 			name = "Jahia Watcher";
 			productName = WatchTasks;
@@ -406,27 +450,28 @@
 			buildRules = (
 			);
 			dependencies = (
-				F4EB43F71AAD7F010049F30F /* PBXTargetDependency */,
 			);
 			name = "Jahia Watcher WatchKit Extension";
 			productName = "WatchTasks WatchKit Extension";
 			productReference = F4EB43E51AAD7F010049F30F /* Jahia Watcher WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit-extension";
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 		F4EB43F31AAD7F010049F30F /* Jahia Watcher WatchKit App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4EB44031AAD7F010049F30F /* Build configuration list for PBXNativeTarget "Jahia Watcher WatchKit App" */;
 			buildPhases = (
 				F4EB43F21AAD7F010049F30F /* Resources */,
+				F4D0C16F1BC3091700245571 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F4D0C16A1BC3091700245571 /* PBXTargetDependency */,
 			);
 			name = "Jahia Watcher WatchKit App";
 			productName = "WatchTasks WatchKit App";
 			productReference = F4EB43F41AAD7F010049F30F /* Jahia Watcher WatchKit App.app */;
-			productType = "com.apple.product-type.application.watchapp";
+			productType = "com.apple.product-type.application.watchapp2";
 		};
 /* End PBXNativeTarget section */
 
@@ -434,7 +479,9 @@
 		F4EB43B21AAD7E910049F30F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0710;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Jahia Solutions";
 				TargetAttributes = {
 					F4EB43B91AAD7E910049F30F = {
@@ -512,7 +559,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4EB43F11AAD7F010049F30F /* Images.xcassets in Resources */,
-				F4EB43F51AAD7F010049F30F /* Jahia Watcher WatchKit App.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,23 +586,30 @@
 				F4F412D91B04D35E00DB21BD /* SwiftSpinner.swift in Sources */,
 				F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */,
 				F4428C461AD534490034A722 /* SettingsViewController.swift in Sources */,
-				F4428C481AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
+				F4428C481AD54ED50034A722 /* ServerServices.swift in Sources */,
 				F4428C5A1AD56AC10034A722 /* PostExtractTableViewCell.swift in Sources */,
 				F4478D991AFC9F0D00763D5C /* Task.swift in Sources */,
 				F4BD6DA21B44440A00FC879A /* JahiaServerSession.swift in Sources */,
 				F4D704C11B45875400D9D965 /* TaskDetailContext.swift in Sources */,
 				F4478DA11AFCA24F00763D5C /* TaskDetailViewController.swift in Sources */,
 				F4478DA31AFCA27000763D5C /* TaskExtractTableViewCell.swift in Sources */,
+				F42A45431BC7C033002043A1 /* CXSContext.swift in Sources */,
 				F4F412DB1B04D63F00DB21BD /* MessageDelegate.swift in Sources */,
 				F4F412CD1B00D91300DB21BD /* TaskContentPreviewViewController.swift in Sources */,
+				F42A45371BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */,
 				F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */,
 				F4478D951AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
+				F42A453F1BC7C01A002043A1 /* CXSEvent.swift in Sources */,
+				F42A454F1BC84FA5002043A1 /* CXSSettingsViewController.swift in Sources */,
 				F4D704BF1B45875000D9D965 /* PostDetailContext.swift in Sources */,
 				F4478D9F1AFCA13100763D5C /* TasksTableViewController.swift in Sources */,
 				F4428C581AD5638D0034A722 /* PostsTableViewController.swift in Sources */,
 				F4FD97E41B0B80D1001A0474 /* PostAction.swift in Sources */,
+				F42A454B1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */,
+				F42A45471BC80211002043A1 /* CXSItem.swift in Sources */,
 				F431B59E1B0F07AF0037FE1B /* PostReplyViewController.swift in Sources */,
 				F4F412DD1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift in Sources */,
+				F42A453B1BC6F8B3002043A1 /* ContextServerSession.swift in Sources */,
 				F4F412D71B03276400DB21BD /* IdUIBarButtonItem.swift in Sources */,
 				32C6A71D573E5AEC212609EA /* DefaultMessageDelegate.swift in Sources */,
 			);
@@ -569,13 +622,19 @@
 				F4D704C01B45875000D9D965 /* PostDetailContext.swift in Sources */,
 				F4D704C41B4684E300D9D965 /* Post.swift in Sources */,
 				F4F412DE1B04DE1F00DB21BD /* MessageDelegate.swift in Sources */,
+				F42A45381BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */,
 				F4D704C31B4684DD00D9D965 /* Task.swift in Sources */,
-				F4D704C51B4684E700D9D965 /* JahiaServerServices.swift in Sources */,
+				F42A45441BC7C033002043A1 /* CXSContext.swift in Sources */,
+				F4D704C51B4684E700D9D965 /* ServerServices.swift in Sources */,
 				F4FD97E51B0B80D1001A0474 /* PostAction.swift in Sources */,
 				F4F412D01B0250F500DB21BD /* TaskAction.swift in Sources */,
+				F42A45401BC7C01A002043A1 /* CXSEvent.swift in Sources */,
 				F4EB43D81AAD7E910049F30F /* JahiaWatcherTests.swift in Sources */,
 				F4478D961AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
 				F4BD6DA31B44440A00FC879A /* JahiaServerSession.swift in Sources */,
+				F42A454C1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */,
+				F42A45481BC80211002043A1 /* CXSItem.swift in Sources */,
+				F42A453C1BC6F8B3002043A1 /* ContextServerSession.swift in Sources */,
 				F4D704C21B45875500D9D965 /* TaskDetailContext.swift in Sources */,
 				32C6A4032544F67BAC43C806 /* DefaultMessageDelegate.swift in Sources */,
 				F4D704C61B4684EB00D9D965 /* JahiaServerSettings.swift in Sources */,
@@ -589,25 +648,31 @@
 				F4428C541AD55B020034A722 /* PostsRowController.swift in Sources */,
 				F4EB43ED1AAD7F010049F30F /* NewPostNotificationController.swift in Sources */,
 				F4F412E41B064BD600DB21BD /* ConfirmationDialogContext.swift in Sources */,
-				F4428C491AD54ED50034A722 /* JahiaServerServices.swift in Sources */,
+				F4428C491AD54ED50034A722 /* ServerServices.swift in Sources */,
 				F4FD97E61B0B80D1001A0474 /* PostAction.swift in Sources */,
 				F4478D971AFC998B00763D5C /* NSDate+RelativeTime.swift in Sources */,
 				F4F412DF1B04DE2000DB21BD /* MessageDelegate.swift in Sources */,
 				F4428C441AD422740034A722 /* JahiaServerSettings.swift in Sources */,
 				F4F7AD151AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4428C4C1AD554580034A722 /* PostsInterfaceController.swift in Sources */,
+				F42A45411BC7C01A002043A1 /* CXSEvent.swift in Sources */,
 				F4478D9B1AFC9F0D00763D5C /* Task.swift in Sources */,
 				F4428C501AD556B40034A722 /* PostDetailInterfaceController.swift in Sources */,
 				F4E7FAE11B451F4A00206968 /* TaskDetailContext.swift in Sources */,
+				F42A453D1BC6F8B3002043A1 /* ContextServerSession.swift in Sources */,
 				F4EB43EB1AAD7F010049F30F /* TasksInterfaceController.swift in Sources */,
 				F495B6F11B0E2A7700D188DD /* PostDetailContext.swift in Sources */,
 				F4428C561AD55B100034A722 /* TasksRowController.swift in Sources */,
+				F42A45391BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */,
 				F4BD6DA41B44440A00FC879A /* JahiaServerSession.swift in Sources */,
 				F4428C4E1AD554680034A722 /* MainInterfaceController.swift in Sources */,
 				F4F412D11B0250F500DB21BD /* TaskAction.swift in Sources */,
+				F42A45451BC7C033002043A1 /* CXSContext.swift in Sources */,
+				F42A454D1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */,
 				F4428C521AD556DF0034A722 /* TaskDetailInterfaceController.swift in Sources */,
 				F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */,
 				F4F412E51B064CF000DB21BD /* ConfirmationDialogInterfaceController.swift in Sources */,
+				F42A45491BC80211002043A1 /* CXSItem.swift in Sources */,
 				F4EB43EF1AAD7F010049F30F /* GlanceController.swift in Sources */,
 				32C6AE2479622ED82A04F6B1 /* DefaultMessageDelegate.swift in Sources */,
 			);
@@ -616,20 +681,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F4D0C16A1BC3091700245571 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4EB43E41AAD7F010049F30F /* Jahia Watcher WatchKit Extension */;
+			targetProxy = F4D0C1691BC3091700245571 /* PBXContainerItemProxy */;
+		};
+		F4D0C16D1BC3091700245571 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4EB43F31AAD7F010049F30F /* Jahia Watcher WatchKit App */;
+			targetProxy = F4D0C16C1BC3091700245571 /* PBXContainerItemProxy */;
+		};
 		F4EB43D31AAD7E910049F30F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4EB43B91AAD7E910049F30F /* Jahia Watcher */;
 			targetProxy = F4EB43D21AAD7E910049F30F /* PBXContainerItemProxy */;
-		};
-		F4EB43F71AAD7F010049F30F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F4EB43F31AAD7F010049F30F /* Jahia Watcher WatchKit App */;
-			targetProxy = F4EB43F61AAD7F010049F30F /* PBXContainerItemProxy */;
-		};
-		F4EB44011AAD7F010049F30F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F4EB43E41AAD7F010049F30F /* Jahia Watcher WatchKit Extension */;
-			targetProxy = F4EB44001AAD7F010049F30F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -682,6 +747,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -751,6 +817,11 @@
 				INFOPLIST_FILE = WatchTasks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WatchTasks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Jahia Watcher";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -766,6 +837,11 @@
 				INFOPLIST_FILE = WatchTasks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WatchTasks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Jahia Watcher";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -786,6 +862,7 @@
 				);
 				INFOPLIST_FILE = WatchTasksTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Jahia WatcherTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jahia Watcher.app/Jahia Watcher";
 			};
@@ -801,6 +878,7 @@
 				);
 				INFOPLIST_FILE = WatchTasksTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Jahia WatcherTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jahia Watcher.app/Jahia Watcher";
 			};
@@ -811,6 +889,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -818,13 +897,15 @@
 				IBSC_MODULE = WatchTasks_WatchKit_Extension;
 				INFOPLIST_FILE = "WatchTasks WatchKit App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp";
 				PRODUCT_NAME = "Jahia Watcher WatchKit App";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Jahia Watcher WatchKit App-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -833,15 +914,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = WatchTasks_WatchKit_Extension;
 				INFOPLIST_FILE = "WatchTasks WatchKit App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp";
 				PRODUCT_NAME = "Jahia Watcher WatchKit App";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Jahia Watcher WatchKit App-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -855,9 +939,13 @@
 				);
 				INFOPLIST_FILE = "WatchTasks WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "Jahia Watcher WatchKit Extension";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -867,9 +955,13 @@
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher WatchKit Extension.entitlements";
 				INFOPLIST_FILE = "WatchTasks WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "Jahia Watcher WatchKit Extension";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};

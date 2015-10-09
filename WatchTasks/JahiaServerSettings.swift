@@ -97,7 +97,7 @@ class JahiaServerSettings {
     }
     
     func contextUrl() -> String {
-        var url = "\(jahiaServerProtocol)://\(jahiaServerHost):\(jahiaServerPort)"
+        let url = "\(jahiaServerProtocol)://\(jahiaServerHost):\(jahiaServerPort)"
         if (jahiaServerContextPath == "") {
             return url;
         } else {

@@ -11,11 +11,11 @@ import WatchKit
 
 class MainInterfaceController: WKInterfaceController {
     
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     
     override func awakeWithContext(context: AnyObject?) {
-        println("Starting Jahia Watcher Watch Application...")
-        JahiaServerServices.messageDelegate = DefaultMessageDelegate()
+        print("Starting Jahia Watcher Watch Application...")
+        ServerServices.messageDelegate = DefaultMessageDelegate()
     }
     
     
@@ -32,9 +32,9 @@ class MainInterfaceController: WKInterfaceController {
 
     override func handleActionWithIdentifier(identifier: String?,
         forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
-            println("enter - handleActionWithIdentifier(\(identifier))")
+            print("enter - handleActionWithIdentifier(\(identifier))")
 
-            JahiaServerServices.messageDelegate = DefaultMessageDelegate()
+            ServerServices.messageDelegate = DefaultMessageDelegate()
             
             let jahiaServerSession = JahiaServerSession()
             jahiaServerSession.areServicesAvailable()
@@ -44,7 +44,7 @@ class MainInterfaceController: WKInterfaceController {
             
             switch identifier! {
             case "viewPostAction" :
-                println("View post action")
+                print("View post action")
                 let latestPosts = jahiaServerSession.getLatestPosts()
                 var post : Post?
                 var postIndex = 0
@@ -93,9 +93,9 @@ class MainInterfaceController: WKInterfaceController {
                     pushControllerWithName("taskDetailController", context: task)
                 }
             default:
-                println("Unrecognized action")
+                print("Unrecognized action")
             }
-            println("finish - handleActionWithIdentifier(\(identifier))")
+            print("finish - handleActionWithIdentifier(\(identifier))")
             
     }
 }

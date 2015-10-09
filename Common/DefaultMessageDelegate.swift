@@ -10,7 +10,7 @@ import Foundation
 
 class DefaultMessageDelegate: MessageDelegate {
     func displayMessage(message : String) {
-        println(message)
+        print(message)
     }
     
     func hideAllMessages() {

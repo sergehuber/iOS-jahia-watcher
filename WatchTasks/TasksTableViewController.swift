@@ -89,7 +89,7 @@ class TasksTableViewController: UITableViewController {
         }
         
         if let dueDate = task.dueDate {
-            cell.dueDateLabel.text = JahiaServerServices.getRelativeTime(dueDate)
+            cell.dueDateLabel.text = ServerServices.getRelativeTime(dueDate)
         } else {
             cell.dueDateLabel.text = ""
         }
@@ -154,7 +154,7 @@ class TasksTableViewController: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let taskDetailViewController = segue.destinationViewController as! TaskDetailViewController
-        let selectedIndexPath = self.tableView.indexPathForSelectedRow()
+        let selectedIndexPath = self.tableView.indexPathForSelectedRow
         if let indexPath = selectedIndexPath {
             let task = workflowTasks[indexPath.row]
             let taskDetailContext = TaskDetailContext()

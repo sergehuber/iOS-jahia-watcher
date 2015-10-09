@@ -7,15 +7,18 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
+    let locationManager = CLLocationManager()
+    let region = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "Ejfp")
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        println("didFinishLaunchingWithOptions")
+        print("didFinishLaunchingWithOptions")
         // Override point for customization after application launch.
         
         // other setup tasks here....
@@ -23,42 +26,99 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications();
         
-        JahiaServerServices.messageDelegate = SwiftSpinnerMessageDelegate()
+        ServerServices.messageDelegate = SwiftSpinnerMessageDelegate()
+        
+        locationManager.delegate = self;
+        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse) {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        locationManager.startRangingBeaconsInRegion(region)
+        
+        let contextServerSession : ContextServerSession = ContextServerSession()
+        if (contextServerSession.areServicesAvailable()) {
+            let startupEvent = CXSEvent()
+            startupEvent.eventType = "MobileAppStart"
+            startupEvent.profileId = contextServerSession.currentContext!.profileId
+            startupEvent.sessionId = contextServerSession.currentContext!.sessionId
+            startupEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
+            startupEvent.target = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
+            startupEvent.scope = "ACME-SPACE"
+            
+            var eventCollectorRequest = CXSEventCollectorRequest()
+            
+            eventCollectorRequest.events.append(startupEvent)
+            
+            contextServerSession.sendEvents(eventCollectorRequest, sessionId: contextServerSession.currentContext!.sessionId!)
+        }
         
         return true
     }
     
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
+        let knownBeacons = beacons.filter{ $0.proximity == CLProximity.Immediate }
+        if (knownBeacons.count > 0) {
+            let closestBeacon = knownBeacons[0] as CLBeacon
+            let contextServerSession : ContextServerSession = ContextServerSession()
+            if (contextServerSession.areServicesAvailable()) {
+                var eventCollectorRequest = CXSEventCollectorRequest()
+                
+                for beacon in knownBeacons {
+
+                let beaconEvent = CXSEvent()
+                beaconEvent.eventType = "EnterBeaconRegion"
+                beaconEvent.profileId = contextServerSession.currentContext!.profileId
+                beaconEvent.sessionId = contextServerSession.currentContext!.sessionId
+                beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
+                beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beacon.major).\(beacon.minor)")
+                beaconEvent.scope = "ACME-SPACE"
+            
+                eventCollectorRequest.events.append(beaconEvent)
+                }
+                
+                contextServerSession.sendEvents(eventCollectorRequest, sessionId: contextServerSession.currentContext!.sessionId!)
+            }
+        }
+        print("didRangeBeacons: \(beacons)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("didEnterRegion: \(region)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        print("didExitRegion: \(region)")
+    }
+    
     func registerSettingsAndCategories() {
-        var categories = NSMutableSet()
         
-        var viewPostAction = UIMutableUserNotificationAction()
+        let viewPostAction = UIMutableUserNotificationAction()
         viewPostAction.title = NSLocalizedString("View", comment: "View post")
         viewPostAction.identifier = "viewPostAction"
         viewPostAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewPostAction.authenticationRequired = false
         
-        var newPostCategory = UIMutableUserNotificationCategory()
+        let newPostCategory = UIMutableUserNotificationCategory()
         newPostCategory.setActions([viewPostAction],
         forContext: UIUserNotificationActionContext.Default)
         newPostCategory.identifier = "newPost"
-        categories.addObject(newPostCategory)
         
         // Configure other actions and categories and add them to the set...
 
-        var viewTaskAction = UIMutableUserNotificationAction()
+        let viewTaskAction = UIMutableUserNotificationAction()
         viewTaskAction.title = NSLocalizedString("View", comment: "View task")
         viewTaskAction.identifier = "viewTaskAction"
         viewTaskAction.activationMode = UIUserNotificationActivationMode.Foreground
         viewTaskAction.authenticationRequired = false
         
-        var newTaskCategory = UIMutableUserNotificationCategory()
+        let newTaskCategory = UIMutableUserNotificationCategory()
         newTaskCategory.setActions([viewTaskAction],
             forContext: UIUserNotificationActionContext.Default)
         newTaskCategory.identifier = "newTask"
-        categories.addObject(newTaskCategory)
         
-        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound),
-            categories: categories as Set<NSObject>)
+        let categoryArray : [UIUserNotificationCategory] = [newPostCategory, newTaskCategory]
+        
+        let categories = Set<UIUserNotificationCategory>(categoryArray)
+        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: categories)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
 
@@ -84,20 +144,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]?) -> Void)) {
         let action = userInfo!["action"] as! String
-        println("handleWatchKitExtensionRequest with action \(action)")
+        print("handleWatchKitExtensionRequest with action \(action)")
         var replyMap = [NSObject:AnyObject]()
         if action == "previewTaskChanges" {
             let previewUrl = userInfo!["previewUrl"] as! String
             let previewNSURL = NSURL(string:previewUrl)!
             let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
-            if (scheduledLocalNotifications.count > 0) {
+            if (scheduledLocalNotifications!.count > 0) {
                 UIApplication.sharedApplication().cancelAllLocalNotifications()
             }
             let localNotification = UILocalNotification()
             localNotification.userInfo = userInfo
-            localNotification.alertTitle = "Preview task"
+            if #available(iOS 8.2, *) {
+                localNotification.alertTitle = "Preview task"
+            } else {
+                // Fallback on earlier versions
+            }
             localNotification.alertBody = "This task will open on the iPhone"
             localNotification.fireDate = NSDate()
             UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
@@ -110,12 +174,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let viewUrl = userInfo!["viewUrl"] as! String
             let viewNSURL = NSURL(string:viewUrl)!
             let scheduledLocalNotifications = UIApplication.sharedApplication().scheduledLocalNotifications
-            if (scheduledLocalNotifications.count > 0) {
+            if (scheduledLocalNotifications!.count > 0) {
                 UIApplication.sharedApplication().cancelAllLocalNotifications()
             }
             let localNotification = UILocalNotification()
             localNotification.userInfo = userInfo
-            localNotification.alertTitle = "View post"
+            if #available(iOS 8.2, *) {
+                localNotification.alertTitle = "View post"
+            } else {
+                // Fallback on earlier versions
+            }
             localNotification.alertBody = "This post will open on the iPhone"
             localNotification.fireDate = NSDate()
             UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
@@ -129,11 +197,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        println("didRegisterUserNotificationSettings")
+        print("didRegisterUserNotificationSettings")
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("didRegisterForRemoteNotificationsWithDeviceToken")
+        print("didRegisterForRemoteNotificationsWithDeviceToken")
         let tokenChars = UnsafePointer<CChar>(deviceToken.bytes)
         var tokenString = ""
         
@@ -141,28 +209,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
         }
         
-        println("tokenString: \(tokenString)")
-        println(deviceToken.description)
+        print("tokenString: \(tokenString)")
+        print(deviceToken.description)
 
         let jahiaServerSession = JahiaServerSession()
         jahiaServerSession.registerDeviceToken(tokenString);
+        
+        let contextServerSession = ContextServerSession()
+        contextServerSession.registerDeviceToken(tokenString);
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
+        print("didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
     
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler handler: (UIBackgroundFetchResult) -> Void) {
 
-        println("didReceiveRemoteNotification with fetchCompletionHandler")
+        print("didReceiveRemoteNotification with fetchCompletionHandler")
         if ( application.applicationState == UIApplicationState.Active ) {
             // app was already in the foreground
-            println("Application was already active")
+            print("Application was already active")
             displayNotificationAlert(userInfo)
         } else {
             // app was just brought from background to foreground
-            println("Application was either in the background or not running")
+            print("Application was either in the background or not running")
             displayNotificationData(userInfo)
         }
         handler(UIBackgroundFetchResult.NewData)
@@ -186,50 +257,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             categoryTitle = "A new task was created"
         } else if (category == "newPost") {
         } else {
-            println("Unknown category \(category) received!")
+            print("Unknown category \(category) received!")
         }
-        var alert = UIAlertController(title: categoryTitle, message: alertTitle, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: categoryTitle, message: alertTitle, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "View", style: UIAlertActionStyle.Default, handler: {
             action in switch action.style{
             case .Default:
-                println("View default")
+                print("View default")
                 self.displayNotificationData(userInfo)
             case .Cancel:
-                println("View cancel")
+                print("View cancel")
                 
             case .Destructive:
-                println("View destructive")
+                print("View destructive")
             }
         }))
         alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: {
             action in switch action.style{
             case .Default:
-                println("Dismiss default")
+                print("Dismiss default")
                 
             case .Cancel:
-                println("Dimiss cancel")
+                print("Dimiss cancel")
                 
             case .Destructive:
-                println("Dismiss destructive")
+                print("Dismiss destructive")
             }
         }))
         window!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("handleActionWithIdentifier identifier=\(identifier) for remote notification with completionHandler")
+        print("handleActionWithIdentifier identifier=\(identifier) for remote notification with completionHandler")
         displayNotificationAlert(userInfo)
         completionHandler()
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("didReceiveRemoteNotification")
+        print("didReceiveRemoteNotification")
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         let userInfo = notification.userInfo
         let action = userInfo!["action"] as! String
-        println("didReceiveLocationNotification with action \(action)")
+        print("didReceiveLocationNotification with action \(action)")
         if action == "previewTaskChanges" {
             let previewUrl = userInfo!["previewUrl"] as! String
             let previewNSURL = NSURL(string:previewUrl)!
@@ -248,28 +319,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
-        println("handleActionWithIdentifier for local notification with completionHandler")
+        print("handleActionWithIdentifier for local notification with completionHandler")
         completionHandler()
     }
     
     func application(application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
         if (userActivityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewPost" ||
             userActivityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewTask") {
-                println("Authorizing activity type \(userActivityType)")
+                print("Authorizing activity type \(userActivityType)")
                 return true
         }
-        println("Received unrecognized activity type \(userActivityType)")
+        print("Received unrecognized activity type \(userActivityType)")
         return false
     }
     
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
-        println("Ready to handle activity \(userActivity)")
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        print("Ready to handle activity \(userActivity)")
         if (userActivity.activityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewPost") {
             displayNotificationData(userActivity.userInfo!)
         } else if (userActivity.activityType == "com.jahia.mobile.apps.Jahia-Watcher.watchkitapp.activities.viewTask") {
             displayNotificationData(userActivity.userInfo!)            
         } else {
-            println("Received unrecognized activity type \(userActivity.activityType)")
+            print("Received unrecognized activity type \(userActivity.activityType)")
             return false
         }
         return true

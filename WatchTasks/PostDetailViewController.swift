@@ -10,7 +10,7 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
 
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var postContentLabel: UILabel!
@@ -42,7 +42,7 @@ class PostDetailViewController: UIViewController {
                 postAuthorLabel.text = author
             }
             if let date = realPost.date {
-                postDateLabel.text = JahiaServerServices.getShortDate(date)
+                postDateLabel.text = ServerServices.getShortDate(date)
             }
             if let spam = realPost.spam {
                 if (spam) {
@@ -107,19 +107,19 @@ class PostDetailViewController: UIViewController {
     }
 
     func markAsSpamActionPressed(sender: AnyObject) {
-        var dialogTitle : String = "Mark as spam"
-        var dialogMessage : String = "Are you sure you want to mark this post as spam ?";
-        var alert = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let dialogTitle : String = "Mark as spam"
+        let dialogMessage : String = "Are you sure you want to mark this post as spam ?";
+        let alert = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
                 self.postDetailContext!.jahiaServerSession!.markAsSpam(self.postDetailContext!.post!.identifier!)
                 self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
@@ -128,13 +128,13 @@ class PostDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
@@ -143,17 +143,17 @@ class PostDetailViewController: UIViewController {
     func unmarkAsSpamActionPressed(sender: AnyObject) {
         let dialogTitle = "Unmark as spam"
         let dialogMessage = "Are you sure you want to remove the spam marker on this message ?"
-        var alert = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
                 self.postDetailContext!.jahiaServerSession!.unmarkAsSpam(self.postDetailContext!.post!.identifier!)
                 self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
@@ -162,30 +162,30 @@ class PostDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func blockUserActionPressed(sender: AnyObject) {
-        var alert = UIAlertController(title: "Block user", message: "Are you sure you want to block this user ?", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Block user", message: "Are you sure you want to block this user ?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
                 self.postDetailContext!.jahiaServerSession!.blockUser(self.postDetailContext!.post!.author!)
                 self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
@@ -194,30 +194,30 @@ class PostDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
     func unblockUserActionPressed(sender: AnyObject) {
-        var alert = UIAlertController(title: "Unblock user", message: "Are you sure you want to unblock this user ?", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Unblock user", message: "Are you sure you want to unblock this user ?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
                 self.postDetailContext!.jahiaServerSession!.unblockUser(self.postDetailContext!.post!.author!)
                 self.postDetailContext!.post = self.postDetailContext!.jahiaServerSession!.refreshPost(self.postDetailContext!.post!)
                 self.displayPost()
@@ -226,50 +226,50 @@ class PostDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func deleteActionPressed(sender: AnyObject) {
-        var alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to delete this post ?", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to delete this post ?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .Destructive, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
                 self.postDetailContext!.jahiaServerSession!.deleteNode(self.postDetailContext!.post!.identifier!, workspace: "live")
             }
         }))
         alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { action in
             switch action.style{
             case .Default:
-                println("default")
+                print("default")
                 
             case .Cancel:
-                println("cancel")
+                print("cancel")
                 
             case .Destructive:
-                println("destructive")
+                print("destructive")
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
     @IBAction func unwindBackFromReply(sender : UIStoryboardSegue) {
-        println("Back from reply view controller")
+        print("Back from reply view controller")
     }
     
 }

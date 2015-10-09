@@ -11,8 +11,8 @@ import Foundation
 
 class TasksInterfaceController: WKInterfaceController {
     
-    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let jahiaJahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     
     @IBOutlet weak var tasksLabel: WKInterfaceLabel!
     
@@ -35,7 +35,7 @@ class TasksInterfaceController: WKInterfaceController {
         var openTaskCount = 0;
         
         if (workflowTasks!.count > 0) {
-            println("\(workflowTasks!.count) tasks found.")
+            print("\(workflowTasks!.count) tasks found.")
             for task in workflowTasks! {
                 if (task.state! != "finished") {
                     openTaskCount++;
@@ -75,9 +75,10 @@ class TasksInterfaceController: WKInterfaceController {
     }
     
     @IBAction func viewTasks() {
-        
+        /*
         WKInterfaceController.openParentApplication(["viewTasks" : "root"], reply: { (reply, error) -> Void in
         })
+        */
     }
     
     override func willActivate() {

@@ -21,14 +21,14 @@ class GlanceController: WKInterfaceController {
     @IBOutlet weak var usersInLastPostsGroup: WKInterfaceGroup!
     @IBOutlet weak var lastPostAndOpenTasksGroup: WKInterfaceGroup!
     
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     var latestPosts : NSArray = NSArray()
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        JahiaServerServices.messageDelegate = DefaultMessageDelegate()
+        ServerServices.messageDelegate = DefaultMessageDelegate()
 
-        println("Preparing glance data...")
+        print("Preparing glance data...")
         let startDate = NSDate()
         
         let jahiaServerSession = JahiaServerSession()
@@ -40,7 +40,7 @@ class GlanceController: WKInterfaceController {
         let servicesAvailable = jahiaServerSession.areServicesAvailable()
 
         if (!servicesAvailable) {
-            println("Services are not available")
+            print("Services are not available")
             statusLabel.setText("OFFLINE")
             statusLabel.setTextColor(UIColor.redColor())
         } else {
@@ -64,7 +64,7 @@ class GlanceController: WKInterfaceController {
         lastPostDate.setText("\(lastestPostDate.relativeTime)")
         last24hoursUsers.setText("\(uniqueUsers.count)")
         
-        println("Displaying users in last posts...")
+        print("Displaying users in last posts...")
         usersInLastPostsGroup.setHidden(false)
         
         statusLabel.setText("LOADING TASKS")
@@ -73,7 +73,7 @@ class GlanceController: WKInterfaceController {
         var openTaskCount = 0;
         
         if (workflowTasks.count > 0) {
-            println("\(workflowTasks.count) tasks found.")
+            print("\(workflowTasks.count) tasks found.")
             for task in workflowTasks {
                 if (task.state != "finished") {
                     openTaskCount++;
@@ -83,7 +83,7 @@ class GlanceController: WKInterfaceController {
         
         numberOfTasksLabel.setText("\(openTaskCount)")
         
-        println("Displaying last post date and open tasks...")
+        print("Displaying last post date and open tasks...")
         lastPostAndOpenTasksGroup.setHidden(false)
         
         if (!servicesAvailable) {
@@ -95,18 +95,18 @@ class GlanceController: WKInterfaceController {
 
         let endDate = NSDate()
         let timeInterval: Double = endDate.timeIntervalSinceDate(startDate)
-        println("Glance data completed in \(timeInterval) seconds.")
+        print("Glance data completed in \(timeInterval) seconds.")
     }
 
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
-        println("willActivate called")
+        print("willActivate called")
         super.willActivate()
     }
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
-        println("didDeactivate called")
+        print("didDeactivate called")
         super.didDeactivate()
     }
 

@@ -36,26 +36,26 @@ class Task {
         path = task["path"] as? String
         
         
-        let complexTitle = JahiaServerServices.getStringPropertyValue(properties, propertyName: "jcr__title")
+        let complexTitle = ServerServices.getStringPropertyValue(properties, propertyName: "jcr__title")
         
-        let matches = JahiaServerServices.matchesForRegexInText("##resourceBundle\\((.*),(.*)\\)## : (.*)", text: complexTitle)
+        let matches = ServerServices.matchesForRegexInText("##resourceBundle\\((.*),(.*)\\)## : (.*)", text: complexTitle)
         
-        title = JahiaServerServices.capitalizeFirstLetter("\(matches[1]) of content \(matches[3])")
-        assigneeUserKey = JahiaServerServices.getStringPropertyValue(properties, propertyName: "assigneeUserKey")
-        description = JahiaServerServices.getStringPropertyValue(properties, propertyName: "description")
-        priority = JahiaServerServices.getStringPropertyValue(properties, propertyName: "priority")
-        dueDate = JahiaServerServices.getDatePropertyValue(properties, propertyName: "dueDate")
+        title = ServerServices.capitalizeFirstLetter("\(matches[1]) of content \(matches[3])")
+        assigneeUserKey = ServerServices.getStringPropertyValue(properties, propertyName: "assigneeUserKey")
+        description = ServerServices.getStringPropertyValue(properties, propertyName: "description")
+        priority = ServerServices.getStringPropertyValue(properties, propertyName: "priority")
+        dueDate = ServerServices.getDatePropertyValue(properties, propertyName: "dueDate")
 
-        state = JahiaServerServices.capitalizeFirstLetter(JahiaServerServices.getStringPropertyValue(properties, propertyName : "state"))
+        state = ServerServices.capitalizeFirstLetter(ServerServices.getStringPropertyValue(properties, propertyName : "state"))
         if let taskState = state {
             if (taskState == "finished") {
                 completed = true
             }
         }
         
-        possibleOutcomes = JahiaServerServices.getStringArrayPropertyValues(properties, propertyName : "possibleOutcomes")
+        possibleOutcomes = ServerServices.getStringArrayPropertyValues(properties, propertyName : "possibleOutcomes")
         
-        targetNodeIdentifier = JahiaServerServices.getStringPropertyValue(properties, propertyName: "targetNode")
+        targetNodeIdentifier = ServerServices.getStringPropertyValue(properties, propertyName: "targetNode")
         if (targetNodeIdentifier != nil) {
             if let targetNode = properties["targetNode"] as? NSDictionary {
                 if let targetNodeReferences = targetNode["references"] as? NSDictionary {

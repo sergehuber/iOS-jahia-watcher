@@ -10,7 +10,7 @@ import UIKit
 
 class PostReplyViewController: UIViewController {
     
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     var postDetailContext : PostDetailContext?
     
     @IBOutlet weak var titleTextField: UITextField!

@@ -10,7 +10,7 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTaskNotificationReceived:", name: "pushNotificationnewTask", object: nil)
@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
         let jahiaServerSession = JahiaServerSession()
 
         if (!jahiaServerSession.areServicesAvailable()) {
-            println("No existing settings found, presenting settings tab first")
+            print("No existing settings found, presenting settings tab first")
             displaySettings()
         }
     }
@@ -29,7 +29,7 @@ class MainTabBarController: UITabBarController {
     }
     
     func displaySettings() {
-        for viewController in viewControllers as! [UIViewController] {
+        for viewController in viewControllers! {
             if viewController is SettingsViewController {
                 selectedViewController = viewController
             }
@@ -37,7 +37,7 @@ class MainTabBarController: UITabBarController {
     }
     
     func displayPosts() {
-        for viewController in viewControllers as! [UIViewController] {
+        for viewController in viewControllers! {
             if viewController.restorationIdentifier == "PostsNavigationController" {
                 selectedViewController = viewController
             }
@@ -45,7 +45,7 @@ class MainTabBarController: UITabBarController {
     }
 
     func displaySpecificPost(postIdentifier : String) {
-        for viewController in viewControllers as! [UIViewController] {
+        for viewController in viewControllers! {
             if viewController.restorationIdentifier == "PostsNavigationController" {
                 selectedViewController = viewController
                 let postsNavigationController = viewController as! UINavigationController
@@ -59,7 +59,7 @@ class MainTabBarController: UITabBarController {
     }
     
     func displayTasks() {
-        for viewController in viewControllers as! [UIViewController] {
+        for viewController in viewControllers! {
             if viewController.restorationIdentifier == "TasksNavigationController" {
                 selectedViewController = viewController
             }
@@ -67,7 +67,7 @@ class MainTabBarController: UITabBarController {
     }
     
     func displaySpecificTask(taskIdentifier : String) {
-        for viewController in viewControllers as! [UIViewController] {
+        for viewController in viewControllers! {
             if viewController.restorationIdentifier == "TasksNavigationController" {
                 selectedViewController = viewController
                 let tasksNavigationController = viewController as! UINavigationController

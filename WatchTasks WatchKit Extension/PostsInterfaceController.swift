@@ -14,7 +14,7 @@ class PostsInterfaceController: WKInterfaceController {
     @IBOutlet weak var postsTable: WKInterfaceTable!
 
     @IBOutlet weak var noPostFoundLabel: WKInterfaceLabel!
-    let jahiaServerServices : JahiaServerServices = JahiaServerServices.sharedInstance
+    let serverServices : ServerServices = ServerServices.sharedInstance
     var latestPosts = [Post]()
     var needsRefreshing : Bool = true
     var jahiaServerSession : JahiaServerSession?

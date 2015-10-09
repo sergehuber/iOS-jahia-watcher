@@ -12,7 +12,7 @@ class SwiftSpinnerMessageDelegate : MessageDelegate {
 
     func displayMessage(message : String) {
         //SwiftSpinner.show(message, animated:true)
-        println("message:" + message)
+        print("message:" + message)
     }
     
     func hideAllMessages() {
