@@ -69,7 +69,7 @@ class ContextServerSession {
         if (!areServicesAvailable()) {
             return
         }
-        serverServices.mprintln("Registering device token...")
+        serverServices.mprintln("Registering device token into Context Server...")
         let escapedDeviceToken : String = deviceToken.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         
         let (dataVal,online) = serverServices.httpGet(contextServerSettings.registerDeviceTokenUrl() + "?deviceToken=\(escapedDeviceToken)", fileName: "registerDeviceToken.txt")

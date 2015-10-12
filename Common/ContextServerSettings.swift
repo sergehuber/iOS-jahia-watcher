@@ -79,7 +79,7 @@ class ContextServerSettings {
     }
     
     func registerDeviceTokenUrl() -> String {
-        return contextUrl() + "/cxs/registerDeviceToken"
+        return contextUrl() + "/iOSDeviceTokens.json"
     }
     
     func contentRenderUrl(contentPath : String) -> String {
