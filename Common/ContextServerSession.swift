@@ -19,10 +19,13 @@ class ContextServerSession {
     var attemptedLogin : Bool = false
     var contextRequested : Bool = false
     var currentContext : CXSContext? = CXSContext()
+    
+    init() {
+    }
 
     func areServicesAvailable() -> Bool {
         if (!contextRequested) {
-            currentContext = getContext(currentContext!.sessionId!)
+            currentContext = getContext()
             contextRequested = true
             if (currentContext == nil) {
                 serverServices.mprintln("Couldn't get context, marking services as unavailable")
@@ -42,12 +45,12 @@ class ContextServerSession {
         return true;
     }
     
-    func getContext(sessionId : String) -> CXSContext? {
+    func getContext() -> CXSContext? {
         var result : Bool = false
         serverServices.mprintln("Retrieving context from Context Server...")
         var context : CXSContext? = nil
         
-        let (dataVal,online) = serverServices.httpRequest(contextServerSettings.retrieveContextUrl() + "?sessionId=\(sessionId)", body: "{ \"source\":{ \"itemType\": \"mobileApp\", \"scope\": \"ACME-SPACE\", \"itemId\": \"JahiaWatcherMobileApp\", \"properties\":{} }}", contentType: "application/json", fileName: "context.txt", httpMethod: "POST")
+        let (dataVal,online) = serverServices.httpRequest(contextServerSettings.retrieveContextUrl() + "?sessionId=\(contextServerSettings.contextServerSessionId!)", body: "{ \"source\":{ \"itemType\": \"mobileApp\", \"scope\": \"ACME-SPACE\", \"itemId\": \"JahiaWatcherMobileApp\", \"properties\":{} }}", contentType: "application/json", fileName: "context.txt", httpMethod: "POST")
         
         if let data = dataVal {
             serverServices.mprintln("Context retrieval successful.")
@@ -82,10 +85,10 @@ class ContextServerSession {
         serverServices.hideMessages()
     }
     
-    func sendEvents(events : CXSEventCollectorRequest, sessionId : String) {
+    func sendEvents(events : CXSEventCollectorRequest) {
         let data = try! NSJSONSerialization.dataWithJSONObject(events.toDictionary(), options: NSJSONWritingOptions.PrettyPrinted)
         let dataString = String(data: data, encoding: NSUTF8StringEncoding)
-        serverServices.httpRequest(contextServerSettings.eventCollectorUrl() + "?sessionId=\(sessionId)", body: dataString, fileName: "events.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "POST")
+        serverServices.httpRequest(contextServerSettings.eventCollectorUrl() + "?sessionId=\(contextServerSettings.contextServerSessionId!)", body: dataString, fileName: "events.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "POST")
     }
     
 }

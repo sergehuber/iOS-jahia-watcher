@@ -13,6 +13,7 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
+    let contextServerSettings : ContextServerSettings = ContextServerSettings.sharedInstance
     let serverServices : ServerServices = ServerServices.sharedInstance
     let locationManager = CLLocationManager()
     let beaconRegion = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "JahiaBeacons")
@@ -27,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         print("didFinishLaunchingWithOptions")
         // Override point for customization after application launch.
+        
+        contextServerSettings.contextServerSessionId = ContextServerSettings.generateSessionId()
         
         // other setup tasks here....
         registerSettingsAndCategories()
@@ -60,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             eventCollectorRequest.events.append(startupEvent)
             
-            contextServerSession.sendEvents(eventCollectorRequest, sessionId: contextServerSession.currentContext!.sessionId!)
+            contextServerSession.sendEvents(eventCollectorRequest)
         }
         
         return true
@@ -114,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     eventCollectorRequest.events.append(beaconEvent)
                 }
                 
-                contextServerSession.sendEvents(eventCollectorRequest, sessionId: contextServerSession.currentContext!.sessionId!)
+                contextServerSession.sendEvents(eventCollectorRequest)
             }
             print("didRangeBeacons: \(beacons)")
         }
@@ -137,7 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beaconRegion.major).\(beaconRegion.minor)")
             beaconEvent.scope = "ACME-SPACE"
             eventCollectorRequest.events.append(beaconEvent)
-            contextServerSession.sendEvents(eventCollectorRequest, sessionId: contextServerSession.currentContext!.sessionId!)
+            contextServerSession.sendEvents(eventCollectorRequest)
         }
     }
     
@@ -157,7 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beaconRegion.major).\(beaconRegion.minor)")
             beaconEvent.scope = "ACME-SPACE"
             eventCollectorRequest.events.append(beaconEvent)
-            contextServerSession.sendEvents(eventCollectorRequest, sessionId: contextServerSession.currentContext!.sessionId!)
+            contextServerSession.sendEvents(eventCollectorRequest)
         }
     }
     

@@ -9,7 +9,8 @@
 import Foundation
 
 class JahiaServerSession {
-    let jahiaJahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
+    let contextServerSettings : ContextServerSettings = ContextServerSettings.sharedInstance
     let serverServices : ServerServices = ServerServices.sharedInstance
 
     var online : Bool = false
@@ -21,7 +22,7 @@ class JahiaServerSession {
     var jcrApiVersion : String? = nil
     var jcrApiModuleVersion : String? = nil
     var jcrApiVersionRequested = false
-        
+    
     func performQuery(query : String, queryName : String, limit: Int, offset : Int) -> ([NSDictionary]?,Bool) {
         
         var dataVal : NSData?
@@ -34,7 +35,7 @@ class JahiaServerSession {
         } else {
             serverServices.mprintln("Performing query \(query) online...")
             let requestString : String = "{\"query\" : \"\(query)\", \"limit\": \(limit), \"offset\":\(offset) }";
-            (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+            (dataVal,online) = serverServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         }
         
         if let data = dataVal {
@@ -69,7 +70,7 @@ class JahiaServerSession {
             }
             queryParamPart += "}"
             let requestString : String = "{\"queryName\" : \"\(queryName)\", \"namedParameters\": \(queryParamPart), \"limit\": \(limit), \"offset\":\(offset) }";
-            (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+            (dataVal,online) = serverServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         }
         
         if let data = dataVal {
@@ -105,7 +106,7 @@ class JahiaServerSession {
             }
             queryParamPart += "]"
             let requestString : String = "{\"queryName\" : \"\(queryName)\", \"parameters\": \(queryParamPart), \"limit\": \(limit), \"offset\":\(offset) }";
-            (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
+            (dataVal,online) = serverServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/live/en/query", body: requestString, fileName: queryName + ".json", contentType: "application/json")
         }
         
         if let data = dataVal {
@@ -122,7 +123,7 @@ class JahiaServerSession {
     
     func getApiVersion() -> [String:AnyObject]? {
         serverServices.mprintln("Retrieving API version...")
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.jcrApiUrl() + "/version", fileName: "apiVersion.json", timeoutInterval: 1)
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/version", fileName: "apiVersion.json", timeoutInterval: 1)
         servicesAvailable = online
         if let versionData = dataVal {
             var datastring = NSString(data: versionData, encoding: NSUTF8StringEncoding)
@@ -141,8 +142,12 @@ class JahiaServerSession {
         var result : Bool = false
         serverServices.mprintln("Logging into Jahia...")
         
-        let requestString : String = "doLogin=true&restMode=true&username=\(jahiaJahiaServerSettings.jahiaUserName)&password=\(jahiaJahiaServerSettings.jahiaPassword)&redirectActive=false";
-        let (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.loginUrl(), body:requestString, fileName: "login.txt")
+        let requestBody : String = "doLogin=true&restMode=true&username=\(jahiaServerSettings.jahiaUserName)&password=\(jahiaServerSettings.jahiaPassword)&redirectActive=false&site=ACMESPACE";
+        var loginUrl = jahiaServerSettings.loginUrl()
+        if (contextServerSettings.contextServerSessionId != nil) {
+            loginUrl = jahiaServerSettings.loginUrl() + "?wemSessionId=\(contextServerSettings.contextServerSessionId!)"
+        }
+        let (dataVal,online) = serverServices.httpRequest(loginUrl, body:requestBody, fileName: "login.txt")
         
         if let data = dataVal {
             serverServices.mprintln("Login successful.")
@@ -150,7 +155,7 @@ class JahiaServerSession {
             loggedIn = true
             let userPath = getUserPath()
             if let realUserPath = userPath {
-                jahiaJahiaServerSettings.jahiaUserPath = realUserPath
+                jahiaServerSettings.jahiaUserPath = realUserPath
             }
             result = true
         } else {
@@ -202,7 +207,7 @@ class JahiaServerSession {
         serverServices.mprintln("Registering device token...")
         let escapedDeviceToken : String = deviceToken.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.registerDeviceTokenUrl() + "?deviceToken=\(escapedDeviceToken)", fileName: "registerDeviceToken.txt")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.registerDeviceTokenUrl() + "?deviceToken=\(escapedDeviceToken)", fileName: "registerDeviceToken.txt")
         
         if let result = dataVal {
             serverServices.mprintln("Device token \(deviceToken) successfully registered on Jahia server for the current user")
@@ -218,7 +223,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Blocking user...")
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.blockUserUrl() + "?userName=\(userName)")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.blockUserUrl() + "?userName=\(userName)")
         if let result = dataVal {
             serverServices.mprintln("User \(userName) blocked successfully.")
         } else {
@@ -233,7 +238,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Unblocking user...")
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.unblockUserUrl() + "?userName=\(userName)")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.unblockUserUrl() + "?userName=\(userName)")
         if let result = dataVal {
             serverServices.mprintln("User \(userName) unblocked successfully.")
         } else {
@@ -248,7 +253,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Marking post as spam")
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.markAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")
         if let result = dataVal {
             serverServices.mprintln("Post marked as spam successfully.")
         } else {
@@ -263,7 +268,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Unmarking post as spam")
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.unmarkAsSpamUrl() + "?nodeIdentifier=\(nodeIdentifier)")
         if let result = dataVal {
             serverServices.mprintln("Post unmarked as spam successfully.")
         } else {
@@ -278,7 +283,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Deleting node \(nodeIdentifier)")
         
-        let (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)", expectedSuccessCode: 204, httpMethod : "DELETE")
+        let (dataVal,online) = serverServices.httpRequest(jahiaServerSettings.jcrApiUrl() + "/\(workspace)/en/nodes/\(nodeIdentifier)", expectedSuccessCode: 204, httpMethod : "DELETE")
         if let result = dataVal {
             serverServices.mprintln("Node \(nodeIdentifier) deleted successfully.")
         } else {
@@ -294,7 +299,7 @@ class JahiaServerSession {
         serverServices.mprintln("Retrieving post actions...")
         
         var error : NSError?
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.postActionsUrl(post.path!))
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.postActionsUrl(post.path!))
         if let result = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             let jsonResult: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
@@ -329,7 +334,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Retrieving current user path...")
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.userPathUrl(), fileName: "userPath.txt")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.userPathUrl(), fileName: "userPath.txt")
         
         if let data = dataVal {
             let datastring = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -351,9 +356,9 @@ class JahiaServerSession {
             dataVal = serverServices.readDataFromFile("workflow-tasks.json")
         } else {
             serverServices.mprintln("Retrieving workflow tasks...")
-            let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaJahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaJahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
+            let jahiaWorkflowTasksURL : NSURL = NSURL(string: jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences")!
             
-            (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaJahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json")
+            (dataVal,online) = serverServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(jahiaServerSettings.jahiaUserPath)/workflowTasks?includeFullChildren&resolveReferences", fileName:"workflow-tasks.json")
         }
         
         if let data = dataVal {
@@ -386,7 +391,7 @@ class JahiaServerSession {
         serverServices.mprintln("Refreshing task \(task.path) ...")
         
         var error : NSError?
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")
         if let result = dataVal {
             serverServices.writeDataToFile("task-\(task.identifier).json", data: dataVal!)
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
@@ -407,9 +412,9 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Retrieving task actions...")
         
-        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaJahiaServerSettings.taskActionsUrl(task.path!))!
+        let jahiaTaskActionsURL : NSURL = NSURL(string: jahiaServerSettings.taskActionsUrl(task.path!))!
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/default/en/paths\(task.path!)?includeFullChildren&resolveReferences")
         if let result = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             var error : NSError?
@@ -444,7 +449,7 @@ class JahiaServerSession {
         serverServices.mprintln("Sending task action \(actionName) with outcome \(finalOutcome) to Jahia server...")
         
         let requestString : String = "action=\(actionName)" + ((finalOutcome != nil) ? "&finalOutcome=\(finalOutcome!)" : "");
-        let (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.taskActionsUrl(task.path!), body: requestString)
+        let (dataVal,online) = serverServices.httpRequest(jahiaServerSettings.taskActionsUrl(task.path!), body: requestString)
         if let dataResult = dataVal {
             serverServices.mprintln("Action sent successfully.")
             result = true
@@ -462,7 +467,7 @@ class JahiaServerSession {
         var jsonQueryReply : [NSDictionary]?
         var online = false
         
-        if (jahiaJahiaServerSettings.jahiaUsePreparedQueries) {
+        if (jahiaServerSettings.jahiaUsePreparedQueries) {
             serverServices.mprintln("Using prepary queries...")
             (jsonQueryReply,online) = performPreparedQuery("latestPosts", queryParameters: [String:AnyObject](), limit: 20, offset: 0)
             /*
@@ -492,7 +497,7 @@ class JahiaServerSession {
         }
         serverServices.mprintln("Refreshing post \(post.path!) ...")
         
-        let (dataVal,online) = serverServices.httpGet(jahiaJahiaServerSettings.jcrApiUrl() + "/live/en/paths\(post.path!)?includeFullChildren&resolveReferences")
+        let (dataVal,online) = serverServices.httpGet(jahiaServerSettings.jcrApiUrl() + "/live/en/paths\(post.path!)?includeFullChildren&resolveReferences")
         if let result = dataVal {
             // let datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             let jsonResult: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(dataVal!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
@@ -525,7 +530,7 @@ class JahiaServerSession {
         
         let requestString : String = "{\"type\" : \"jnt:post\", \"properties\": { \"jcr:title\" : { \"value\" : \"\(serverServices.jsonEscaping(title!))\" }, \"content\" : { \"value\" : \"\(serverServices.jsonEscaping(body!))\" } } }";
         serverServices.mprintln("payload=\(requestString)")
-        let (dataVal,online) = serverServices.httpRequest(jahiaJahiaServerSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName, body: requestString, contentType : "application/json", expectedSuccessCode: 201, httpMethod: "PUT")
+        let (dataVal,online) = serverServices.httpRequest(jahiaServerSettings.contextUrl() + "/modules" + post.parentUri! + "/children/" + newNodeName, body: requestString, contentType : "application/json", expectedSuccessCode: 201, httpMethod: "PUT")
         if let dataResult = dataVal {
             var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
             var error: NSError?

@@ -25,6 +25,8 @@ class ContextServerSettings {
     var contextServerRetrieveContextURL = "/context.json"
     var contextServerEventCollectorURL = "/eventcollector"
     
+    var contextServerSessionId : String? = nil
+    
     init() {
         load()
     }
@@ -92,6 +94,10 @@ class ContextServerSettings {
     
     func eventCollectorUrl() -> String {
         return contextUrl() + contextServerEventCollectorURL
+    }
+    
+    class func generateSessionId() -> String {
+        return NSUUID().UUIDString
     }
     
 }
