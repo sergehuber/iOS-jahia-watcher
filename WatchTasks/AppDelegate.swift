@@ -18,18 +18,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     let beaconRegion = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "JahiaBeacons")
     var lastProximity : CLProximity?
+    var contextServerSession : ContextServerSession? = nil
     
     func sendLocalNotificationWithMessage(message: String!) {
         let notification:UILocalNotification = UILocalNotification()
         notification.alertBody = message
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
+    
+    func getContextServerSession() -> ContextServerSession {
+        if (contextServerSettings.contextServerSessionId == nil) {
+            contextServerSettings.contextServerSessionId = ContextServerSettings.generateSessionId()
+        }
+        if (contextServerSession == nil) {
+            contextServerSession = ContextServerSession();
+        }
+        return contextServerSession!;
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         print("didFinishLaunchingWithOptions")
         // Override point for customization after application launch.
-        
-        contextServerSettings.contextServerSessionId = ContextServerSettings.generateSessionId()
         
         // other setup tasks here....
         registerSettingsAndCategories()
@@ -49,14 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.startRangingBeaconsInRegion(beaconRegion)
         locationManager.startUpdatingLocation()
         
-        let contextServerSession : ContextServerSession = ContextServerSession()
+        let contextServerSession = getContextServerSession()
         if (contextServerSession.areServicesAvailable()) {
             let startupEvent = CXSEvent()
             startupEvent.eventType = "mobileAppStart"
             startupEvent.profileId = contextServerSession.currentContext!.profileId
             startupEvent.sessionId = contextServerSession.currentContext!.sessionId
-            startupEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
-            startupEvent.target = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
+            startupEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp", scope: "ACMESPACE")
+            startupEvent.target = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp", scope: "ACMESPACE")
             startupEvent.scope = "ACME-SPACE"
             
             var eventCollectorRequest = CXSEventCollectorRequest()
@@ -103,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             }
 */
             self.lastProximity = nearestBeacon.proximity;
-            let contextServerSession : ContextServerSession = ContextServerSession()
+            let contextServerSession = getContextServerSession()
             if (contextServerSession.areServicesAvailable()) {
                 let eventCollectorRequest = CXSEventCollectorRequest()
                 for beacon in knownBeacons {
@@ -111,8 +120,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     beaconEvent.eventType = "beaconInRange"
                     beaconEvent.profileId = contextServerSession.currentContext!.profileId
                     beaconEvent.sessionId = contextServerSession.currentContext!.sessionId
-                    beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
-                    beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beacon.major).\(beacon.minor)")
+                    beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp", scope:"ACMESPACE")
+                    beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beacon.major).\(beacon.minor)", scope:"ACMESPACE")
                     beaconEvent.scope = "ACME-SPACE"
                     eventCollectorRequest.events.append(beaconEvent)
                 }
@@ -128,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.startRangingBeaconsInRegion(beaconRegion)
         locationManager.startUpdatingLocation()
 
-        let contextServerSession : ContextServerSession = ContextServerSession()
+        let contextServerSession = getContextServerSession()
         if (contextServerSession.areServicesAvailable() && region is CLBeaconRegion) {
             let beaconRegion = region as! CLBeaconRegion
             let eventCollectorRequest = CXSEventCollectorRequest()
@@ -136,8 +145,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             beaconEvent.eventType = "beaconEnterRegion"
             beaconEvent.profileId = contextServerSession.currentContext!.profileId
             beaconEvent.sessionId = contextServerSession.currentContext!.sessionId
-            beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
-            beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beaconRegion.major).\(beaconRegion.minor)")
+            beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp", scope:"ACMESPACE")
+            beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beaconRegion.major).\(beaconRegion.minor)", scope:"ACMESPACE")
             beaconEvent.scope = "ACME-SPACE"
             eventCollectorRequest.events.append(beaconEvent)
             contextServerSession.sendEvents(eventCollectorRequest)
@@ -148,7 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print("didExitRegion: \(region)")
         locationManager.stopRangingBeaconsInRegion(beaconRegion)
         locationManager.stopUpdatingLocation()
-        let contextServerSession : ContextServerSession = ContextServerSession()
+        let contextServerSession = getContextServerSession()
         if (contextServerSession.areServicesAvailable() && region is CLBeaconRegion) {
             let beaconRegion = region as! CLBeaconRegion
             let eventCollectorRequest = CXSEventCollectorRequest()
@@ -156,8 +165,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             beaconEvent.eventType = "beaconExitRegion"
             beaconEvent.profileId = contextServerSession.currentContext!.profileId
             beaconEvent.sessionId = contextServerSession.currentContext!.sessionId
-            beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp")
-            beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beaconRegion.major).\(beaconRegion.minor)")
+            beaconEvent.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherApp", scope:"ACMESPACE")
+            beaconEvent.target = CXSItem(itemType: "mobileBean", itemId: "\(beaconRegion.major).\(beaconRegion.minor)", scope:"ACMESPACE")
             beaconEvent.scope = "ACME-SPACE"
             eventCollectorRequest.events.append(beaconEvent)
             contextServerSession.sendEvents(eventCollectorRequest)

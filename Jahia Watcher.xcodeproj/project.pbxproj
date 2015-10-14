@@ -51,6 +51,10 @@
 		F4478D9F1AFCA13100763D5C /* TasksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4478D9E1AFCA13100763D5C /* TasksTableViewController.swift */; };
 		F4478DA11AFCA24F00763D5C /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4478DA01AFCA24F00763D5C /* TaskDetailViewController.swift */; };
 		F4478DA31AFCA27000763D5C /* TaskExtractTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4478DA21AFCA27000763D5C /* TaskExtractTableViewCell.swift */; };
+		F46121791BCE56A30077510D /* CXSPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46121781BCE56A30077510D /* CXSPrivacyViewController.swift */; };
+		F461217B1BCE60D40077510D /* CXSContextRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F461217A1BCE60D40077510D /* CXSContextRequest.swift */; };
+		F461217C1BCE617B0077510D /* CXSContextRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F461217A1BCE60D40077510D /* CXSContextRequest.swift */; };
+		F461217D1BCE617D0077510D /* CXSContextRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F461217A1BCE60D40077510D /* CXSContextRequest.swift */; };
 		F476C8B11AE33D2200178A8F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */; };
 		F495B6F11B0E2A7700D188DD /* PostDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */; };
 		F4A3FB0C1AE0722B007CB24F /* NewTaskNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3FB0B1AE0722B007CB24F /* NewTaskNotificationController.swift */; };
@@ -177,6 +181,8 @@
 		F4478D9E1AFCA13100763D5C /* TasksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTableViewController.swift; sourceTree = "<group>"; };
 		F4478DA01AFCA24F00763D5C /* TaskDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		F4478DA21AFCA27000763D5C /* TaskExtractTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskExtractTableViewCell.swift; sourceTree = "<group>"; };
+		F46121781BCE56A30077510D /* CXSPrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSPrivacyViewController.swift; sourceTree = "<group>"; };
+		F461217A1BCE60D40077510D /* CXSContextRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSContextRequest.swift; sourceTree = "<group>"; };
 		F476C8B01AE33D2200178A8F /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		F495B6F01B0E2A7700D188DD /* PostDetailContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostDetailContext.swift; path = Common/PostDetailContext.swift; sourceTree = "<group>"; };
 		F4A3FB0A1AE07130007CB24F /* NewTaskNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = NewTaskNotificationPayload.apns; sourceTree = "<group>"; };
@@ -265,6 +271,7 @@
 				F42A45421BC7C033002043A1 /* CXSContext.swift */,
 				F42A45461BC80211002043A1 /* CXSItem.swift */,
 				F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */,
+				F461217A1BCE60D40077510D /* CXSContextRequest.swift */,
 			);
 			name = "Shared Code";
 			sourceTree = "<group>";
@@ -315,6 +322,7 @@
 				F4F412D61B03276400DB21BD /* IdUIBarButtonItem.swift */,
 				F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */,
 				F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */,
+				F46121781BCE56A30077510D /* CXSPrivacyViewController.swift */,
 			);
 			name = "Jahia Watcher";
 			path = WatchTasks;
@@ -585,10 +593,12 @@
 				F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */,
 				F4F412D91B04D35E00DB21BD /* SwiftSpinner.swift in Sources */,
 				F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */,
+				F46121791BCE56A30077510D /* CXSPrivacyViewController.swift in Sources */,
 				F4428C461AD534490034A722 /* SettingsViewController.swift in Sources */,
 				F4428C481AD54ED50034A722 /* ServerServices.swift in Sources */,
 				F4428C5A1AD56AC10034A722 /* PostExtractTableViewCell.swift in Sources */,
 				F4478D991AFC9F0D00763D5C /* Task.swift in Sources */,
+				F461217B1BCE60D40077510D /* CXSContextRequest.swift in Sources */,
 				F4BD6DA21B44440A00FC879A /* JahiaServerSession.swift in Sources */,
 				F4D704C11B45875400D9D965 /* TaskDetailContext.swift in Sources */,
 				F4478DA11AFCA24F00763D5C /* TaskDetailViewController.swift in Sources */,
@@ -625,6 +635,7 @@
 				F42A45381BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */,
 				F4D704C31B4684DD00D9D965 /* Task.swift in Sources */,
 				F42A45441BC7C033002043A1 /* CXSContext.swift in Sources */,
+				F461217C1BCE617B0077510D /* CXSContextRequest.swift in Sources */,
 				F4D704C51B4684E700D9D965 /* ServerServices.swift in Sources */,
 				F4FD97E51B0B80D1001A0474 /* PostAction.swift in Sources */,
 				F4F412D01B0250F500DB21BD /* TaskAction.swift in Sources */,
@@ -664,6 +675,7 @@
 				F495B6F11B0E2A7700D188DD /* PostDetailContext.swift in Sources */,
 				F4428C561AD55B100034A722 /* TasksRowController.swift in Sources */,
 				F42A45391BC6F6B5002043A1 /* ContextServerSettings.swift in Sources */,
+				F461217D1BCE617D0077510D /* CXSContextRequest.swift in Sources */,
 				F4BD6DA41B44440A00FC879A /* JahiaServerSession.swift in Sources */,
 				F4428C4E1AD554680034A722 /* MainInterfaceController.swift in Sources */,
 				F4F412D11B0250F500DB21BD /* TaskAction.swift in Sources */,

@@ -50,19 +50,33 @@ class ContextServerSession {
         serverServices.mprintln("Retrieving context from Context Server...")
         var context : CXSContext? = nil
         
-        let (dataVal,online) = serverServices.httpRequest(contextServerSettings.retrieveContextUrl() + "?sessionId=\(contextServerSettings.contextServerSessionId!)", body: "{ \"source\":{ \"itemType\": \"mobileApp\", \"scope\": \"ACME-SPACE\", \"itemId\": \"JahiaWatcherMobileApp\", \"properties\":{} }}", contentType: "application/json", fileName: "context.txt", httpMethod: "POST")
+        var cxsContextRequest = CXSContextRequest()
+        cxsContextRequest.source = CXSItem(itemType: "mobileApp", itemId: "JahiaWatcherMobileApp", scope: "ACMESPACE")
+        cxsContextRequest.requireSegments = true
+        cxsContextRequest.requiredProfileProperties = ["*"]
+        cxsContextRequest.requiredSessionProperties = ["*"]
+        let cxsContextRequestData = try! NSJSONSerialization.dataWithJSONObject(cxsContextRequest.toDictionary(), options: NSJSONWritingOptions.PrettyPrinted)
+        let cxsContextRequestJSON = String(data: cxsContextRequestData, encoding: NSUTF8StringEncoding)
+
+        let (dataVal,online) = serverServices.httpRequest(contextServerSettings.retrieveContextUrl() + "?sessionId=\(contextServerSettings.contextServerSessionId!)", body: cxsContextRequestJSON, contentType: "application/json", fileName: "context.txt", httpMethod: "POST", timeoutInterval: 2)
         
-        if let data = dataVal {
-            serverServices.mprintln("Context retrieval successful.")
-            // var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
-            let jsonResult: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-            servicesAvailable = true
-            loggedIn = true
-            result = true
-            context = CXSContext(fromNSDictionary:jsonResult)
-        } else {
-            serverServices.mprintln("Context retrieval failed")
+        if (!online) {
+            servicesAvailable = false
             loggedIn = false
+        } else {
+        
+            if let data = dataVal {
+                serverServices.mprintln("Context retrieval successful.")
+                // var datastring = NSString(data: dataVal!, encoding: NSUTF8StringEncoding)
+                let jsonResult: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                servicesAvailable = true
+                loggedIn = true
+                result = true
+                context = CXSContext(fromNSDictionary:jsonResult)
+            } else {
+                serverServices.mprintln("Context retrieval failed")
+                loggedIn = false
+            }
         }
         serverServices.hideMessages()
         return context
@@ -86,6 +100,9 @@ class ContextServerSession {
     }
     
     func sendEvents(events : CXSEventCollectorRequest) {
+        if (!areServicesAvailable()) {
+            return
+        }
         let data = try! NSJSONSerialization.dataWithJSONObject(events.toDictionary(), options: NSJSONWritingOptions.PrettyPrinted)
         let dataString = String(data: data, encoding: NSUTF8StringEncoding)
         serverServices.httpRequest(contextServerSettings.eventCollectorUrl() + "?sessionId=\(contextServerSettings.contextServerSessionId!)", body: dataString, fileName: "events.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "POST")
