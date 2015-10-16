@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Charts
 
 class CXSPrivacyViewController: UIViewController {
     
@@ -16,11 +17,32 @@ class CXSPrivacyViewController: UIViewController {
     @IBOutlet weak var sessionIdTextField: UITextField!
     @IBOutlet weak var segmentsTextField: UITextField!
     @IBOutlet weak var interestsTextView: UITextView!
+    @IBOutlet weak var interestsRadarChartView: RadarChartView!
+    
     var refreshTimer : NSTimer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        interestsRadarChartView.descriptionText = ""
+        interestsRadarChartView.webLineWidth = 0.75
+        interestsRadarChartView.innerWebLineWidth = 0.375
+        interestsRadarChartView.webAlpha = 1.0;
+        interestsRadarChartView.skipWebLineCount = 1
+        
+        let xAxis = interestsRadarChartView.xAxis
+        xAxis.labelFont = UIFont(name: "HelveticaNeue-Light",size: 5.0)!
+        
+        let yAxis = interestsRadarChartView.yAxis;
+        yAxis.labelFont = UIFont(name: "HelveticaNeue-Light",size: 5.0)!
+        yAxis.labelCount = 6;
+        yAxis.startAtZeroEnabled = true;
+        
+        let l = interestsRadarChartView.legend;
+        l.position = .RightOfChart;
+        l.font = UIFont(name: "HelveticaNeue-Light",size: 7.0)!
+        l.xEntrySpace = 7.0;
+        l.yEntrySpace = 5.0;
         // Do any additional setup after loading the view.
         refreshData()
     }
@@ -50,9 +72,23 @@ class CXSPrivacyViewController: UIViewController {
             }
             if let interests = cxsContext?.profileProperties?["interests"] as? [String:Int] {
                 var interestsText = ""
+                var yVals = [ChartDataEntry]()
+                var xVals = [String]()
+                var i=0;
                 for (interestName,interestCount) in interests {
                     interestsText += interestName + " (" + String(interestCount) + ")\n"
+                    yVals.append(ChartDataEntry(value: Double(interestCount), xIndex: i))
+                    xVals.append(interestName)
+                    i++
                 }
+                var radarChartDataSet = RadarChartDataSet(yVals: yVals, label: "Interests")
+                radarChartDataSet.lineWidth = 2.0
+                radarChartDataSet.drawFilledEnabled = true
+                let radarChartDataSets = [radarChartDataSet]
+                let radarChartData = RadarChartData(xVals: xVals, dataSets: radarChartDataSets)
+                radarChartData.setDrawValues(false)
+                interestsRadarChartView.data = radarChartData
+                interestsRadarChartView.setNeedsDisplay()
                 interestsTextView.text = interestsText
             }
         }

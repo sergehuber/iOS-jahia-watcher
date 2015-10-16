@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		305ED880D9B4582D16F64AFD /* Pods_Jahia_Watcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4ABE8F018251D90A207A157 /* Pods_Jahia_Watcher.framework */; };
 		32C6A4032544F67BAC43C806 /* DefaultMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */; };
 		32C6A71D573E5AEC212609EA /* DefaultMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */; };
 		32C6AE2479622ED82A04F6B1 /* DefaultMessageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */; };
@@ -156,6 +157,8 @@
 
 /* Begin PBXFileReference section */
 		32C6ABAE14F9850C0839FBAB /* DefaultMessageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultMessageDelegate.swift; path = Common/DefaultMessageDelegate.swift; sourceTree = "<group>"; };
+		B4ABE8F018251D90A207A157 /* Pods_Jahia_Watcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Jahia_Watcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA55C5A36830A9CC579E7777 /* Pods-Jahia Watcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jahia Watcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Jahia Watcher/Pods-Jahia Watcher.debug.xcconfig"; sourceTree = "<group>"; };
 		F42A45361BC6F6B5002043A1 /* ContextServerSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextServerSettings.swift; path = Common/ContextServerSettings.swift; sourceTree = "<group>"; };
 		F42A453A1BC6F8B3002043A1 /* ContextServerSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextServerSession.swift; path = Common/ContextServerSession.swift; sourceTree = "<group>"; };
 		F42A453E1BC7C01A002043A1 /* CXSEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSEvent.swift; sourceTree = "<group>"; };
@@ -224,6 +227,7 @@
 		F4F7AD131AEA865000AFBBB8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = WatchTasks/Post.swift; sourceTree = "<group>"; };
 		F4FD97E31B0B80D1001A0474 /* PostAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostAction.swift; path = Common/PostAction.swift; sourceTree = "<group>"; };
 		F4FFCA7E1AADE39600B2F040 /* logo-jahia-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-jahia-small.png"; sourceTree = "<group>"; };
+		FA2D6BB1FA8B7970B0587426 /* Pods-Jahia Watcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jahia Watcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-Jahia Watcher/Pods-Jahia Watcher.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +235,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				305ED880D9B4582D16F64AFD /* Pods_Jahia_Watcher.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +256,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		604A70B754CB13F75C7D969D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B4ABE8F018251D90A207A157 /* Pods_Jahia_Watcher.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F4428C4A1AD54EDE0034A722 /* Shared Code */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +300,8 @@
 				F4EB43E61AAD7F010049F30F /* Jahia Watcher WatchKit Extension */,
 				F4EB43F81AAD7F010049F30F /* Jahia Watcher WatchKit App */,
 				F4EB43BB1AAD7E910049F30F /* Products */,
+				F9749919D47287BB78D28E58 /* Pods */,
+				604A70B754CB13F75C7D969D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -410,6 +425,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		F9749919D47287BB78D28E58 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EA55C5A36830A9CC579E7777 /* Pods-Jahia Watcher.debug.xcconfig */,
+				FA2D6BB1FA8B7970B0587426 /* Pods-Jahia Watcher.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -417,10 +441,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4EB43DB1AAD7E910049F30F /* Build configuration list for PBXNativeTarget "Jahia Watcher" */;
 			buildPhases = (
+				77821528A6C492F5983E5EBD /* Check Pods Manifest.lock */,
 				F4EB43B61AAD7E910049F30F /* Sources */,
 				F4EB43B71AAD7E910049F30F /* Frameworks */,
 				F4EB43B81AAD7E910049F30F /* Resources */,
 				F4D0C1701BC3091700245571 /* Embed Watch Content */,
+				48F90F58C0A313F05A12B7B0 /* Embed Pods Frameworks */,
+				F1AD34EE12381CF2FB36A79C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -584,6 +611,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		48F90F58C0A313F05A12B7B0 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Jahia Watcher/Pods-Jahia Watcher-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77821528A6C492F5983E5EBD /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F1AD34EE12381CF2FB36A79C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Jahia Watcher/Pods-Jahia Watcher-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F4EB43B61AAD7E910049F30F /* Sources */ = {
@@ -826,6 +901,7 @@
 		};
 		F4EB43DC1AAD7E910049F30F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA55C5A36830A9CC579E7777 /* Pods-Jahia Watcher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher.entitlements";
@@ -846,6 +922,7 @@
 		};
 		F4EB43DD1AAD7E910049F30F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA2D6BB1FA8B7970B0587426 /* Pods-Jahia Watcher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Jahia Watcher.entitlements";
