@@ -11,10 +11,12 @@ import UIKit
 class MainTabBarController: UITabBarController {
 
     let serverServices : ServerServices = ServerServices.sharedInstance
+    let jahiaServerSettings : JahiaServerSettings = JahiaServerSettings.sharedInstance
     
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTaskNotificationReceived:", name: "pushNotificationnewTask", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newPostNotificationReceived:", name: "pushNotificationnewPost", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "displayPromoNotificationReceived:", name: "pushNotificationdisplayPromo", object: nil)
         
         let jahiaServerSession = JahiaServerSession()
 
@@ -90,6 +92,23 @@ class MainTabBarController: UITabBarController {
         let userInfo = notification.userInfo
         let nodeIdentifier = userInfo!["nodeIdentifier"] as! String
         displaySpecificPost(nodeIdentifier)
+    }
+
+    func displayPromoNotificationReceived(notification : NSNotification) {
+        let userInfo = notification.userInfo
+        print("displayPromoNotificationReceived")
+        performSegueWithIdentifier("displayWeb", sender: self)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        print("prepareForSegue")
+        let displayWebViewController = segue.destinationViewController as! DisplayWebViewController
+        let getURL : NSURL = NSURL(string: "\(jahiaServerSettings.jahiaServerProtocol)://\(jahiaServerSettings.jahiaServerHost):\(jahiaServerSettings.jahiaServerPort)")!
+        displayWebViewController.webViewUrl = getURL
+    }
+
+    @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
+        NSNotificationCenter.defaultCenter().postNotificationName("dismissDisplayWeb", object: nil, userInfo: nil)
     }
     
 }

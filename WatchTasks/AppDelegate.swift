@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     let beaconRegion = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e")!, identifier: "JahiaBeacons")
     var lastProximity : CLProximity?
     var contextServerSession : ContextServerSession? = nil
+    var displayingPromo : Bool = false
     
     func sendLocalNotificationWithMessage(message: String!) {
         let notification:UILocalNotification = UILocalNotification()
@@ -39,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         print("didFinishLaunchingWithOptions")
         // Override point for customization after application launch.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dismissDisplayWebReceived:", name: "dismissDisplayWeb", object: nil)
         
         // other setup tasks here....
         registerSettingsAndCategories()
@@ -80,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         
+        /*
         var message:String = ""
         
         if(beacons.count > 0) {
@@ -101,6 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         print("Local notification message=\(message)")
         sendLocalNotificationWithMessage(message)
+        */
         
         let knownBeacons = beacons.filter{ $0.proximity == CLProximity.Immediate }
         if (knownBeacons.count > 0) {
@@ -128,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 
                 contextServerSession.sendEvents(eventCollectorRequest)
             }
-            print("didRangeBeacons: \(beacons)")
+            print("didRangeBeacons: \(knownBeacons)")
         }
     }
     
@@ -198,8 +202,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         newTaskCategory.setActions([viewTaskAction],
             forContext: UIUserNotificationActionContext.Default)
         newTaskCategory.identifier = "newTask"
+
+        let displayPromoCategory = UIMutableUserNotificationCategory()
+        displayPromoCategory.setActions([viewTaskAction],
+            forContext: UIUserNotificationActionContext.Default)
+        displayPromoCategory.identifier = "displayPromo"
         
-        let categoryArray : [UIUserNotificationCategory] = [newPostCategory, newTaskCategory]
+        let categoryArray : [UIUserNotificationCategory] = [newPostCategory, newTaskCategory, displayPromoCategory]
         
         let categories = Set<UIUserNotificationCategory>(categoryArray)
         let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: categories)
@@ -324,7 +333,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func displayNotificationData(userInfo : [NSObject : AnyObject]) {
-        let nodeIdentifier = userInfo["nodeIdentifier"] as! String
+        // let nodeIdentifier = userInfo["nodeIdentifier"] as! String
         let apsInfo = userInfo["aps"] as! [String:AnyObject]
         let alertTitle = apsInfo["alert"] as! String
         let category = apsInfo["category"] as! String
@@ -332,7 +341,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func displayNotificationAlert(userInfo: [NSObject : AnyObject]) {
-        let nodeIdentifier = userInfo["nodeIdentifier"] as! String
+        // let nodeIdentifier = userInfo["nodeIdentifier"] as! String
         let apsInfo = userInfo["aps"] as! [String:AnyObject]
         let alertTitle = apsInfo["alert"] as! String
         let category = apsInfo["category"] as! String
@@ -340,6 +349,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if (category == "newTask") {
             categoryTitle = "A new task was created"
         } else if (category == "newPost") {
+        } else if (category == "displayPromo") {
+            categoryTitle = "Delivery service"
+            if (displayingPromo) {
+                return
+            }
+            displayingPromo = true
         } else {
             print("Unknown category \(category) received!")
         }
@@ -360,7 +375,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             action in switch action.style{
             case .Default:
                 print("Dismiss default")
-                
+                if (category == "displayPromo") {
+                    self.displayingPromo = false
+                }
             case .Cancel:
                 print("Dimiss cancel")
                 
@@ -437,5 +454,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         }
         return true
     }
+    
+    func dismissDisplayWebReceived(notification : NSNotification) {
+        let userInfo = notification.userInfo
+        print("dismissDisplayWebReceived")
+        self.displayingPromo = false
+    }
+    
 }
 

@@ -158,11 +158,11 @@ class ServerServices : NSObject, NSURLSessionDelegate {
         dispatch_group_wait(dispatchGroup, DISPATCH_TIME_FOREVER)
         
             if (responseCode == expectedSuccessCode) {
-                mprintln("Post to url \(request.URL) successful.")
+                mprintln("\(request.HTTPMethod) request to url \(request.URL!) successful.")
                 writeDataToFile(fileName, data: dataVal!)
                 return (dataVal,true)
             } else {
-                mprintln("Error during post request to url \(request.URL) !")
+                mprintln("Error during \(request.HTTPMethod) request to url \(request.URL) !")
                 dataVal = readDataFromFile(fileName)
                 return (dataVal,false)
             }

@@ -29,6 +29,7 @@
 		F42A454C1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */; };
 		F42A454D1BC81F25002043A1 /* CXSEventCollectorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */; };
 		F42A454F1BC84FA5002043A1 /* CXSSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */; };
+		F42BBC471BD109DF00C647D1 /* DisplayWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42BBC461BD109DF00C647D1 /* DisplayWebViewController.swift */; };
 		F431B59E1B0F07AF0037FE1B /* PostReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */; };
 		F4428C431AD41AEE0034A722 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
 		F4428C441AD422740034A722 /* JahiaServerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4428C421AD41AEE0034A722 /* JahiaServerSettings.swift */; };
@@ -162,6 +163,7 @@
 		F42A45461BC80211002043A1 /* CXSItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSItem.swift; sourceTree = "<group>"; };
 		F42A454A1BC81F25002043A1 /* CXSEventCollectorRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSEventCollectorRequest.swift; sourceTree = "<group>"; };
 		F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXSSettingsViewController.swift; sourceTree = "<group>"; };
+		F42BBC461BD109DF00C647D1 /* DisplayWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayWebViewController.swift; sourceTree = "<group>"; };
 		F431B59D1B0F07AF0037FE1B /* PostReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostReplyViewController.swift; sourceTree = "<group>"; };
 		F4428C401AD412430034A722 /* Jahia Watcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher.entitlements"; sourceTree = SOURCE_ROOT; };
 		F4428C411AD4125E0034A722 /* Jahia Watcher WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jahia Watcher WatchKit Extension.entitlements"; sourceTree = SOURCE_ROOT; };
@@ -323,6 +325,7 @@
 				F4F412DC1B04DA7600DB21BD /* SwiftSpinnerMessageDelegate.swift */,
 				F42A454E1BC84FA5002043A1 /* CXSSettingsViewController.swift */,
 				F46121781BCE56A30077510D /* CXSPrivacyViewController.swift */,
+				F42BBC461BD109DF00C647D1 /* DisplayWebViewController.swift */,
 			);
 			name = "Jahia Watcher";
 			path = WatchTasks;
@@ -591,6 +594,7 @@
 				F4F7AD141AEA865000AFBBB8 /* Post.swift in Sources */,
 				F4428C431AD41AEE0034A722 /* JahiaServerSettings.swift in Sources */,
 				F4F23BB41AD99E6E003751C6 /* MainTabBarController.swift in Sources */,
+				F42BBC471BD109DF00C647D1 /* DisplayWebViewController.swift in Sources */,
 				F4F412D91B04D35E00DB21BD /* SwiftSpinner.swift in Sources */,
 				F4EB43C01AAD7E910049F30F /* AppDelegate.swift in Sources */,
 				F46121791BCE56A30077510D /* CXSPrivacyViewController.swift in Sources */,
