@@ -1014,14 +1014,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AlT-Hu-dTc">
-                                <rect key="frame" x="0.0" y="65" width="600" height="535"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AlT-Hu-dTc">
+                                <rect key="frame" x="0.0" y="58" width="600" height="542"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                             </webView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iiq-oe-kxu">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iiq-oe-kxu">
                                 <rect key="frame" x="20" y="20" width="81" height="30"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="81" id="qBK-Cz-tWi"/>
+                                </constraints>
                                 <state key="normal" title="Dismiss"/>
                                 <connections>
                                     <segue destination="EY6-rJ-6n3" kind="unwind" unwindAction="unwindToThisViewController:" id="jtL-1c-wpD"/>
@@ -1030,7 +1033,16 @@
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="AlT-Hu-dTc" secondAttribute="trailing" id="EcD-7R-hZj"/>
+                            <constraint firstItem="AlT-Hu-dTc" firstAttribute="bottom" secondItem="SgD-Tc-WfM" secondAttribute="top" id="SHT-XH-9JX"/>
+                            <constraint firstItem="AlT-Hu-dTc" firstAttribute="leading" secondItem="rKo-VT-v4S" secondAttribute="leading" id="c4d-fq-ioc"/>
+                            <constraint firstItem="Iiq-oe-kxu" firstAttribute="leading" secondItem="rKo-VT-v4S" secondAttribute="leadingMargin" id="udM-5B-gMc"/>
+                            <constraint firstItem="AlT-Hu-dTc" firstAttribute="top" secondItem="Iiq-oe-kxu" secondAttribute="bottom" constant="8" symbolic="YES" id="uwX-ON-9w1"/>
+                            <constraint firstItem="Iiq-oe-kxu" firstAttribute="top" secondItem="YOV-AS-jMN" secondAttribute="bottom" id="zsM-gS-tcj"/>
+                        </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="webView" destination="AlT-Hu-dTc" id="gbn-W9-aex"/>
