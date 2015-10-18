@@ -90,6 +90,9 @@ class CXSPrivacyViewController: UIViewController {
                 interestsRadarChartView.data = radarChartData
                 interestsRadarChartView.setNeedsDisplay()
                 interestsTextView.text = interestsText
+            } else {
+                interestsTextView.text = "No data to display"
+                interestsRadarChartView.clear()
             }
         }
         
