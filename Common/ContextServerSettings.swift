@@ -24,6 +24,9 @@ class ContextServerSettings {
     var contextServerContextPath : String = ""
     var contextServerRetrieveContextURL = "/context.json"
     var contextServerEventCollectorURL = "/eventcollector"
+    var contextServerPrivacyUrl = "/cxs/privacy"
+    var contextServerAdminUser = "karaf"
+    var contextServerAdminPassword = "karaf"
     
     var contextServerSessionId : String? = nil
     
@@ -94,6 +97,10 @@ class ContextServerSettings {
     
     func eventCollectorUrl() -> String {
         return contextUrl() + contextServerEventCollectorURL
+    }
+    
+    func privacyServiceUrl() -> String {
+        return contextUrl() + contextServerPrivacyUrl
     }
     
     class func generateSessionId() -> String {

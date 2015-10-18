@@ -108,7 +108,36 @@ class CXSPrivacyViewController: UIViewController {
         refreshTimer?.invalidate()
     }// Called when the view is dismissed, covered or otherwise hidden. Default does nothing
 
+    @IBAction func deleteProfileAction(sender: AnyObject) {
+        let contextServerSession : ContextServerSession = ContextServerSession()
+        contextServerSession.contextRequested=false
+        if (contextServerSession.areServicesAvailable()) {
+            if let cxsContext = contextServerSession.currentContext {
+                contextServerSession.deleteProfile(cxsContext.profileId!)
+            }
+        }
+    }
 
+    @IBAction func anonymizeProfileAction(sender: AnyObject) {
+        let contextServerSession : ContextServerSession = ContextServerSession()
+        contextServerSession.contextRequested=false
+        if (contextServerSession.areServicesAvailable()) {
+            if let cxsContext = contextServerSession.currentContext {
+                contextServerSession.anonymizeProfile(cxsContext.profileId!)
+            }
+        }
+    }
+    
+    @IBAction func resetProfileInterestsAction(sender: AnyObject) {
+        let contextServerSession : ContextServerSession = ContextServerSession()
+        contextServerSession.contextRequested=false
+        if (contextServerSession.areServicesAvailable()) {
+            if let cxsContext = contextServerSession.currentContext {
+                contextServerSession.removeProperty(cxsContext.profileId!, propertyName: "interests")
+            }
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

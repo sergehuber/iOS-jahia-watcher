@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ServerServices : NSObject, NSURLSessionDelegate {
+class ServerServices : NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
 
     static var messageDelegate : MessageDelegate?
     var nsURLSession : NSURLSession? = nil
@@ -35,9 +35,51 @@ class ServerServices : NSObject, NSURLSessionDelegate {
     }
     
     func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+        
+        if challenge.protectionSpace.authenticationMethod.compare(NSURLAuthenticationMethodServerTrust) == .OrderedSame {
+            print(challenge.protectionSpace)
+            // for the moment they both do the same thing but we leave the code to make it more secure later
+            if challenge.protectionSpace.host.compare("HOST_NAME") == .OrderedSame {
+                completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
+            } else {
+                completionHandler(.UseCredential, NSURLCredential(trust: challenge.protectionSpace.serverTrust!))
+            }
+            
+        } else if challenge.protectionSpace.authenticationMethod.compare(NSURLAuthenticationMethodHTTPBasic) == .OrderedSame {
+            if challenge.previousFailureCount > 0 {
+                print("Alert Please check the credential")
+                completionHandler(NSURLSessionAuthChallengeDisposition.CancelAuthenticationChallenge, nil)
+            } else {
+                let credential = NSURLCredential(user:"karaf", password:"karaf", persistence: .ForSession)
+                completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential)
+            }
+        } else {
+            completionHandler(.UseCredential, NSURLCredential(trust: challenge.protectionSpace.serverTrust!))
+        }
+        
+    }
+    
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+        
+        print("task-didReceiveChallenge")
+        
+        if challenge.previousFailureCount > 0 {
+            print("Alert Please check the credential")
+            completionHandler(NSURLSessionAuthChallengeDisposition.CancelAuthenticationChallenge, nil)
+        } else {
+            var credential = NSURLCredential(user:"karaf", password:"karaf", persistence: .ForSession)
+            completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential)
+        }
+        
+        
+    }
+    
+    /*
+    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
         mprintln("didReceiveChallenge protectionSpace=\(challenge.protectionSpace) serverTrust=\(challenge.protectionSpace.serverTrust!) proposedCredentials=\(challenge.proposedCredential)")
         completionHandler(.UseCredential, NSURLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
+    */
     
     func mprintln(message : String) {
         ServerServices.mprintln(message)

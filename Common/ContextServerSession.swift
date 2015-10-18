@@ -108,4 +108,16 @@ class ContextServerSession {
         serverServices.httpRequest(contextServerSettings.eventCollectorUrl() + "?sessionId=\(contextServerSettings.contextServerSessionId!)", body: dataString, fileName: "events.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "POST")
     }
     
+    func removeProperty(profileId : String, propertyName : String) {
+        serverServices.httpRequest(contextServerSettings.privacyServiceUrl() + "/profiles/\(profileId)/properties/\(propertyName)", body: nil, fileName: "removeProperty.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "DELETE")
+    }
+
+    func deleteProfile(profileId : String) {
+        serverServices.httpRequest(contextServerSettings.privacyServiceUrl() + "/profiles/\(profileId)", body: nil, fileName: "deleteProfile.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "DELETE")
+    }
+
+    func anonymizeProfile(profileId : String) {
+        serverServices.httpRequest(contextServerSettings.privacyServiceUrl() + "/profiles/\(profileId)/anonymize", body: nil, fileName: "anonymizeProfile.txt", contentType: "application/json", expectedSuccessCode: 200, httpMethod: "POST")
+    }
+    
 }
