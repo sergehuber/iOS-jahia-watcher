@@ -103,7 +103,7 @@ class MainTabBarController: UITabBarController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         print("prepareForSegue")
         let displayWebViewController = segue.destinationViewController as! DisplayWebViewController
-        let getURL : NSURL = NSURL(string: "\(jahiaServerSettings.jahiaServerProtocol)://\(jahiaServerSettings.jahiaServerHost):\(jahiaServerSettings.jahiaServerPort)")!
+        let getURL : NSURL = NSURL(string: "\(jahiaServerSettings.jahiaServerProtocol)://\(jahiaServerSettings.jahiaServerHost):\(jahiaServerSettings.jahiaServerPort)/sites/ACMESPACE/home/drinks-delivery-service.html")!
         displayWebViewController.webViewUrl = getURL
     }
 
