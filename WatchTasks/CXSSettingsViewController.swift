@@ -58,7 +58,7 @@ class CXSSettingsViewController: UIViewController {
         let contextServerSession = ContextServerSession()
         contextServerSession.attemptedLogin = false
         if (!contextServerSession.areServicesAvailable()) {
-            let alertController = UIAlertController(title: "Connection error", message: "Connection failed. ",preferredStyle: UIAlertControllerStyle.Alert)
+            let alertController = UIAlertController(title: "CXS Connection error", message: "Connection to Context Server failed.",preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: { action in
                 // do nothing
             }))

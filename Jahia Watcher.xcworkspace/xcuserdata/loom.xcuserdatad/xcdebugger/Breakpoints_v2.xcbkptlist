@@ -147,5 +147,69 @@
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Common/JahiaServerSession.swift"
+            timestampString = "467766690.698628"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "getApiVersion()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchTasks/ServerServices.swift"
+            timestampString = "467767550.996133"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "httpGet(_:fileName:expectedSuccessCode:timeoutInterval:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Jahia_Watcher.ServerServices.httpGet (Jahia_Watcher.ServerServices)(Swift.String, fileName : Swift.Optional&lt;Swift.String&gt;, expectedSuccessCode : Swift.Int, timeoutInterval : Swift.Double) -&gt; (Swift.Optional&lt;__ObjC.NSData&gt;, Swift.Bool)"
+                  moduleName = "Jahia Watcher"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/loom/Documents/work/iphone/Projects/iOS-jahia-watcher/WatchTasks/ServerServices.swift"
+                  timestampString = "467767764.723978"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "732">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Jahia_Watcher.ServerServices.(httpGet (Jahia_Watcher.ServerServices) -&gt; (Swift.String, fileName : Swift.Optional&lt;Swift.String&gt;, expectedSuccessCode : Swift.Int, timeoutInterval : Swift.Double) -&gt; (Swift.Optional&lt;__ObjC.NSData&gt;, Swift.Bool)).(closure #1)"
+                  moduleName = "Jahia Watcher"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/loom/Documents/work/iphone/Projects/iOS-jahia-watcher/WatchTasks/ServerServices.swift"
+                  timestampString = "467767764.724081"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

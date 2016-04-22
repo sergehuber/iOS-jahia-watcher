@@ -60,7 +60,7 @@ class SettingsViewController: UIViewController {
         jahiaServerSession.jcrApiVersionRequested = false
         jahiaServerSession.attemptedLogin = false
         if (!jahiaServerSession.areServicesAvailable()) {
-            let alertController = UIAlertController(title: "Connection error", message: "Connection failed. ",preferredStyle: UIAlertControllerStyle.Alert)
+            let alertController = UIAlertController(title: "DX Connection error", message: "Connection to Jahia DX failed. ",preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: { action in
                 // do nothing
             }))
