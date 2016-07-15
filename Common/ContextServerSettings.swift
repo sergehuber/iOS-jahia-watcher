@@ -27,6 +27,7 @@ class ContextServerSettings {
     var contextServerPrivacyUrl = "/cxs/privacy"
     var contextServerAdminUser = "karaf"
     var contextServerAdminPassword = "karaf"
+    var deviceToken : String?
     
     var contextServerSessionId : String? = nil
     
@@ -49,6 +50,9 @@ class ContextServerSettings {
         if (mySharedDefaults.stringForKey("contextServerContextPath") != nil) {
             contextServerContextPath = mySharedDefaults.stringForKey("contextServerContextPath")!
         }
+        if (mySharedDefaults.stringForKey("deviceToken") != nil) {
+            deviceToken = mySharedDefaults.stringForKey("deviceToken")!
+        }
         
         mySharedDefaults.synchronize()
         
@@ -61,6 +65,7 @@ class ContextServerSettings {
         mySharedDefaults.setInteger(contextServerPort, forKey: "contextServerPort")
         mySharedDefaults.setObject(contextServerProtocol, forKey: "contextServerProtocol")
         mySharedDefaults.setObject(contextServerContextPath, forKey: "contextServerContextPath")
+        mySharedDefaults.setObject(deviceToken, forKey: "deviceToken")
         
         mySharedDefaults.synchronize()
         
@@ -72,6 +77,7 @@ class ContextServerSettings {
         mySharedDefaults.removeObjectForKey("contextServerPort")
         mySharedDefaults.removeObjectForKey("contextServerProtocol")
         mySharedDefaults.removeObjectForKey("contextServerContextPath")
+        mySharedDefaults.removeObjectForKey("deviceToken")
     }
     
     func contextUrl() -> String {

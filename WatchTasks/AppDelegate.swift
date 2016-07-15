@@ -45,7 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // other setup tasks here....
         registerSettingsAndCategories()
         
+        /*
+        print("Registering for remote notifications...");
         application.registerForRemoteNotifications();
+         */
         
         ServerServices.messageDelegate = SwiftSpinnerMessageDelegate()
         
@@ -62,6 +65,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         let contextServerSession = getContextServerSession()
         if (contextServerSession.areServicesAvailable()) {
+            
+            if let deviceToken = contextServerSettings.deviceToken {
+                print("Found saved device token \(deviceToken), sending to Jahia DX and Apache Unomi...");
+                let jahiaServerSession = JahiaServerSession()
+                jahiaServerSession.registerDeviceToken(deviceToken);
+                
+                let contextServerSession = ContextServerSession()
+                contextServerSession.registerDeviceToken(deviceToken);
+            } else {
+                print("No recorded device token found.")
+            }
+            
             let startupEvent = CXSEvent()
             startupEvent.eventType = "mobileAppStart"
             startupEvent.profileId = contextServerSession.currentContext!.profileId
@@ -291,6 +306,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
+        
+        if notificationSettings.types != .None {
+            print("didRegisterUser, registering for remote notifications");
+            application.registerForRemoteNotifications()
+        }
+        
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -304,6 +325,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         print("tokenString: \(tokenString)")
         print(deviceToken.description)
+        
+        print("Saving device token \(tokenString) into context server settings...")
+        contextServerSettings.deviceToken = tokenString;
+        contextServerSettings.save();
 
         let jahiaServerSession = JahiaServerSession()
         jahiaServerSession.registerDeviceToken(tokenString);
